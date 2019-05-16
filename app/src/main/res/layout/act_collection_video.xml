@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+    <FrameLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent" android:layout_height="match_parent">
+        <include layout="@layout/layout_video_list_empty"/>
+        <include layout="@layout/layout_refresh_recyclerview"></include>
+    </FrameLayout>
+
+    <android.support.design.card.MaterialCardView
+            android:visibility="gone"
+            android:id="@+id/bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="57dp">
+        <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent" android:layout_height="match_parent" >
+
+            <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_width="0dp" android:layout_height="match_parent" android:id="@+id/ll_select_all">
+                <android.support.v7.widget.AppCompatCheckBox
+                        android:button="@null"
+                        android:background="@drawable/selector_check_box"
+                        android:layout_width="16dp" android:layout_height="16dp" android:clickable="false"
+                        android:checked="false" android:id="@+id/cb_sel_all"/>
+                <TextView
+                        android:text="全选"
+                        android:layout_marginLeft="8dp"
+                        android:textColor="#ff000000"
+                        android:textSize="16dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <View android:background="#EEEEEE" android:layout_width="1dp" android:layout_height="41dp"/>
+
+            <TextView
+                    android:gravity="center"
+                    android:text="删除"
+                    android:textColor="#ff000000"
+                    android:textSize="16dp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp" android:layout_height="match_parent" android:id="@+id/tv_delete">
+            </TextView>
+        </LinearLayout>
+    </android.support.design.card.MaterialCardView>
+</LinearLayout>

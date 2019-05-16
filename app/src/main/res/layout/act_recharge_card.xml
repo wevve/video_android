@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:background="@color/white"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <ScrollView
+            android:layout_weight="1"
+            android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent" android:layout_height="match_parent">
+
+            <TextView
+                    android:layout_marginTop="10dp"
+                    android:text="卡号："
+                    android:textColor="#ff505050"
+                    android:textSize="16dp"
+                    android:includeFontPadding="false"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <EditText
+                    android:background="@drawable/shape_stroke_ea"
+                    android:layout_marginTop="7dp"
+                    android:layout_width="match_parent" android:layout_height="39dp"/>
+
+            <TextView
+                    android:layout_marginTop="15dp"
+                    android:text="验证码："
+                    android:textColor="#ff505050"
+                    android:textSize="16dp"
+                    android:includeFontPadding="false"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            
+            <LinearLayout
+                    android:layout_marginTop="7dp"
+                    android:layout_width="match_parent" android:layout_height="39dp">
+                <EditText
+                        android:background="@drawable/shape_stroke_ea"
+                        android:layout_weight="1" android:layout_width="0dp" android:layout_height="match_parent"/>
+                <ImageView
+                        android:background="#EEE"
+                        android:layout_marginLeft="20dp" android:layout_weight="1" android:layout_width="0dp" android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <Button
+                    android:layout_marginTop="13dp"
+                    android:text="查询"
+                    android:textColor="#ffffffff"
+                    android:textSize="16dp"
+                    android:background="@drawable/shape_primary_dark_btn"
+                    android:layout_width="match_parent" android:layout_height="39dp"/>
+            
+            <FrameLayout
+                    android:layout_marginTop="15dp"
+                    android:layout_width="142dp" android:layout_height="wrap_content">
+                <TextView
+                        android:text="( 我没有卡密，                )"
+                        android:textColor="#ff535353"
+                        android:textSize="13dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView
+                        android:layout_marginRight="10dp"
+                        android:layout_gravity="right"
+                        android:text="去购买>>"
+                        android:textColor="#ff3b9eff"
+                        android:textSize="13dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </FrameLayout>
+
+            <TextView
+                    android:layout_marginTop="26dp"
+                    android:includeFontPadding="false"
+                    android:text="卡密信息"
+                    android:textColor="#ff505050"
+                    android:textSize="18dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+            <android.support.constraint.ConstraintLayout
+                    android:layout_marginTop="29dp"
+                    android:layout_width="match_parent"
+                                                         android:layout_height="wrap_content">
+
+                <TextView
+                        android:id="@+id/tv_type_label"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="卡类型"
+                        android:textColor="#ff505050"
+                        android:textSize="16dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_type_label"
+                        android:id="@+id/tv_vip_date_label"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:text="VIP时间"
+                        android:textColor="#ff505050"
+                        android:textSize="16dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_vip_date_label"
+                        android:id="@+id/tv_card_price_label"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:text="充值面值"
+                        android:textColor="#ff505050"
+                        android:textSize="16dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_card_price_label"
+                        android:id="@+id/tv_end_date_label"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:text="到期时间"
+                        android:textColor="#ff505050"
+                        android:textSize="16dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_end_date_label"
+                        android:id="@+id/tv_state_label"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:text="卡状态"
+                        android:textColor="#ff505050"
+                        android:textSize="16dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="@id/tv_type_label"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_type_label"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginLeft="104dp"
+                    android:text="未知"
+                    android:textColor="#ff505050"
+                    android:textSize="14dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView
+                        app:layout_constraintTop_toTopOf="@id/tv_vip_date_label"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_vip_date_label"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginLeft="104dp"
+                        android:text="未知"
+                        android:textColor="#ff505050"
+                        android:textSize="14dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView
+                        app:layout_constraintTop_toTopOf="@id/tv_card_price_label"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_card_price_label"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginLeft="104dp"
+                        android:text="未知"
+                        android:textColor="#ff505050"
+                        android:textSize="14dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView
+                        app:layout_constraintTop_toTopOf="@id/tv_end_date_label"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_end_date_label"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginLeft="104dp"
+                        android:text="未知"
+                        android:textColor="#ff505050"
+                        android:textSize="14dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView
+                        app:layout_constraintTop_toTopOf="@id/tv_state_label"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_state_label"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginLeft="104dp"
+                        android:text="未知"
+                        android:textColor="#ff505050"
+                        android:textSize="14dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+    <View
+            android:background="#EEEEEE"
+            android:layout_width="match_parent" android:layout_height="1dp"/>
+        <Button
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_gravity="center"
+                android:text="充值"
+                android:textColor="#ffffffff"
+                android:textSize="16dp"
+                android:background="@drawable/shape_primary_dark_btn"
+                android:layout_marginLeft="26dp"
+                android:layout_marginRight="26dp"
+                android:layout_width="match_parent" android:layout_height="39dp"/>
+
+</LinearLayout>

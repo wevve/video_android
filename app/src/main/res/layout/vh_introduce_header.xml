@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content"
+                                             android:background="@color/white"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+            android:layout_marginLeft="9dp"
+            android:layout_marginTop="33dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/tv_title"
+            android:text="【中韩字幕撒娇合集】"
+            android:textColor="#ff000000"
+            android:textSize="16dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+    <TextView
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="61dp"
+            android:id="@+id/tv_introduce"
+            android:text="简介：韩剧里女生的各种撒娇，男生请慎点..."
+            android:textColor="#ff000000"
+            android:textSize="14dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+    <ImageView
+            android:src="@mipmap/like_sel"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="105dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:id="@+id/img_like"
+            android:layout_width="17dp" android:layout_height="17dp"/>
+
+    <ImageView
+            android:src="@mipmap/collection_sel"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="53dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:id="@+id/img_collection"
+            android:layout_width="17dp" android:layout_height="17dp"/>
+
+    <ImageView
+            android:src="@mipmap/xiazai_gray"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:id="@+id/img_download"
+            android:layout_width="17dp" android:layout_height="17dp"/>
+    
+    <ImageView
+            android:layout_marginTop="68dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="29dp"
+            android:src="@mipmap/arrow_down"
+            android:layout_width="13dp" android:layout_height="7dp"/>
+    <View
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_introduce"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:id="@+id/divider_1"
+            android:background="#EEEEEE"
+            android:layout_width="match_parent" android:layout_height="1dp"/>
+
+    <ImageView
+            android:id="@+id/img_jinbi"
+            android:layout_marginLeft="21dp"
+            android:layout_marginTop="13dp"
+            app:layout_constraintLeft_toLeftOf="@id/divider_1"
+            app:layout_constraintTop_toBottomOf="@id/divider_1"
+            android:src="@mipmap/jinbigoumai"
+            android:layout_width="20dp" android:layout_height="21dp"/>
+    <TextView
+            app:layout_constraintTop_toTopOf="@id/img_jinbi"
+            app:layout_constraintLeft_toRightOf="@id/img_jinbi"
+            android:layout_marginLeft="6dp"
+            android:text="100金币购买"
+            android:textColor="#ff333333"
+            android:textSize="16dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <TextView
+            android:alpha="0.4"
+            app:layout_constraintBottom_toTopOf="@id/divider_3"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintLeft_toLeftOf="@id/divider_3"
+            app:layout_constraintRight_toRightOf="@id/divider_2"
+            android:text="购买后可观看完整版视频  "
+            android:textColor="#ff000000"
+            android:textSize="9dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    
+    
+    <ImageView
+            android:id="@+id/img_dasang"
+            app:layout_constraintTop_toBottomOf="@id/divider_1"
+            android:layout_marginLeft="41dp"
+            app:layout_constraintLeft_toRightOf="@id/divider_2"
+            android:src="@mipmap/dashang"
+            android:layout_width="47dp" android:layout_height="47dp"/>
+    <TextView
+            android:includeFontPadding="false"
+            android:layout_marginTop="13dp"
+            app:layout_constraintLeft_toRightOf="@id/img_dasang"
+            app:layout_constraintTop_toBottomOf="@id/divider_1"
+            android:text="打赏"
+            android:textColor="#ff333333"
+            android:textSize="16dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <TextView
+            android:alpha="0.4"
+            android:includeFontPadding="false"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="@id/divider_3"
+            app:layout_constraintLeft_toLeftOf="@id/divider_2"
+            app:layout_constraintRight_toRightOf="@id/divider_3"
+            android:text="为您喜欢的视频打赏打赏吧"
+            android:textColor="#ff000000"
+            android:textSize="9sp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <View
+            android:id="@+id/divider_2"
+            android:layout_marginTop="6dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+           app:layout_constraintTop_toBottomOf="@id/divider_1"
+           android:background="#EEEEEE"
+           android:layout_width="1dp" android:layout_height="41dp"/>
+
+    <View
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/divider_2"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:id="@+id/divider_3"
+            android:layout_width="match_parent" android:layout_height="1dp"/>
+
+    <TextView
+            android:layout_marginLeft="18dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="视频截图"
+            android:textColor="#ff000000"
+            android:textSize="16dp"
+            android:layout_marginTop="11dp"
+            app:layout_constraintTop_toBottomOf="@id/divider_3"
+            android:id="@+id/tv_capture_label"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+    <android.support.design.card.MaterialCardView
+            android:clipChildren="true"
+            app:cardCornerRadius="11dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_capture_label"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_width="171dp" android:layout_height="102dp">
+        <ImageView android:layout_width="match_parent" android:layout_height="match_parent"/>
+    </android.support.design.card.MaterialCardView>
+
+    <android.support.design.card.MaterialCardView
+            app:cardCornerRadius="11dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_capture_label"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="171dp" android:layout_height="102dp">
+        <ImageView android:layout_width="match_parent" android:layout_height="match_parent"/>
+    </android.support.design.card.MaterialCardView>
+</android.support.constraint.ConstraintLayout>

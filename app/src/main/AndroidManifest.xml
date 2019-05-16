@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+          package="com.jyt.video">
+
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <application
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:name=".App"
+            android:networkSecurityConfig="@xml/network_config"
+            android:theme="@style/AppTheme">
+        <meta-data
+                android:name="notch.config"
+                android:value="landscape"/>
+        <meta-data android:name="android.max_aspect"  android:value="2.1"/>
+
+        <meta-data
+                android:name="design_width_in_dp"
+                android:value="375"/>
+        <meta-data
+                android:name="design_height_in_dp"
+                android:value="667"/>
+        <activity android:name="com.jyt.video.main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".login.LoginAct" android:label="登录">
+
+        </activity>
+        <!--注册-->
+        <activity android:name=".login.RegisterAct" android:label="登录"/>
+
+        <activity android:name=".setting.SettingAct" android:label="设置"/>
+        <activity android:name=".setting.account.AccountInfoAct" android:label="账户资料"/>
+        
+        <activity android:name=".setting.account.CSAccountAct" android:label="收款账号"/>
+        <activity android:name=".setting.account.ALiPayAccountListAct" android:label="支付宝"/>
+        <activity android:name=".setting.account.BankCardListAct" android:label="银行卡"/>
+        <activity android:name=".setting.account.AddBankCardAccountAct" android:label="添加银行卡"/>
+        <activity android:name=".setting.account.AddALiPayAccountAct" android:label="添加支付宝"/>
+        <activity android:name="com.jyt.video.video.CacheVideoAct" android:label="离线缓存"/>
+        <activity android:name=".video.CollectionVideoAct" android:label="我的收藏"/>
+        <activity android:name=".wallet.MyWalletAct" android:label="钱包"/>
+        <activity android:name=".wallet.WidthDrawAct" android:label="提现"/>
+        <activity android:name=".deal.DealRecordAct" android:label="交易记录"/>
+        <activity android:name=".promotion.PromotionRecordAct" android:label="推广记录"/>
+        <activity android:name=".web.WebAct"/>
+        <activity android:name=".recharge.RechargeAct" android:label="充值" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".recharge.RechargeCardAct" android:label="卡密充值" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".video.MoreVideoAct" android:label="更多视频"/>
+        <activity android:name=".video.SearchAct" android:label="搜索"/>
+        <activity android:name=".video.PlayVideoAct" android:label="播放视频" android:windowSoftInputMode="adjustPan"/>
+    </application>
+
+</manifest>

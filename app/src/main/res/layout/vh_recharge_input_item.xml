@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="115dp"
+                                             android:layout_height="110dp"
+                                             android:layout_marginTop="4dp"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+            android:id="@+id/v_background"
+            android:layout_marginTop="7dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/shape_recharge_item_nor"
+            android:layout_width="113dp" android:layout_height="103dp">
+
+    </View>
+
+
+    <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:includeFontPadding="false"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:gravity="center"
+            android:minHeight="14dp"
+            android:background="@drawable/shape_recharge_discount"
+            android:text="7折"
+            android:textColor="#ffffffff"
+            android:textSize="8dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+
+    <TextView
+            android:includeFontPadding="false"
+            android:layout_marginTop="11dp"
+            app:layout_constraintTop_toTopOf="@id/v_background"
+            app:layout_constraintLeft_toLeftOf="@id/v_background"
+            app:layout_constraintRight_toRightOf="@id/v_background"
+            android:text="自定义"
+            android:textColor="#ff000000"
+            android:textSize="16dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+   
+    <EditText
+            android:inputType="number|numberSigned"
+            android:gravity="center"
+            android:background="@null"
+            android:includeFontPadding="false"
+            app:layout_constraintTop_toTopOf="@+id/v_background"
+            app:layout_constraintLeft_toLeftOf="@id/v_background"
+            app:layout_constraintRight_toRightOf="@id/v_background"
+            android:id="@+id/input_price"
+            android:minWidth="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff9c28b1"
+            android:textSize="26dp"
+            android:layout_marginTop="32dp"/>
+    <View
+            app:layout_constraintTop_toBottomOf="@id/input_price"
+            app:layout_constraintLeft_toLeftOf="@id/input_price"
+            app:layout_constraintRight_toRightOf="@id/input_price"
+            android:background="#707070"
+            android:alpha="0.38"
+            android:layout_width="0dp" android:layout_height="1dp"/>
+    <TextView
+            android:includeFontPadding="false"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="17dp"
+            android:paddingRight="17dp"
+            android:layout_marginBottom="7dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:background="@drawable/shape_12r_stroke70"
+            android:text="VIP 30天"
+            android:textColor="#ff000000"
+            android:textSize="10dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="49dp">
+    <TextView
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/tv_name"
+            android:text="支付宝1:"
+            android:textColor="#ff000000"
+            android:textSize="16sp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <TextView
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_name"
+            android:layout_marginLeft="12dp"
+            android:id="@+id/tv_account"
+            android:text="13676109093"
+            android:textColor="#ff000000"
+            android:textSize="16dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+    <View
+            android:layout_alignParentBottom="true"
+            android:background="#EEEEEE"
+            android:layout_marginLeft="17dp"
+            android:layout_width="match_parent" android:layout_height="1dp"/>
+
+    <TextView
+            android:paddingLeft="10dp"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="#ffffffff"
+            android:textSize="12dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/shape_alipay_del_btn"
+            android:layout_alignParentRight="true"
+            android:layout_width="60dp" android:layout_height="26dp" android:id="@+id/tv_last_card_num"
+            android:visibility="gone"/>
+</RelativeLayout>

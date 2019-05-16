@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:paddingTop="30dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:paddingBottom="20dp">
+    <ImageView
+            android:layout_marginLeft="31dp"
+            android:src="@mipmap/add"
+            android:layout_width="22dp" android:layout_height="22dp"/>
+    <TextView
+            android:layout_marginLeft="15dp"
+            android:alpha="0.6"
+            android:text="添加支付宝"
+            android:textColor="#ff000000"
+            android:textSize="17dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+</LinearLayout>

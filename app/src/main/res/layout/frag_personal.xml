@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+            android:background="@drawable/shape_toolbar"
+            android:orientation="vertical"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+        <com.jyt.video.common.view.StatusBarHeightView
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></com.jyt.video.common.view.StatusBarHeightView>
+        <android.support.constraint.ConstraintLayout
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            <ImageView
+                    android:id="@+id/img_setting"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginRight="19dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:adjustViewBounds="true"
+                    android:src="@mipmap/shezhi"
+                    android:layout_width="20dp" android:layout_height="wrap_content"/>
+            <Button
+                    android:id="@+id/btn_to_register"
+                    android:layout_marginLeft="75dp"
+                    android:layout_marginTop="73dp"
+                    android:layout_marginBottom="37dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textColor="#ffffffff"
+                    android:textSize="16dp"
+                    android:background="@drawable/shape_primary_style_btn"
+                    android:text="注册"
+                    android:layout_width="103dp" android:layout_height="35dp"/>
+            <Button
+                    android:id="@+id/btn_to_login"
+                    android:layout_marginRight="75dp"
+                    android:layout_marginTop="73dp"
+                    android:layout_marginBottom="37dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textColor="#ff9c28b1"
+                    android:textSize="16sp"
+                    android:background="@drawable/shape_common_white_btn"
+                    android:text="登录"
+                    android:layout_width="103dp" android:layout_height="35dp"/>
+
+            <ImageView
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="47dp"
+                    android:src="@mipmap/default_avatar" android:layout_width="59dp" android:layout_height="59dp"
+                    android:id="@+id/img_avatar"/>
+            <ImageView
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginTop="26dp"
+
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@mipmap/huangguan" android:layout_width="29dp" android:layout_height="29dp"
+                    android:id="@+id/img_crown"/>
+
+            <TextView
+                    android:layout_marginLeft="89dp"
+                    android:layout_marginTop="39dp"
+                    android:includeFontPadding="false"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="乌蝇哥"
+                    android:textColor="#ffffffff"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tv_name"/>
+
+            <TextView
+                    android:id="@+id/tv_is_vip"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:text="VIP会员"
+                    android:textColor="#ffffffff"
+                    android:textSize="12dp"
+                    android:layout_marginLeft="89dp"
+                    android:layout_marginTop="68dp"
+                    android:includeFontPadding="false"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/shape_vip" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/tv_vip_end_date"
+                    android:text="到期时间 2019-03-11"
+                    android:textColor="#ffffffff"
+                    android:textSize="12dp"
+                    android:layout_marginTop="73dp"
+                    android:layout_marginLeft="153dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.8"/>
+
+            <TextView
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="126dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/tv_coin"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:id="@+id/tv_money"
+                    android:text="余额：999元"
+                    android:textColor="#ffffffff"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:layout_marginLeft="11dp"
+                    app:layout_constraintLeft_toRightOf="@id/tv_money"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_money"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:id="@+id/tv_coin"
+                    android:text="金币：999"
+                    android:textColor="#ffffffff"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <android.support.constraint.Group
+                    app:constraint_referenced_ids="btn_to_register,btn_to_login"
+                    android:id="@+id/group_no_login"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="invisible">
+
+            </android.support.constraint.Group>
+
+            <android.support.constraint.Group
+                    app:constraint_referenced_ids="tv_coin,tv_money,tv_vip_end_date,tv_is_vip,tv_name,img_crown,img_avatar"
+                    android:id="@+id/group_login" android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+            </android.support.constraint.Group>
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView
+                android:gravity="center_vertical"
+                android:layout_marginLeft="17dp"
+                android:text="个人中心"
+                android:textColor="#ff000000"
+                android:textSize="16dp"
+                android:layout_width="wrap_content" android:layout_height="44dp"/>
+        <View
+                android:background="#eeeeee"
+                android:layout_width="match_parent" android:layout_height="1dp"/>
+        <android.support.v7.widget.GridLayout
+                app:columnCount="4"
+                android:layout_width="match_parent" android:layout_height="wrap_content">
+            <LinearLayout
+                    android:paddingTop="13dp"
+                    android:paddingBottom="24dp"
+                    app:layout_columnWeight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ll_cache_video">
+                <ImageView
+                        android:src="@mipmap/lixianhuancun"
+                        android:layout_width="50dp" android:layout_height="38dp"/>
+                <TextView
+                        android:layout_marginTop="6dp"
+                        android:text="离线缓存"
+                        android:textColor="#ff000000"
+                        android:textSize="12dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:paddingTop="8dp"
+                    android:paddingBottom="24dp"
+                    app:layout_columnWeight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ll_collection_video">
+                <ImageView
+                        android:src="@mipmap/wodeshoucang"
+                        android:layout_width="43dp" android:layout_height="44dp"/>
+                <TextView
+                        android:layout_marginTop="5dp"
+                        android:text="我的收藏"
+                        android:textColor="#ff000000"
+                        android:textSize="12dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:paddingTop="13dp"
+                    android:paddingBottom="24dp"
+                    app:layout_columnWeight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ll_deal_record">
+                <ImageView
+                        android:src="@mipmap/jiaoyijilu"
+                        android:layout_width="44dp" android:layout_height="36dp"/>
+                <TextView
+                        android:layout_marginTop="8dp"
+                        android:text="交易纪录"
+                        android:textColor="#ff000000"
+                        android:textSize="12dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:paddingTop="13dp"
+                    android:paddingBottom="24dp"
+                    app:layout_columnWeight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ll_my_wallet">
+                <ImageView
+                        android:src="@mipmap/wodeqianbao"
+                        android:layout_width="46dp" android:layout_height="38dp"/>
+                <TextView
+                        android:layout_marginTop="6dp"
+                        android:text="我的钱包"
+                        android:textColor="#ff000000"
+                        android:textSize="12dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:paddingBottom="20dp"
+                    app:layout_columnWeight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ll_promotion">
+                <ImageView
+                        android:src="@mipmap/tuiguang"
+                        android:layout_width="43dp" android:layout_height="42dp"/>
+                <TextView
+                        android:layout_marginTop="4dp"
+                        android:text="推广"
+                        android:textColor="#ff000000"
+                        android:textSize="12dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:paddingTop="5dp"
+                    android:paddingBottom="20dp"
+                    app:layout_columnWeight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ll_promotion_record">
+                <ImageView
+                        android:src="@mipmap/tuiguangjilu"
+                        android:layout_width="46dp" android:layout_height="38dp"/>
+                <TextView
+                        android:layout_marginTop="5dp"
+                        android:text="推广记录"
+                        android:textColor="#ff000000"
+                        android:textSize="12dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </android.support.v7.widget.GridLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView
+                android:gravity="center_vertical"
+                android:layout_marginLeft="17dp"
+                android:text="我的服务"
+                android:textColor="#ff000000"
+                android:textSize="16dp"
+                android:layout_width="wrap_content" android:layout_height="44dp"/>
+        <View
+                android:background="#eeeeee"
+                android:layout_width="match_parent" android:layout_height="1dp"/>
+        <android.support.v7.widget.GridLayout
+                app:columnCount="4"
+                android:layout_width="match_parent" android:layout_height="wrap_content">
+            <LinearLayout
+                    android:paddingTop="11dp"
+                    android:paddingBottom="24dp"
+                    app:layout_columnWeight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ll_recharge_member">
+                <ImageView
+                        android:src="@mipmap/huiyuanchongzhi"
+                        android:layout_width="46dp" android:layout_height="39dp"/>
+                <TextView
+                        android:layout_marginTop="7dp"
+                        android:text="会员充值"
+                        android:textColor="#ff000000"
+                        android:textSize="12dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:paddingTop="11dp"
+                    android:paddingBottom="24dp"
+                    app:layout_columnWeight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ll_recharge">
+                <ImageView
+                        android:src="@mipmap/kamichongzhi"
+                        android:layout_width="46dp" android:layout_height="39dp"/>
+                <TextView
+                        android:layout_marginTop="8dp"
+                        android:text="卡密充值"
+                        android:textColor="#ff000000"
+                        android:textSize="12dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <View android:layout_width="0dp" app:layout_columnWeight="1" android:layout_height="0dp"></View>
+            <View android:layout_width="0dp" app:layout_columnWeight="1" android:layout_height="0dp"></View>
+        </android.support.v7.widget.GridLayout>
+    </LinearLayout>
+</LinearLayout>

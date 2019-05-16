@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<me.dkzwm.widget.srl.ClassicSmoothRefreshLayout
+        android:layout_weight="1"
+        android:id="@+id/refresh_layout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+                                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                app:sr_enableLoadMore="true"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+</me.dkzwm.widget.srl.ClassicSmoothRefreshLayout>

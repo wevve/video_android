@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+    <LinearLayout
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <FrameLayout android:layout_width="match_parent" android:layout_height="91dp" android:id="@+id/fl_edit_avatar">
+            <TextView
+                    android:text="头像"
+                    android:textColor="#ff000000"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_gravity="left|center_vertical"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <ImageView
+                    android:src="@mipmap/default_avatar"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="40dp"
+                    android:layout_width="59dp" android:layout_height="59dp" android:id="@+id/img_avatar"/>
+            <ImageView
+                    android:layout_marginRight="14dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:src="@mipmap/next_gray"
+                    android:layout_width="10dp" android:layout_height="18dp"/>
+        </FrameLayout>
+
+        <View
+                android:layout_marginLeft="17dp"
+                android:background="#EEEEEE"
+                android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <FrameLayout android:layout_width="match_parent" android:layout_height="50dp" android:id="@+id/fl_edit_name">
+
+            <TextView
+                    android:layout_gravity="center_vertical|left"
+                    android:layout_marginLeft="15dp"
+                    android:text="账号昵称"
+                    android:textColor="#ff000000"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:alpha="0.6"
+                    android:layout_marginRight="40dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:text="乌蝇哥"
+                    android:textColor="#ff000000"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+            <ImageView
+                    android:layout_marginRight="14dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:src="@mipmap/next_gray"
+                    android:layout_width="10dp" android:layout_height="18dp"/>
+        </FrameLayout>
+
+        <View
+                android:layout_marginLeft="17dp"
+                android:background="#EEEEEE"
+                android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <FrameLayout android:layout_width="match_parent" android:layout_height="50dp"
+                     android:id="@+id/fl_to_cs_account">
+
+            <TextView
+                    android:layout_gravity="center_vertical|left"
+                    android:layout_marginLeft="15dp"
+                    android:text="收款账户"
+                    android:textColor="#ff000000"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+            <ImageView
+                    android:layout_marginRight="14dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:src="@mipmap/next_gray"
+                    android:layout_width="10dp" android:layout_height="18dp"/>
+        </FrameLayout>
+
+        <View
+                android:layout_marginLeft="17dp"
+                android:background="#EEEEEE"
+                android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <FrameLayout android:layout_width="match_parent" android:layout_height="39dp"></FrameLayout>
+
+    </LinearLayout>
+
+    <TextView
+            android:text="退出登录"
+            android:textColor="#ff000000"
+            android:textSize="17dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:layout_width="match_parent" android:layout_height="49dp" android:id="@+id/tv_logout"/>
+
+</LinearLayout>

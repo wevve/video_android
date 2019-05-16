@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+        <FrameLayout android:layout_width="match_parent" android:layout_height="49dp" android:id="@+id/fl_to_bank_card">
+            <TextView
+                    android:layout_gravity="center_vertical|left"
+                    android:layout_marginLeft="15dp"
+                    android:text="银行卡"
+                    android:textColor="#ff000000"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+            <ImageView
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/next_gray"
+                    android:layout_width="10dp" android:layout_height="18dp"/>
+        </FrameLayout>
+
+        <View 
+                android:layout_marginLeft="17dp"
+                android:background="#EEEEEE"
+                android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <FrameLayout android:layout_width="match_parent" android:layout_height="49dp" android:id="@+id/fl_to_alipay">
+            <TextView
+                    android:layout_gravity="center_vertical|left"
+                    android:layout_marginLeft="15dp"
+                    android:text="支付宝"
+                    android:textColor="#ff000000"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+            <ImageView
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/next_gray"
+                    android:layout_width="10dp" android:layout_height="18dp"/>
+        </FrameLayout>
+
+        <View
+                android:layout_marginLeft="17dp"
+                android:background="#EEEEEE"
+                android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <View android:layout_width="match_parent" android:layout_height="49dp"/>
+
+    </LinearLayout>
+
+
+    <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="164dp"
+            android:alpha="0.5"
+            android:includeFontPadding="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="此资料用于用户提现"
+            android:textColor="#ff000000"
+            android:textSize="14sp"
+    />
+</LinearLayout>
