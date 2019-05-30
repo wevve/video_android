@@ -7,11 +7,12 @@
                                                xmlns:app="http://schemas.android.com/apk/res-auto"
                                                app:stl_clickable="true"
 
+        app:stl_defaultTabTextSize="12dp"
         app:stl_dividerThickness="0dp"
         app:stl_indicatorColor="#9C28B1"
         app:stl_indicatorThickness="2dp"
         app:stl_defaultTabTextColor="@drawable/selector_tab_color"
-        app:stl_distributeEvenly="true"
+        app:stl_distributeEvenly="false"
 
 
 

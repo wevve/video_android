@@ -88,7 +88,9 @@ class HomeFrag:BaseFrag(),BaseRcvAdapter.OnViewHolderTriggerListener<BaseVH<Any>
     private fun getHomeTab(){
         videoService.getHomeTab(ServiceCallback{
             code, data ->
-            tabAdapter?.data?.add(TabEntity("推荐"))
+            var recommend = TabEntity("推荐")
+            recommend.sel = true
+            tabAdapter?.data?.add(recommend)
             if (data!=null){
                 tabAdapter?.data?.addAll(data.homeTab)
             }

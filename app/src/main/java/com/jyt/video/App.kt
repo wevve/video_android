@@ -9,6 +9,9 @@ import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection
 import com.liulishuo.filedownloader.util.FileDownloadLog
 import com.liulishuo.filedownloader.util.FileDownloadUtils
+import com.orhanobut.hawk.Hawk
+import com.orhanobut.logger.AndroidLogAdapter
+import com.orhanobut.logger.Logger
 
 
 class App : Application(){
@@ -23,8 +26,11 @@ class App : Application(){
         ARouter.openLog()
         ARouter.init(this)
 
+        initHawk()
         initDB()
         initFileDownLoader()
+
+        Logger.addLogAdapter(AndroidLogAdapter())
     }
 
     private fun initDB(){
@@ -53,6 +59,11 @@ class App : Application(){
             .commit()
     }
 
+
+    private fun initHawk(){
+        Hawk.init(this)
+            .build()
+    }
     companion object{
 
         lateinit var app:App

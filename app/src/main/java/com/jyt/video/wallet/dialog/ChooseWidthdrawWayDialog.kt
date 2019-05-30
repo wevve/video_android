@@ -7,13 +7,17 @@ import android.view.*
 import com.jyt.video.R
 import com.jyt.video.common.adapter.BaseRcvAdapter
 import com.jyt.video.common.base.BaseVH
+import com.jyt.video.setting.entity.WithdrawAccount
 import com.jyt.video.wallet.adapter.WidthdrawAccountAdapter
 import kotlinx.android.synthetic.main.dialog_choose_widthdraw_way.*
 
 class ChooseWidthdrawWayDialog : DialogFragment() ,BaseRcvAdapter.OnViewHolderTriggerListener<BaseVH<Any>>{
 
 
-    var  account: ArrayList<Any>? = null
+    var  account: ArrayList<WithdrawAccount>? = null
+
+
+    var itemClickListener: ((data:Any)->Unit)? = null
     internal lateinit var adapter: WidthdrawAccountAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +37,6 @@ class ChooseWidthdrawWayDialog : DialogFragment() ,BaseRcvAdapter.OnViewHolderTr
 
         adapter.data.clear()
 
-        account = ArrayList<Any>()
-        account?.add(Any())
-        account?.add(Any())
-        account?.add(Any())
         if (account!=null){
             adapter.data.addAll(account!!)
             adapter.notifyDataSetChanged()
@@ -45,6 +45,9 @@ class ChooseWidthdrawWayDialog : DialogFragment() ,BaseRcvAdapter.OnViewHolderTr
     }
 
     override fun <T : BaseVH<*>> onTrigger(holder: T, event: String) {
+       var data  = holder.data
+
+        itemClickListener?.invoke(data!!)
         dismiss()
     }
     private fun initView(){
@@ -62,7 +65,7 @@ class ChooseWidthdrawWayDialog : DialogFragment() ,BaseRcvAdapter.OnViewHolderTr
 
         dialog.window.setGravity(Gravity.BOTTOM)
     }
-    fun setAccountData(account: ArrayList<Any>) {
-        this.account = account
-    }
+
+
+
 }

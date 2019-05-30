@@ -12,7 +12,7 @@ class AddBankCardAccountAct:BaseAct(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v){
             tv_right_function->{
-                onBackPressed()
+//                onBackPressed()
             }
             img_show_bank->{
 
@@ -27,8 +27,6 @@ class AddBankCardAccountAct:BaseAct(), View.OnClickListener {
     }
 
     override fun initView() {
-
-
         img_show_bank.setOnClickListener(this)
         img_clear_person_name.setOnClickListener(this)
         img_clear_card_number.setOnClickListener(this)

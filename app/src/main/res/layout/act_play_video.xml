@@ -14,12 +14,100 @@
 
     </com.jyt.video.common.view.StatusBarHeightView>
 
-    <cn.jzvd.JzvdStd
+    <FrameLayout
+            android:id="@+id/fl_video"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/videoplayer"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"/>
+            app:layout_constraintTop_toBottomOf="@id/status_bar"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+        <com.jyt.video.video.widget.CustomJzvdStd
+                android:background="@color/black"
+                android:id="@+id/videoplayer"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"/>
+
+        <FrameLayout
+                android:id="@+id/fl_before"
+                android:layout_width="match_parent" android:layout_height="match_parent">
+            <LinearLayout
+                    android:layout_gravity="right"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="23dp"
+                    android:background="@drawable/shape_14r_30apl"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="99dp" android:layout_height="20dp">
+                <TextView
+                        android:id="@+id/tv_not_member_timer"
+                        android:text="60"
+                        android:textColor="#fff4ea2a"
+                        android:textSize="10dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView
+                        android:layout_marginLeft="8dp"
+                        android:text="会员跳广告"
+                        android:textColor="#ffffffff"
+                        android:textSize="10dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <ImageView
+                    android:id="@+id/img_ad_before"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="316dp" android:layout_height="173dp"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+                android:visibility="gone"
+                android:id="@+id/fl_end_free"
+                android:layout_width="match_parent" android:layout_height="match_parent">
+
+            <TextView
+                    android:layout_marginBottom="144dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:text="试看结束，若要继续观看请先购买"
+                    android:textColor="#ffffffff"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+            <Button
+                    android:layout_gravity="left|bottom"
+                    android:background="@drawable/shape_14r_solide_white"
+                    android:layout_marginLeft="69dp"
+                    android:layout_marginBottom="78dp"
+                    android:id="@+id/btn_buy_mumber"
+                    android:text="购买会员"
+                    android:layout_width="80dp" android:layout_height="29dp"/>
+            <Button
+                    android:layout_gravity="right|bottom"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:background="@drawable/shape_14r_solide_white"
+                    android:layout_marginBottom="78dp"
+                    android:layout_marginRight="69dp"
+                    android:id="@+id/btn_buy_video"
+                    android:text="999金币购买"
+                    android:layout_width="wrap_content"
+                    android:minWidth="80dp" android:layout_height="29dp"/>
+
+        </FrameLayout>
+
+        <ImageView
+                android:visibility="gone"
+                android:id="@+id/img_ad_pause"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:layout_width="316dp" android:layout_height="173dp"/>
+        <ImageView
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="9dp"
+                android:layout_gravity="left"
+                android:src="@mipmap/back"
+                android:layout_width="11dp" android:layout_height="20dp" android:id="@+id/img_close"/>
+
+    </FrameLayout>
+
 
 
 
@@ -35,7 +123,7 @@
             app:tl_divider_color="#9C28B1"
             android:background="@color/white"
             android:id="@+id/tab_layout"
-            app:layout_constraintTop_toBottomOf="@id/videoplayer"
+            app:layout_constraintTop_toBottomOf="@id/fl_video"
             android:layout_width="match_parent"
                                                    android:layout_height="40dp"></com.flyco.tablayout.CommonTabLayout>
 
@@ -47,7 +135,7 @@
             android:background="@color/white"
             app:layout_constraintTop_toBottomOf="@id/tab_layout"
             app:layout_constraintBottom_toTopOf="@id/fl_comment_bottom"
-            android:id="@+id/refresh_layout_comment"
+            android:id="@+id/refresh_layout_detail"
             android:layout_width="match_parent"
             android:layout_height="0dp">
         <android.support.v7.widget.RecyclerView
@@ -55,17 +143,28 @@
                 android:background="@color/white"
                 android:id="@+id/rcv_introduce"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"></android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
+    </me.dkzwm.widget.srl.ClassicSmoothRefreshLayout>
+    <me.dkzwm.widget.srl.ClassicSmoothRefreshLayout
+
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="14dp"
+            app:layout_goneMarginBottom="0dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/tab_layout"
+            app:layout_constraintBottom_toTopOf="@id/fl_comment_bottom"
+            android:id="@+id/refresh_layout_comment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/rcv_comment"
                 android:layout_width="match_parent"
-                                                android:layout_height="match_parent">
+                android:layout_height="match_parent" >
 
         </android.support.v7.widget.RecyclerView>
 
     </me.dkzwm.widget.srl.ClassicSmoothRefreshLayout>
-
     <FrameLayout
             android:background="@color/white"
             android:id="@+id/fl_comment_bottom"
@@ -82,6 +181,9 @@
                     android:src="@mipmap/xin"
                     android:layout_width="11dp" android:layout_height="10dp"/>
             <EditText
+                    android:singleLine="true"
+                    android:id="@+id/input_comment"
+                    android:imeOptions="actionSend"
                     android:hint="说些什么吧"
                     android:textColorHint="#66333333"
                     android:textSize="12dp"
@@ -93,8 +195,9 @@
     </FrameLayout>
 
     <android.support.constraint.Group
+            android:visibility="gone"
             android:id="@+id/group_comment"
-            app:constraint_referenced_ids="fl_comment_bottom"
+            app:constraint_referenced_ids="fl_comment_bottom,refresh_layout_comment"
             android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
 

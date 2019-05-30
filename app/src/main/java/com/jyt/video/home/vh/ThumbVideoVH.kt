@@ -20,7 +20,7 @@ class ThumbVideoVH(parent: View) : BaseVH<ThumbVideo>(LayoutInflater.from(parent
     override fun onClick(v: View?) {
         when(v){
             itemView->{
-                ARouter.getInstance().build("/video/play").navigation()
+                ARouter.getInstance().build("/video/play").withLong("videoId",data?.id?:0).navigation()
             }
             else->{
                 super.onClick(v)

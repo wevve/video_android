@@ -7,10 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import com.jyt.video.R
 import android.view.WindowManager
+import kotlinx.android.synthetic.main.dialog_width_draw_result.*
 
 
+class WidthdrawResultDialog:DialogFragment(), View.OnClickListener {
 
-class WidthdrawResultDialog:DialogFragment(){
+
+    var money:String? = null
+
+    override fun onClick(v: View?) {
+        when(v){
+            btn_done->{
+                dismiss()
+            }
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +41,16 @@ class WidthdrawResultDialog:DialogFragment(){
         dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
 
 
+    }
+
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        btn_done.setOnClickListener(this)
+
+        tv_money.text = "¥${money}"
     }
 
 }

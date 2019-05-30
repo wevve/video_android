@@ -1,5 +1,6 @@
 package com.jyt.video.main
 
+import android.graphics.Color
 import android.media.Image
 import android.support.v4.app.Fragment
 import android.view.View
@@ -8,11 +9,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.jyt.video.R
+import com.jyt.video.api.Constans
 import com.jyt.video.common.adapter.FragmentViewPagerAdapter
 import com.jyt.video.common.base.BaseAct
+import com.jyt.video.common.util.StatusBarUtil
 import com.jyt.video.home.dialog.VipDateDialog
 import com.jyt.video.home.frag.HomeFrag
 import com.jyt.video.person.frag.PersonalFrag
+import com.jyt.video.web.WebFrag
 import kotlinx.android.synthetic.main.activity_main.*
 
 @Route(path = "/main/index")
@@ -29,8 +33,8 @@ class MainActivity : BaseAct(), View.OnClickListener {
 
     var vipDateDialog: VipDateDialog? = null
     override fun initView() {
-        vipDateDialog = VipDateDialog()
-        vipDateDialog?.show(supportFragmentManager,"")
+//        vipDateDialog = VipDateDialog()
+//        vipDateDialog?.show(supportFragmentManager,"")
 
 
         hideToolbar()
@@ -46,11 +50,23 @@ class MainActivity : BaseAct(), View.OnClickListener {
 
         adapter = FragmentViewPagerAdapter(supportFragmentManager)
         adapter!!.addFragment(HomeFrag(),null)
-        adapter!!.addFragment(Fragment(),null)
-        adapter!!.addFragment(Fragment(),null)
-        adapter!!.addFragment(Fragment(),null)
+
+        var daili = WebFrag()
+        daili.url = Constans.BaseUrl+"/appapi/delegate"
+        adapter!!.addFragment(daili,null)
+
+        var xuanchuan = WebFrag()
+        xuanchuan.url = Constans.BaseUrl+"/appapi/introduce"
+        adapter!!.addFragment(xuanchuan,null)
+
+        var huiyuan = WebFrag()
+        huiyuan.url = Constans.BaseUrl+"/appapi/vip"
+        adapter!!.addFragment(huiyuan,null)
+
         adapter!!.addFragment(PersonalFrag(),null)
         view_pager.adapter = adapter
+
+        StatusBarUtil.setStatusBarColor(this,Color.TRANSPARENT)
     }
 
     override fun getLayoutId(): Int {
@@ -84,8 +100,14 @@ class MainActivity : BaseAct(), View.OnClickListener {
 
         view_pager.currentItem = index
 
+
+
     }
 
+
+    private fun getDailiUrl(){
+
+    }
 
 
 

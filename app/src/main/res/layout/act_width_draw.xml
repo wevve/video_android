@@ -29,14 +29,14 @@
             android:layout_marginTop="47dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="到账银行卡"
+            android:hint="选择到账账户"
             android:textColor="#ff333333"
             android:textSize="16dp"
             android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
     <TextView
             android:includeFontPadding="false"
-            android:text="建设银行（1234）"
+            android:text=""
             android:textColor="#ff535353"
             android:textSize="16dp"
             android:id="@+id/tv_bank_card"
@@ -69,13 +69,28 @@
     <TextView
             android:includeFontPadding="false"
             android:layout_marginTop="126dp"
-            android:layout_marginLeft="55dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="￥699.9"
+            android:layout_marginLeft="55dp"
+            android:id="@+id/tv_label_sign"
             android:textColor="#ff333333"
             android:textSize="20dp"
+            android:text="￥"
             android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <EditText
+            android:background="@null"
+            android:layout_marginRight="55dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_label_sign"
+            app:layout_constraintBottom_toBottomOf="@id/tv_label_sign"
+
+            android:singleLine="true"
+            android:inputType="number"
+            android:includeFontPadding="false"
+
+            android:text="0"
+
+            android:layout_width="0dp" android:layout_height="wrap_content" android:id="@+id/input_money"/>
 
     <View
             android:layout_marginTop="163dp"
@@ -92,7 +107,7 @@
             android:layout_marginLeft="58dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="零钱余额699.9"
+            android:text="零钱余额0"
             android:textColor="#ff333333"
             android:textSize="14dp"
             android:id="@+id/tv_total_balance"
@@ -119,7 +134,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:background="@drawable/shape_primary_stroke_19r"
-            android:layout_width="118dp" android:layout_height="29dp"/>
+            android:layout_width="118dp" android:layout_height="29dp" android:id="@+id/btn_new_account"/>
 
     <Button
             android:text="提现"

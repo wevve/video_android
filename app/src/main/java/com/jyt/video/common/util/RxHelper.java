@@ -57,4 +57,8 @@ public class RxHelper {
 
         }
     }
+
+    public static void simpleResult(Observable observable,ServiceCallback callback){
+        observable.compose(schedulersTransformer()).subscribe(new SimpleConsume(callback),new ErrorConsume(callback));
+    }
 }

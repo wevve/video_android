@@ -30,7 +30,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:background="@null"
             android:layout_width="0dp" android:layout_height="wrap_content"
-             app:layout_constraintTop_toTopOf="@+id/textView"/>
+            app:layout_constraintTop_toTopOf="@+id/textView" android:id="@+id/input_aliaccount"/>
 
     <ImageView
             app:layout_constraintTop_toTopOf="@id/textView"

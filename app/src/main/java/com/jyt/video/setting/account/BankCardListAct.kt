@@ -8,6 +8,7 @@ import com.jyt.video.R
 import com.jyt.video.common.adapter.BaseRcvAdapter
 import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.base.BaseVH
+import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.service.AccountService
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.impl.AccountServiceImpl
@@ -68,11 +69,12 @@ class BankCardListAct:BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolde
 
         refresh_layout.setOnRefreshListener(object : SmoothRefreshLayout.OnRefreshListener{
             override fun onLoadingMore() {
-                getData(curPage + 1)
+//                getData(curPage + 1)
+                refresh_layout.refreshComplete()
             }
 
             override fun onRefreshing() {
-                getData(1)
+                getData()
             }
 
         })
@@ -86,14 +88,13 @@ class BankCardListAct:BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolde
         tv_right_function.setOnClickListener(this)
     }
 
-    private fun getData(page:Int){
-        accountService?.getBankCardList(page, ServiceCallback<List<BankCardAccount>>{
+    private fun getData(){
+        accountService?.getBankCardList( ServiceCallback<List<BankCardAccount>>{
                 code, data ->
             if (data!=null){
-                if(page==1){
+//                if(page==1){
                     adapter.data.clear()
-                }
-                curPage = page
+//                }
                 adapter.data.addAll(data)
                 adapter.notifyDataSetChanged()
             }
@@ -104,8 +105,10 @@ class BankCardListAct:BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolde
     private fun removeALiPayAccount(account:BankCardAccount){
         accountService?.deleteBankCardAccount(account,ServiceCallback{
                 code,data->
-            adapter.data.remove(account)
-            adapter.notifyDataSetChanged()
+            if (code==BaseJson.CODE_SUCCESS) {
+                adapter.data.remove(account)
+                adapter.notifyDataSetChanged()
+            }
         })
     }
 }

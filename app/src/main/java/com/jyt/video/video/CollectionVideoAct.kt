@@ -3,6 +3,7 @@ package com.jyt.video.video
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.jyt.video.R
 import com.jyt.video.common.adapter.BaseRcvAdapter
 import com.jyt.video.common.base.BaseAct
@@ -17,6 +18,7 @@ import com.jyt.video.video.entity.CollectionVideo
 import kotlinx.android.synthetic.main.act_collection_video.*
 import kotlinx.android.synthetic.main.layout_refresh_recyclerview.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.layout_video_list_empty.*
 import me.dkzwm.widget.srl.SmoothRefreshLayout
 
 @Route(path = "/video/collection")
@@ -29,7 +31,7 @@ class CollectionVideoAct:BaseAct(),BaseRcvAdapter.OnViewHolderTriggerListener<Ba
 
     var curPage = 1
 
-    var videoService:VideoService? = null
+    private lateinit var videoService:VideoService
 
 
     //选择的item
@@ -56,7 +58,19 @@ class CollectionVideoAct:BaseAct(),BaseRcvAdapter.OnViewHolderTriggerListener<Ba
                 alertDialog.onClickListener = {
                     dialogFragment, s ->
                     dialogFragment.dismiss()
+                    if(s=="确定") {
+                        var videoIdList = ArrayList<Long>()
+                        adapter?.data?.forEach {
+                            var data = (it as CollectionVideo)
+                            if (data.isSel) {
+                                videoIdList.add(data.videoId)
+                            }
+                        }
+                        deleteCollection(*(videoIdList.toLongArray()))
+                    }
                 }
+                alertDialog.leftBtnText="取消"
+                alertDialog.rightBtnText = "确定"
                 alertDialog.show(supportFragmentManager,"")
             }
             ll_select_all->{
@@ -74,7 +88,7 @@ class CollectionVideoAct:BaseAct(),BaseRcvAdapter.OnViewHolderTriggerListener<Ba
             is VideoCollectionItemVH->{
                 when(event){
                     "click"->{
-                        //TODO 视频详情
+                        ARouter.getInstance().build("/video/detail").withLong("videoId",(holder.data as CollectionVideo).videoId).navigation()
                     }
                     "sel"->{
                         selItem.add(holder.data!!)
@@ -144,9 +158,26 @@ class CollectionVideoAct:BaseAct(),BaseRcvAdapter.OnViewHolderTriggerListener<Ba
                 }
                 adapter?.data?.addAll(data)
                 adapter?.notifyDataSetChanged()
+
+                if (adapter?.data?.isEmpty()==true){
+                    ll_empty.visibility = View.VISIBLE
+                }else{
+                    ll_empty.visibility = View.GONE
+                }
+            }else{
+                ll_empty.visibility = View.VISIBLE
             }
             refresh_layout.refreshComplete()
         })
 
     }
+
+    private fun deleteCollection(vararg videoId:Long){
+        videoService.delCollection(ServiceCallback{
+            code, data ->
+           getData(1)
+            tv_right_function.callOnClick()
+        },*videoId)
+    }
+
 }

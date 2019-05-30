@@ -14,6 +14,7 @@ class ALiPayAccountItemVH : BaseVH<AlipayAccount> {
         tv_last_card_num.setOnClickListener {
             onTriggerListener?.onTrigger(this,"delete")
         }
+
     }
 
     override fun bindData(data: AlipayAccount?) {

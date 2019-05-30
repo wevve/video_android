@@ -34,10 +34,11 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toBottomOf="@id/line_hor"
-                    android:text="￥699.9"
+                    android:text="￥0"
                     android:textColor="#ff333333"
                     android:textSize="40dp"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:id="@+id/tv_money"/>
 
             <View
                     android:background="#EEEEEE"
@@ -70,5 +71,5 @@
             android:textColor="#ffffffff"
             android:textSize="14dp"
             android:background="@drawable/shape_primary_dark_btn"
-            android:layout_width="235dp" android:layout_height="42dp"/>
+            android:layout_width="235dp" android:layout_height="42dp" android:id="@+id/btn_done"/>
 </LinearLayout>

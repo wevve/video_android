@@ -1,11 +1,14 @@
 package com.jyt.video.common.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class BaseJson<T> {
     public static final int CODE_SUCCESS = 200;
     public static final int CODE_ERROR = 500;
 
     private int Code;
     private String Msg;
+
     private T Data;
 
     public int getCode() {

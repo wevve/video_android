@@ -35,7 +35,7 @@ class DealRecordAdapter:BaseRcvAdapter<Any>(){
             is String->{
                 return TYPE_DATE
             }
-            is Record->{
+            is Record ->{
                 return TYPE_RECORD
             }
         }

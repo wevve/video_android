@@ -15,11 +15,26 @@ class DealRecordAct:BaseAct(){
 
     override fun initView() {
         adapter = FragmentViewPagerAdapter(supportFragmentManager)
-        adapter?.addFragment(DealRecordFrag(),"消费明细")
-        adapter?.addFragment(DealRecordFrag(),"充值明细")
-        adapter?.addFragment(DealRecordFrag(),"提现")
-        adapter?.addFragment(DealRecordFrag(),"推广金币")
-        adapter?.addFragment(DealRecordFrag(),"提成收入")
+
+        var xfmx = DealRecordFrag()
+        xfmx.typeId = 0
+        adapter?.addFragment(xfmx,"消费明细")
+
+        var czmx = DealRecordFrag()
+        czmx.typeId = 1
+        adapter?.addFragment(czmx,"充值明细")
+
+        var tx = DealRecordFrag()
+        tx.typeId = 2
+        adapter?.addFragment(tx,"提现")
+
+        var tgjb = DealRecordFrag()
+        tgjb.typeId = 3
+        adapter?.addFragment(tgjb,"推广金币")
+
+        var tcsr = DealRecordFrag()
+        tcsr.typeId = 4
+        adapter?.addFragment(tcsr,"提成收入")
         view_pager.adapter=adapter
         tab_layout.setViewPager(view_pager)
     }

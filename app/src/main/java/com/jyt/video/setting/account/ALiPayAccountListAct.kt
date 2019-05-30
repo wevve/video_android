@@ -1,5 +1,6 @@
 package com.jyt.video.setting.account
 
+import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -8,6 +9,7 @@ import com.jyt.video.R
 import com.jyt.video.common.adapter.BaseRcvAdapter
 import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.base.BaseVH
+import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.service.AccountService
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.impl.AccountServiceImpl
@@ -18,6 +20,7 @@ import com.jyt.video.setting.vh.AddAccountVH
 import kotlinx.android.synthetic.main.layout_refresh_recyclerview.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import me.dkzwm.widget.srl.SmoothRefreshLayout
+import java.io.Serializable
 
 @Route(path = "/setting/account/alipay")
 class ALiPayAccountListAct:BaseAct(), View.OnClickListener, BaseRcvAdapter.OnViewHolderTriggerListener<BaseVH<Any>> {
@@ -26,7 +29,6 @@ class ALiPayAccountListAct:BaseAct(), View.OnClickListener, BaseRcvAdapter.OnVie
 
     var accountService:AccountService? = null
 
-    var curPage=1
 
 
     override fun <T : BaseVH<*>> onTrigger(holder: T, event: String) {
@@ -36,12 +38,29 @@ class ALiPayAccountListAct:BaseAct(), View.OnClickListener, BaseRcvAdapter.OnVie
             }
             is ALiPayAccountItemVH->{
                 var data = holder.data
-                if (event=="delete"){
-                    removeALiPayAccount(data!!)
+                when (event){
+                    "delete"->
+                        removeALiPayAccount(data!!)
+                    "itemClick"->{
+
+                        ARouter.getInstance().build("/setting/account/alipay/add")
+                            .withSerializable("alc",data).navigation()
+                    }
+
                 }
+
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+
+
+        refresh_layout.autoRefresh()
+
+    }
+
 
     override fun onClick(v: View?) {
         when(v){
@@ -63,11 +82,12 @@ class ALiPayAccountListAct:BaseAct(), View.OnClickListener, BaseRcvAdapter.OnVie
 
         refresh_layout.setOnRefreshListener(object :SmoothRefreshLayout.OnRefreshListener{
             override fun onLoadingMore() {
-                getData(curPage + 1)
+//                getData(curPage + 1)
+                refresh_layout.refreshComplete()
             }
 
             override fun onRefreshing() {
-                getData(1)
+                getData()
             }
 
         })
@@ -75,7 +95,6 @@ class ALiPayAccountListAct:BaseAct(), View.OnClickListener, BaseRcvAdapter.OnVie
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = adapter
 
-        refresh_layout.autoRefresh()
 
         tv_right_function.text = "编辑"
         tv_right_function.setOnClickListener(this)
@@ -85,14 +104,15 @@ class ALiPayAccountListAct:BaseAct(), View.OnClickListener, BaseRcvAdapter.OnVie
         return R.layout.layout_refresh_recyclerview
     }
 
-    private fun getData(page:Int){
-        accountService?.getALiPayList(page, ServiceCallback<List<AlipayAccount>>{
+    private fun getData(){
+        accountService?.getALiPayList( ServiceCallback<List<AlipayAccount>>{
                 code, data ->
             if (data!=null){
-                if(page==1){
+                adapter.hideDelete()
+//                if(page==1){
                     adapter.data.clear()
-                }
-                curPage = page
+//                }
+//                curPage = page
                 adapter.data.addAll(data)
                 adapter.notifyDataSetChanged()
             }
@@ -103,8 +123,10 @@ class ALiPayAccountListAct:BaseAct(), View.OnClickListener, BaseRcvAdapter.OnVie
     private fun removeALiPayAccount(account:AlipayAccount){
         accountService?.deleteALiPayAccount(account,ServiceCallback{
             code,data->
-            adapter.data.remove(account)
-            adapter.notifyDataSetChanged()
+            if (code==BaseJson.CODE_SUCCESS) {
+                adapter.data.remove(account)
+                adapter.notifyDataSetChanged()
+            }
         })
     }
 }
