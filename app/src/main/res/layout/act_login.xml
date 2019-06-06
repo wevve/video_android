@@ -105,10 +105,13 @@
 
 
     <TextView
-            android:layout_marginLeft="104dp"
+            android:visibility="gone"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:id="@+id/tv_protocol_label"
             android:layout_marginBottom="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tv_to_protocol"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:text="登录即同意"
@@ -116,10 +119,11 @@
             android:textSize="14sp"
     />
     <TextView
-            android:layout_marginLeft="168dp"
+            android:visibility="gone"
             android:layout_marginBottom="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_protocol_label"
+            app:layout_constraintRight_toRightOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:text="《用户使用协议》"

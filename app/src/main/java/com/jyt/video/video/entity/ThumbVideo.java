@@ -1,6 +1,8 @@
 package com.jyt.video.video.entity;
 
-public class ThumbVideo {
+import java.io.Serializable;
+
+public class ThumbVideo implements Serializable {
     private Long id;
     private String title;
     private Long click;

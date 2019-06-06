@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:background="#B95BEE"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+        <ImageView
+                android:src="@mipmap/tuiguang_banner"
+                android:adjustViewBounds="true"
+                android:id="@+id/img_top"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+                                                     android:layout_height="wrap_content">
+
+            <View
+                    android:background="@drawable/shape_dark_purple_14r"
+                    app:layout_constrainedHeight="true"
+                    android:layout_marginTop="27dp"
+                    android:layout_marginLeft="46dp"
+                    android:layout_marginRight="20dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginBottom="17dp"
+                    app:layout_constraintBottom_toBottomOf="@id/cl_tgroup"
+                    android:layout_width="match_parent" android:layout_height="0dp"/>
+            <android.support.constraint.ConstraintLayout
+                    android:id="@+id/cl_tgroup"
+                    android:background="@drawable/shape_14r_solide_white"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginLeft="33dp"
+                    android:layout_marginRight="33dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="match_parent" android:layout_height="wrap_content">
+                
+                <View
+                        app:layout_constraintTop_toTopOf="@id/tv_ptitle"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_ptitle"
+                        android:id="@+id/v_1"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/tv_ptitle"
+                        android:background="#9C28B1"
+                        android:layout_width="70dp" android:layout_height="1dp"/>
+                <TextView
+                        android:layout_marginTop="7dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/v_1"
+                        app:layout_constraintRight_toLeftOf="@id/v_2"
+                        android:id="@+id/tv_ptitle"
+                        android:text="推广小技巧"
+                        android:textColor="#ff9c28b1"
+                        android:textSize="16dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <View
+                        app:layout_constraintTop_toTopOf="@id/tv_ptitle"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_ptitle"
+                        android:id="@+id/v_2"
+                        app:layout_constraintLeft_toRightOf="@id/tv_ptitle"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:background="#9C28B1"
+                        android:layout_width="70dp" android:layout_height="1dp"/>
+
+                <TextView
+                        android:layout_marginBottom="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="35dp"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:id="@+id/tv_content"
+                        android:layout_width="0dp" android:layout_height="wrap_content"/>
+            </android.support.constraint.ConstraintLayout>
+
+
+            <View
+                    android:background="@drawable/shape_dark_purple_14r"
+                    app:layout_constrainedHeight="true"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginLeft="46dp"
+                    android:layout_marginRight="20dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_tgroup"
+                    android:layout_marginBottom="17dp"
+                    app:layout_constraintBottom_toBottomOf="@id/cl_qrcodr"
+                    android:layout_width="match_parent" android:layout_height="0dp"/>
+            <android.support.constraint.ConstraintLayout
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_tgroup"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:id="@+id/cl_qrcodr"
+                    android:background="@drawable/shape_14r_solide_white"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginLeft="33dp"
+                    android:layout_marginRight="33dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <ImageView
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:src="@mipmap/qrcode_bg"
+                        android:id="@+id/img_qrcode_bg"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+                <View
+                        app:layout_constraintTop_toTopOf="@id/tv_ptitle2"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_ptitle2"
+                        android:id="@+id/v2_1"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/tv_ptitle2"
+                        android:background="#9C28B1"
+                        android:layout_width="70dp" android:layout_height="1dp"/>
+                <TextView
+                        android:layout_marginTop="7dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/v2_1"
+                        app:layout_constraintRight_toLeftOf="@id/v2_2"
+                        android:id="@+id/tv_ptitle2"
+                        android:text="推广二维码"
+                        android:textColor="#ff9c28b1"
+                        android:textSize="16dp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <View
+                        app:layout_constraintTop_toTopOf="@id/tv_ptitle2"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_ptitle2"
+                        android:id="@+id/v2_2"
+                        app:layout_constraintLeft_toRightOf="@id/tv_ptitle2"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:background="#9C28B1"
+                        android:layout_width="70dp" android:layout_height="1dp"/>
+
+                <ImageView
+                        android:layout_marginTop="65dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_width="128dp" android:layout_height="128dp" android:id="@+id/img_qrcode"/>
+
+                <Button
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@id/img_qrcode"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:text="复制推广链接"
+                        android:textColor="#ffffffff"
+                        android:textSize="16dp"
+                        android:background="@drawable/shape_primary_dark_btn_20r"
+                        android:layout_width="201dp" android:layout_height="39dp" android:id="@+id/btn_copy"/>
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+</ScrollView>

@@ -9,9 +9,13 @@ import com.jyt.video.common.helper.UserInfo
 import com.jyt.video.common.util.RxHelper
 import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.login.entity.LoginResult
+import com.jyt.video.main.entity.HomeDialogResult
+import com.jyt.video.promotion.entity.PromotionBean
+import com.jyt.video.promotion.entity.PromotionUserListResult
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.UserService
 import com.jyt.video.wallet.entity.WalletIndexInfo
+import com.jyt.video.welcome.entity.WelcomeResult
 import io.reactivex.Observable
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -20,6 +24,39 @@ import java.io.File
 import java.net.URLEncoder
 
 class UserServiceImpl :UserService{
+    override fun getPromotionUserList(callback: ServiceCallback<PromotionUserListResult>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.getPromotionUserList(UserInfo.getUserId()),callback)
+
+    }
+
+    override fun getWelcomePhoto(callback: ServiceCallback<WelcomeResult>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.welcomePhoto,callback)
+
+    }
+
+    override fun getHomeDialogData(callback: ServiceCallback<HomeDialogResult>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.homeDialog,callback)
+
+    }
+
+    override fun getVipInfo(callback: ServiceCallback<Map<String, String>>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.vipUrl,callback)
+    }
+
+    override fun getXuanChuanInfo(callback: ServiceCallback<Map<String, String>>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.getXuanChuanData(UserInfo.getUserId()),callback)
+
+    }
+
+    override fun getDaiLiInfo(callback: ServiceCallback<Map<String, String>>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.getDailiData(UserInfo.getUserId()),callback)
+
+    }
+
+    override fun getPromotionInfo(callback: ServiceCallback<PromotionBean>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.getPromotionInfo(UserInfo.getUserId()),callback)
+    }
+
     override fun modifyAvatar(avatar: File, callback: ServiceCallback<Any>) {
 
         var pm = HashMap<String,RequestBody>()

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@color/white"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="34dp">
+        <View
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="22dp"
+                android:layout_width="2dp" android:layout_height="10dp" android:background="#9C28B1"/>
+        <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:text="分类"
+                android:textColor="#ff9c28b1"
+                android:textSize="14dp"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:id="@+id/tv_group_name"/>
+        
+        <android.support.v7.widget.RecyclerView
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="84dp"
+                android:id="@+id/rcv_type"
+                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+    <FrameLayout
+            android:visibility="gone"
+            android:id="@+id/fl_sub_type"
+            android:layout_width="match_parent" android:layout_height="34dp">
+
+    <View
+            android:layout_gravity="top"
+            android:background="@drawable/divider_c8"
+            android:layout_width="match_parent" android:layout_height="1dp" android:id="@+id/v_1"/>
+        <android.support.v7.widget.RecyclerView
+                android:layout_gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_marginLeft="84dp"
+                android:id="@+id/rcv_sub_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+    <View
+            android:layout_gravity="bottom"
+            android:background="@drawable/divider_c8"
+            android:layout_width="match_parent" android:layout_height="1dp" android:id="@+id/v_2"/>
+    </FrameLayout>
+
+</LinearLayout>

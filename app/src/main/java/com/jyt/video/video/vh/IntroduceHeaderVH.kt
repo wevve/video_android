@@ -4,21 +4,34 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.alibaba.android.arouter.launcher.ARouter
 import com.jyt.video.R
+import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.base.BaseVH
+import com.jyt.video.common.dialog.AlertDialog
 import com.jyt.video.common.entity.BaseJson
+import com.jyt.video.common.helper.UserInfo
+import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.VideoService
+import com.jyt.video.service.WalletService
 import com.jyt.video.service.impl.VideoServiceImpl
+import com.jyt.video.service.impl.WalletServiceImpl
 import com.jyt.video.video.adapter.VideoCaptureAdapter
+import com.jyt.video.video.dialog.AwardDialog
+import com.jyt.video.video.entity.Gift
 import com.jyt.video.video.entity.VideoDetail
 import kotlinx.android.synthetic.main.vh_introduce_header.*
 
 class IntroduceHeaderVH(viewGroup: ViewGroup) :BaseVH<Any>(LayoutInflater.from(viewGroup.context).inflate(R.layout.vh_introduce_header,viewGroup,false)){
 
+    var activity:BaseAct? = null
+
     var captureAdapter:VideoCaptureAdapter = VideoCaptureAdapter()
 
     var videoService:VideoService = VideoServiceImpl()
+
+    var walletService:WalletService = WalletServiceImpl()
 
     init {
         rcv_capture.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
@@ -28,6 +41,16 @@ class IntroduceHeaderVH(viewGroup: ViewGroup) :BaseVH<Any>(LayoutInflater.from(v
         img_like.setOnClickListener(this)
 
         img_show_all_info.setOnClickListener(this)
+
+        img_dasang.setOnClickListener(this)
+        tv_dasang.setOnClickListener(this)
+        v_dasang.setOnClickListener(this)
+
+        img_jinbi.setOnClickListener(this)
+        tv_video_price.setOnClickListener(this)
+        v_goumai.setOnClickListener(this)
+
+        img_download.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -41,17 +64,64 @@ class IntroduceHeaderVH(viewGroup: ViewGroup) :BaseVH<Any>(LayoutInflater.from(v
                     img_show_all_info.rotation = 0f
                 }
             }
-            img_collection->{
-                doCollection()
-            }
-            img_like->{
-                doLike()
-            }
           else->{
-              super.onClick(v)
+              if (!UserInfo.isLogin()){
+                  ToastUtil.showShort(context,"请先登录")
+                  ARouter.getInstance().build("/login/index").navigation()
+                  return
+              }else{
+                  when(v){
+                      img_download->{
+                          if ((data as VideoDetail).isVip){
+                            ARouter.getInstance().build("/video/cache")
+                                .withSerializable("videoDetail",data as VideoDetail)
+                                .navigation()
+                          }else{
+                              var dialog = AlertDialog()
+                              dialog.message="只有会员才能下载"
+                              dialog.leftBtnText = "确定"
+                          }
+                      }
+                      img_collection->{
+                          doCollection()
+                      }
+                      img_like->{
+                          doLike()
+                      }
+                      img_dasang,tv_dasang,v_dasang->{
+                          var dialog= AwardDialog()
+                          dialog.onGiftClick={
+                              gift ->
+                              dialog.dismiss()
+                              var comfirm = AlertDialog()
+                              comfirm.message = "是否赠送${gift.name}"
+                              comfirm.leftBtnText = "确定"
+                              comfirm.rightBtnText = "取消"
+                              comfirm.onClickListener = {
+                                  dialogFragment, s ->
+                                  if (s=="确定") {
+                                      sendGift(gift)
+                                  }
+                                  dialogFragment.dismissAllowingStateLoss()
+                              }
+                              comfirm.show(activity?.supportFragmentManager,"")
+                          }
+                          dialog.show(activity?.supportFragmentManager,"")
+
+                      }
+                      img_jinbi,tv_video_price,v_goumai->{
+                          onTriggerListener?.onTrigger(this,"BUY")
+                      }
+                      else->{
+                        super.onClick(v)
+
+                    }
+                  }
+              }
 
           }
         }
+
     }
     override fun bindData(data: Any?) {
         super.bindData(data)
@@ -124,5 +194,17 @@ class IntroduceHeaderVH(viewGroup: ViewGroup) :BaseVH<Any>(LayoutInflater.from(v
                 changeCollection()
             }
         })
+    }
+
+
+    private fun sendGift(gift: Gift){
+        data as VideoDetail
+        walletService.sendGift((data as VideoDetail)?.videoId!!,gift.id,ServiceCallback{
+            code, data ->
+            if (code==BaseJson.CODE_SUCCESS){
+                ToastUtil.showShort(itemView.context,"赠送成功")
+            }
+        })
+
     }
 }

@@ -2,6 +2,7 @@ package com.jyt.video.common.util;
 
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,6 +42,9 @@ public class ToastUtil {
      */
     public static void showShort(Context context, CharSequence message) {
         try {
+            if (TextUtils.isEmpty(message)){
+                return;
+            }
             if(!passFilter(message.toString())){
                 return;
             }

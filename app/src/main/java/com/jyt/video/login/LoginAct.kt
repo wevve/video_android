@@ -1,5 +1,7 @@
 package com.jyt.video.login
 
+import android.app.Activity
+import android.content.Intent
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -32,14 +34,21 @@ class LoginAct:BaseAct(), View.OnClickListener {
                     code, data ->
                     if (data!=null) {
                         UserInfo.setUserId(data.member_id)
-                        RxBus.getInstance().post(RefreshEvent(RefreshEvent.RefreshType.LOGIN))
-                        finish()
+                        getUserHomeInfo()
+
                     }
                 })
             }
             btn_to_register->{
-                ARouter.getInstance().build("/register/index").navigation()
+                ARouter.getInstance().build("/register/index").navigation(this,1)
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode==1&& resultCode==Activity.RESULT_OK){
+            finish()
         }
     }
 
@@ -48,4 +57,15 @@ class LoginAct:BaseAct(), View.OnClickListener {
         return R.layout.act_login
     }
 
+
+    private fun getUserHomeInfo(){
+        userService.getUserHomeInfo(ServiceCallback{
+            code, data ->
+                if (data!=null) {
+                    UserInfo.setUserHomeInfo(data)
+                    RxBus.getInstance().post(RefreshEvent(RefreshEvent.RefreshType.LOGIN))
+                    finish()
+                }
+        })
+    }
 }

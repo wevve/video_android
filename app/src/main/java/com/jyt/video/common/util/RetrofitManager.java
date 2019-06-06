@@ -1,6 +1,8 @@
 package com.jyt.video.common.util;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jyt.video.api.Constans;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -25,9 +27,10 @@ public class RetrofitManager {
                 .build();
 
 
+//        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         retrofit = new Retrofit.Builder()
-
-                .addConverterFactory(GsonConverterFactory.create()) // json解析
+                .addConverterFactory(GsonConverterFactory.create()
+                ) // json解析
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // 支持RxJava
                 .baseUrl(Constans.BaseUrl)
                 .client(okHttpClient)

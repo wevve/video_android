@@ -6,7 +6,13 @@ import java.io.File;
 
 public class Constant {
     public static File getAppCacheFile(){
-        return new File( Environment.getExternalStorageDirectory().getAbsolutePath()+"/avideo");
+        File f = new File( Environment.getExternalStorageDirectory().getAbsolutePath()+"/avideo");
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+        return f;
     }
+
+
 
 }

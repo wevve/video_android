@@ -21,7 +21,7 @@ public class HorProgressView extends View {
 
     int radius = 0;
 
-    float percent = 0.5f;
+    float percent = 0f;
 
     public HorProgressView(Context context) {
         this(context,null);
@@ -32,6 +32,13 @@ public class HorProgressView extends View {
 
         initPaint();
     }
+
+    public void setPercent(float percent){
+        this.percent = percent;
+        invalidate();
+
+    }
+
 
     private void initPaint(){
         backPaint = new Paint();
@@ -52,10 +59,11 @@ public class HorProgressView extends View {
         super.onDraw(canvas);
 
         canvas.drawRoundRect(backRectF, radius,radius,backPaint);
-
-        LinearGradient linearGradient =new LinearGradient(0,0,width*percent,0, Color.parseColor("#B95BEE"),Color.parseColor("#8B55F6"), Shader.TileMode.CLAMP);
-        frontPaint.setShader(linearGradient);
-        canvas.drawRoundRect(backRectF.left,backRectF.top,backRectF.right*percent,backRectF.bottom,radius,radius,frontPaint);
+        if (percent!=0) {
+            LinearGradient linearGradient =new LinearGradient(0,0,width,0, Color.parseColor("#B95BEE"),Color.parseColor("#8B55F6"), Shader.TileMode.CLAMP);
+            frontPaint.setShader(linearGradient);
+            canvas.drawRoundRect(backRectF.left, backRectF.top, backRectF.right * percent, backRectF.bottom, radius, radius, frontPaint);
+        }
     }
 
     @Override

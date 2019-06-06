@@ -86,6 +86,10 @@ class AccountInfoAct :BaseAct(), View.OnClickListener {
             fl_to_cs_account->{
                 ARouter.getInstance().build("/setting/account/cs").navigation()
             }
+            tv_logout->{
+                UserInfo.logout()
+                ARouter.getInstance().build("/main/index").navigation()
+            }
         }
     }
 
@@ -100,8 +104,7 @@ class AccountInfoAct :BaseAct(), View.OnClickListener {
         fl_edit_avatar.setOnClickListener(this)
         fl_edit_name.setOnClickListener(this)
         fl_to_cs_account.setOnClickListener(this)
-
-
+        tv_logout.setOnClickListener(this)
         tv_name.text = UserInfo.getUserHomeInfo()?.nickname
 
         Glide.with(this).load(UserInfo.getUserHomeInfo()?.avatar).apply(GlideHelper.avatar()).into(img_avatar)

@@ -5,6 +5,8 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.jyt.video.common.db.AppDatabase
 import android.arch.persistence.room.Room
 import android.util.Log
+import com.danikula.videocache.HttpProxyCacheServer
+import com.jyt.video.common.Constant
 import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection
 import com.liulishuo.filedownloader.util.FileDownloadLog
@@ -16,6 +18,8 @@ import com.orhanobut.logger.Logger
 
 class App : Application(){
 
+
+    var proxy:HttpProxyCacheServer? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -32,6 +36,7 @@ class App : Application(){
 
         Logger.addLogAdapter(AndroidLogAdapter())
     }
+
 
     private fun initDB(){
         mAppDatabase = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "android_room_dev.db")
@@ -57,7 +62,10 @@ class App : Application(){
                 )
             )
             .commit()
+
+
     }
+
 
 
     private fun initHawk(){
@@ -73,6 +81,33 @@ class App : Application(){
         public fun getAppDataBase():AppDatabase{
             return mAppDatabase!!
         }
+
+
+        fun getProxy():HttpProxyCacheServer{
+            var proxy = App.app.proxy
+            if (proxy==null){
+                proxy = app.createHttpProxy()
+            }
+            return proxy
+        }
+
+    }
+
+
+    public fun createHttpProxy():HttpProxyCacheServer{
+//        var file = Constant.getAppCacheFile()
+//        if (!file.exists()){
+//            file.mkdirs()
+//        }
+        return HttpProxyCacheServer.Builder(this)
+            .cacheDirectory(Constant.getAppCacheFile())
+            .fileNameGenerator {
+                url->
+                var fileName = url.substring(url.lastIndexOf("/")+1,url.length)
+                fileName
+            }
+            .maxCacheFilesCount(999)
+            .build()
     }
 
 }

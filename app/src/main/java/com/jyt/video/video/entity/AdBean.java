@@ -1,6 +1,8 @@
 package com.jyt.video.video.entity;
 
-public class AdBean {
+import java.io.Serializable;
+
+public class AdBean implements Serializable {
 
     Data before;
     Data pause;
@@ -21,7 +23,7 @@ public class AdBean {
         this.pause = pause;
     }
 
-    public class Data{
+    public class Data implements Serializable{
         /**
          * img : http://v.msvodx.com/XResource/20180525/JzRWwtacxRWxyzkZw8jzkpxC3GchKT7H.jpg
          * url : https://www.msvod.cc/

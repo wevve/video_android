@@ -2,6 +2,7 @@ package com.jyt.video.common.util;
 
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.widget.TextView;
 import com.jyt.video.common.helper.UserInfo;
 
@@ -35,6 +36,10 @@ public class TimeHelper {
 
     }
 
+    public void setTime(int time) {
+        this.time = time;
+    }
+
     public void setOriText(String oriText){
         this.oriText = oriText;
     }
@@ -53,6 +58,12 @@ public class TimeHelper {
             UserInfo.add(tag,endTime);
         handler.post(timerRunnable);
         timerListener.timeStateChangeListener("start");
+
+    }
+
+    public void stop(){
+        handler.removeCallbacks(timerRunnable);
+        timerListener.timeStateChangeListener("end");
 
     }
 
@@ -80,7 +91,9 @@ public class TimeHelper {
                 handler.removeCallbacks(this);
                 isLoading = false;
 
-                textView.setText(oriText);
+                if (textView!=null && !TextUtils.isEmpty(oriText)) {
+                    textView.setText(oriText);
+                }
 
                 timerListener.timeStateChangeListener("end");
 
@@ -89,7 +102,10 @@ public class TimeHelper {
                 handler.postDelayed(this,1000);
 
                 int time = (int) ((endTime - cur)/1000);
-                textView.setText(String.format(timerText,time));
+
+                if (textView!=null && !TextUtils.isEmpty(timerText)) {
+                    textView.setText(String.format(timerText, time));
+                }
 
                 timerListener.timeStateChangeListener("loading");
 

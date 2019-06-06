@@ -5,6 +5,7 @@ import com.jyt.video.video.entity.ThumbVideo;
 import java.util.List;
 
 public class HomeResult {
+    private  String app_logo;
     private List<Banner.Data> banner;
     private List<ThumbVideo> hotVideos;
 
@@ -22,5 +23,13 @@ public class HomeResult {
 
     public void setHotVideos(List<ThumbVideo> hotVideos) {
         this.hotVideos = hotVideos;
+    }
+
+    public String getApp_logo() {
+        return app_logo;
+    }
+
+    public void setApp_logo(String app_logo) {
+        this.app_logo = app_logo;
     }
 }

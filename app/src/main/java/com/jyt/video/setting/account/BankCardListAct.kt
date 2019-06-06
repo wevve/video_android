@@ -60,8 +60,15 @@ class BankCardListAct:BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolde
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        refresh_layout.autoRefresh()
+
+    }
+
     override fun getLayoutId(): Int {
-        return R.layout.layout_refresh_recyclerview
+        return R.layout.act_account_list
     }
 
     override fun initView() {
@@ -78,11 +85,11 @@ class BankCardListAct:BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolde
             }
 
         })
+        adapter.addAccountText = "添加银行卡"
         adapter.setOnTriggerListener(this)
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = adapter
 
-        refresh_layout.autoRefresh()
 
         tv_right_function.text = "编辑"
         tv_right_function.setOnClickListener(this)

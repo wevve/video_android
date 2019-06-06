@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:gravity="center"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="117dp">
+    <ImageView
+            android:id="@+id/img_gift"
+            android:src="@mipmap/award"
+            android:layout_width="62dp" android:layout_height="65dp"/>
+    <TextView
+            android:id="@+id/tv_gift"
+            android:includeFontPadding="false"
+            android:text="10金币"
+            android:textColor="#ffffffff"
+            android:textSize="14sp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+</LinearLayout>

@@ -15,6 +15,7 @@ import com.jyt.video.service.VideoService
 import com.jyt.video.service.impl.VideoServiceImpl
 import com.jyt.video.video.adapter.CollectionVideoAdapter
 import com.jyt.video.video.entity.CollectionVideo
+import com.jyt.video.video.entity.ThumbVideo
 import kotlinx.android.synthetic.main.act_collection_video.*
 import kotlinx.android.synthetic.main.layout_refresh_recyclerview.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -88,7 +89,13 @@ class CollectionVideoAct:BaseAct(),BaseRcvAdapter.OnViewHolderTriggerListener<Ba
             is VideoCollectionItemVH->{
                 when(event){
                     "click"->{
-                        ARouter.getInstance().build("/video/detail").withLong("videoId",(holder.data as CollectionVideo).videoId).navigation()
+
+                        var thumbVideo = ThumbVideo()
+//                        thumbVideo.play_time =
+                        ARouter.getInstance().build("/video/play")
+                            .withLong("videoId",(holder.data as CollectionVideo).videoId)
+                            .withSerializable("thumbVideo",thumbVideo)
+                            .navigation()
                     }
                     "sel"->{
                         selItem.add(holder.data!!)
@@ -121,6 +128,11 @@ class CollectionVideoAct:BaseAct(),BaseRcvAdapter.OnViewHolderTriggerListener<Ba
 
     override fun initView() {
         videoService = VideoServiceImpl()
+
+
+        tv_empty_text.text="暂无收藏"
+
+
         adapter = CollectionVideoAdapter()
         adapter?.setOnTriggerListener(this)
 

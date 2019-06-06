@@ -91,6 +91,7 @@ class ALiPayAccountListAct:BaseAct(), View.OnClickListener, BaseRcvAdapter.OnVie
             }
 
         })
+        adapter.addAccountText = "添加支付宝"
         adapter.setOnTriggerListener(this)
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = adapter
@@ -101,7 +102,7 @@ class ALiPayAccountListAct:BaseAct(), View.OnClickListener, BaseRcvAdapter.OnVie
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.layout_refresh_recyclerview
+        return R.layout.act_account_list
     }
 
     private fun getData(){

@@ -59,9 +59,7 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
                 ARouter.getInstance().build("/wallet/index").navigation()
             }
             ll_promotion->{
-                ARouter.getInstance().build("/web/index")
-                    .withString("title","推广")
-                    .withString("url","https://www.baidu.com").navigation()
+                ARouter.getInstance().build("/promotion/index").navigation()
             }
             ll_promotion_record->{
                 ARouter.getInstance().build("/promotion/record").navigation()
@@ -142,8 +140,13 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
         if (data.isVip){
             tv_is_vip.visibility = View.VISIBLE
             tv_vip_end_date.visibility = View.VISIBLE
-            var dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm-ss")
-            tv_vip_end_date.text = "到期时间 ${dateFormat.format(Date((data.vipEndDate?:0)*1000))}"
+
+            if (data.vipEndDate==0L){
+                tv_vip_end_date.text = ""
+            }else {
+                var dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm-ss")
+                tv_vip_end_date.text = "到期时间 ${dateFormat.format(Date((data.vipEndDate ?: 0) * 1000))}"
+            }
         }else{
             tv_is_vip.visibility = View.GONE
             tv_vip_end_date.visibility = View.GONE
@@ -159,6 +162,11 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
 
 
         UserInfo.setUserHomeInfo(data)
+
+    }
+
+
+    private fun tuiguangUrl(){
 
     }
 }

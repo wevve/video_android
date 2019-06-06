@@ -2,8 +2,9 @@ package com.jyt.video.video.entity;
 
 import com.jyt.video.common.db.bean.Video;
 
-public class CollectionVideo extends Video {
-    private boolean isSel;
+import java.io.Serializable;
+
+public class CollectionVideo extends Video  implements Serializable {
     /**
      * videoId : 5619
      * videoTitle : 视频集
@@ -18,20 +19,12 @@ public class CollectionVideo extends Video {
     private long videoSendDate;
     private String videoKind;
 
-    public boolean isSel() {
-        return isSel;
-    }
-
-    public void setSel(boolean sel) {
-        isSel = sel;
-    }
-
 
     public CollectionVideo() {
     }
 
     public CollectionVideo(boolean isSel, Long videoId, String videoTitle, String videoImgUrl, long videoSendDate, String videoKind) {
-        this.isSel = isSel;
+        this.setSel(isSel);
         this.videoId = videoId;
         this.videoTitle = videoTitle;
         this.videoImgUrl = videoImgUrl;

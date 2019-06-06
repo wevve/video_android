@@ -26,7 +26,7 @@
             android:text="7折"
             android:textColor="#ffffffff"
             android:textSize="8dp"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tv_discount"/>
 
 
     <TextView
@@ -38,20 +38,25 @@
             android:text="包月套餐"
             android:textColor="#ff000000"
             android:textSize="16dp"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tv_title"/>
     <TextView
+            android:layout_marginTop="40dp"
+            app:layout_constrainedWidth="true"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintBaseline_toBaselineOf="@id/tv_price"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/v_background"
             app:layout_constraintRight_toLeftOf="@id/tv_price"
             android:id="@+id/tv_unit"
-            android:layout_width="wrap_content"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:text="￥"
             android:textColor="#ff9c28b1"
             android:textSize="20dp"
             android:visibility="visible"/>
     <TextView
+            android:lineHeight="20dp"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constrainedWidth="true"
             android:includeFontPadding="false"
             app:layout_constraintTop_toTopOf="@+id/v_background"
             app:layout_constraintLeft_toRightOf="@id/tv_unit"
@@ -59,7 +64,7 @@
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="188"
+            android:text="1880"
             android:textColor="#ff9c28b1"
             android:textSize="26dp"
             android:layout_marginTop="32dp"/>
@@ -77,5 +82,5 @@
             android:text="VIP 30天"
             android:textColor="#ff000000"
             android:textSize="10dp"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tv_content"/>
 </android.support.constraint.ConstraintLayout>

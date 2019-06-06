@@ -5,6 +5,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.jyt.video.R
 import com.jyt.video.common.base.BaseAct
+import com.jyt.video.common.helper.UserInfo
 import kotlinx.android.synthetic.main.act_setting.*
 
 @Route(path = "/setting/index")
@@ -18,7 +19,9 @@ class SettingAct : BaseAct(), View.OnClickListener {
                ARouter.getInstance().build("/setting/account").navigation()
             }
             tv_logout->{
-                ARouter.getInstance().build("/setting/account/cs").navigation()
+                UserInfo.logout()
+                finish()
+//                ARouter.getInstance().build("/setting/account/cs").navigation()
             }
         }
     }

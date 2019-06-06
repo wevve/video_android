@@ -1,6 +1,8 @@
 package com.jyt.video.video.entity;
 
-public class GuessBean {
+import java.io.Serializable;
+
+public class GuessBean implements Serializable {
 
     /**
      * id : 229

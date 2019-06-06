@@ -1,11 +1,14 @@
 package com.jyt.video.service.impl
 
 import com.jyt.video.App
+import com.jyt.video.api.ApiService
 import com.jyt.video.common.db.AppDatabase
 import com.jyt.video.common.db.bean.SearchText
 import com.jyt.video.common.db.dao.SearchTextDao
+import com.jyt.video.common.util.RxHelper
 import com.jyt.video.service.SearchHistoryService
 import com.jyt.video.service.ServiceCallback
+import com.jyt.video.video.entity.SearchVideoResult
 
 class SearchHistoryServiceImpl : SearchHistoryService{
 
@@ -19,8 +22,10 @@ class SearchHistoryServiceImpl : SearchHistoryService{
         callback.result(200,searchDao?.loadAll())
     }
 
-    override fun doSearch(text: String, callback: ServiceCallback<Any>) {
+    override fun doSearch(text: String, callback: ServiceCallback<SearchVideoResult>) {
         addSearchHistory(text)
+        callback.result(200,null)
+//        RxHelper.simpleResult(ApiService.getInstance().api.searchVideo(text),callback)
 
     }
 

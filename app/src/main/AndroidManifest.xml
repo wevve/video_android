@@ -3,6 +3,8 @@
           package="com.jyt.video">
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -23,11 +25,15 @@
         <meta-data
                 android:name="design_height_in_dp"
                 android:value="667"/>
-        <activity android:name="com.jyt.video.main.MainActivity">
+        <activity android:name=".welcome.WelcomeAct"
+            android:theme="@style/WelcomeStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name="com.jyt.video.main.MainActivity" android:launchMode="singleTask">
+
         </activity>
         <activity android:name=".login.LoginAct" android:label="登录">
 
@@ -54,7 +60,11 @@
         <activity android:name=".recharge.RechargeCardAct" android:label="卡密充值" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".video.MoreVideoAct" android:label="更多视频"/>
         <activity android:name=".video.SearchAct" android:label="搜索"/>
-        <activity android:name=".video.PlayVideoAct" android:label="播放视频" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".video.PlayVideoAct" android:label="播放视频" android:windowSoftInputMode="adjustPan"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".promotion.PromotionAct" android:label="推广"/>
+        <activity android:name=".video.SearchResultAct"/>
     </application>
 
 </manifest>

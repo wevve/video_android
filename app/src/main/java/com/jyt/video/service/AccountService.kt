@@ -1,6 +1,7 @@
 package com.jyt.video.service
 
 import com.jyt.video.setting.entity.AlipayAccount
+import com.jyt.video.setting.entity.Bank
 import com.jyt.video.setting.entity.BankCardAccount
 
 interface AccountService {
@@ -15,4 +16,6 @@ interface AccountService {
     fun addALiPayAccount(account:AlipayAccount,callback: ServiceCallback<AlipayAccount>)
 
     fun addBankCard(account:BankCardAccount,callback: ServiceCallback<BankCardAccount>)
+
+    fun getPopBankList(callback: ServiceCallback<ArrayList<Bank>>)
 }

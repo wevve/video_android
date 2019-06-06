@@ -57,6 +57,7 @@ class SearchView : LinearLayout{
 //        input?.setBackgroundColor(Color.RED)
         input?.background = null
         input?.hint = "搜索"
+        input?.setTextColor(Color.WHITE)
         input?.setHintTextColor(Color.WHITE)
         input?.setTextSize(TypedValue.COMPLEX_UNIT_DIP,14f)
         input?.gravity = Gravity.CENTER_VERTICAL
@@ -68,6 +69,12 @@ class SearchView : LinearLayout{
         inputParams.rightMargin = DensityUtil.dpToPx(context,10)
         input?.layoutParams = inputParams
     }
+
+    public fun setText(text:String){
+        input?.setText(text)
+    }
+
+
 
     override fun setOnClickListener(l: OnClickListener?) {
         super.setOnClickListener(l)

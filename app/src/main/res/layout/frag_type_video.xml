@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:background="@color/white"
+              android:layout_width="match_parent"
+              android:orientation="vertical"
+              android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+            android:orientation="vertical"
+            android:fitsSystemWindows="true"
+            android:background="@drawable/shape_toolbar"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+        <com.jyt.video.common.view.StatusBarHeightView android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"></com.jyt.video.common.view.StatusBarHeightView>
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="44dp">
+            <ImageView
+                    android:layout_centerVertical="true"
+                    android:scaleType="center"
+                    android:src="@mipmap/back"
+                    android:layout_width="29dp" android:layout_height="29dp" android:id="@+id/img_back"/>
+
+            <com.jyt.video.common.view.SearchView
+                    app:canInput="false"
+                    android:id="@+id/search_view"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="55dp"
+                    android:layout_marginRight="48dp"
+                    android:layout_width="match_parent" android:layout_height="30dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:paddingBottom="8dp"
+            android:id="@+id/ll_video_type"
+            android:orientation="vertical"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    </LinearLayout>
+
+
+    <include layout="@layout/layout_refresh_recyclerview"/>
+</LinearLayout>

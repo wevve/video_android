@@ -3,6 +3,7 @@ package com.jyt.video.service.impl
 import com.jyt.video.App
 import com.jyt.video.api.Api
 import com.jyt.video.api.ApiService
+import com.jyt.video.api.entity.FilterVideoListResult
 import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.common.helper.UserInfo
 import com.jyt.video.common.util.RxHelper
@@ -10,9 +11,11 @@ import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.home.entity.HomeResult
 import com.jyt.video.home.entity.HomeTabResult
 import com.jyt.video.home.entity.TabEntity
+import com.jyt.video.home.entity.VideoType
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.video.entity.CollectionVideo
 import com.jyt.video.service.VideoService
+import com.jyt.video.video.entity.SearchVideoResult
 import com.jyt.video.video.entity.VideoDetail
 import io.reactivex.Observable
 import io.reactivex.Scheduler
@@ -26,6 +29,23 @@ import java.util.concurrent.ConcurrentNavigableMap
 import java.util.concurrent.atomic.AtomicInteger
 
 class VideoServiceImpl : VideoService {
+    override fun buyVideo(videoId: Long, callback: ServiceCallback<Any>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.buyVideo(videoId,UserInfo.getUserId()),callback);
+    }
+
+    override fun searchVideo(keyWord: String, callback: ServiceCallback<SearchVideoResult>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.searchVideo(keyWord),callback)
+
+    }
+
+    override fun getVideoAfterFilter(map: Map<String,String>,page: Long,callback: ServiceCallback<FilterVideoListResult>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.getVideoListByFilter(map,page),callback)
+
+    }
+
+    override fun getHomeVideoType(callback: ServiceCallback<ArrayList<VideoType.TypeGroup>>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.videoType,callback)
+    }
 
     override fun getCollectionVideoList(page: Int, callback: ServiceCallback<List<CollectionVideo>>) {
         if (page == 1) {

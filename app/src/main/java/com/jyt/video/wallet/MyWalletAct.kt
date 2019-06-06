@@ -36,6 +36,8 @@ class MyWalletAct:BaseAct(), View.OnClickListener {
                     dialog.leftBtnText = "填写"
                     dialog.onClickListener={
                             dialogFragment, s ->
+                        dialog.dismissAllowingStateLoss()
+
                         ARouter.getInstance().build("/setting/account/cs").navigation()
                     }
                     dialog.show(supportFragmentManager,"")

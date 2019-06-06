@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.alibaba.android.arouter.launcher.ARouter
 import com.jyt.video.R
 import com.jyt.video.common.base.BaseVH
+import com.jyt.video.home.entity.VideoGroupTitle
 import kotlinx.android.synthetic.main.vh_video_group_title.*
 
 class VideoGroupTitleVH(parent: View) : BaseVH<Any>(LayoutInflater.from(parent.context).inflate(R.layout.vh_video_group_title,parent as ViewGroup,
@@ -13,6 +14,18 @@ class VideoGroupTitleVH(parent: View) : BaseVH<Any>(LayoutInflater.from(parent.c
 
     init {
         tv_more.setOnClickListener(this)
+
+        tv_more.visibility = View.GONE
+    }
+
+
+    override fun bindData(data: Any?) {
+        super.bindData(data)
+
+        data as VideoGroupTitle
+        if (!data.text.isNullOrEmpty()){
+            tv_title.text = data.text
+        }
     }
 
     override fun onClick(v: View?) {

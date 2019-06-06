@@ -117,6 +117,7 @@
 
 
     <TextView
+            android:visibility="gone"
             app:layout_constraintHorizontal_chainStyle="packed"
             android:id="@+id/tv_hint"
             android:layout_marginBottom="48dp"
@@ -128,6 +129,7 @@
             android:textSize="14dp"
             android:layout_width="wrap_content" android:layout_height="wrap_content"/>
     <TextView
+            android:visibility="gone"
             android:id="@+id/tv_to_protocol"
             android:layout_marginBottom="48dp"
             app:layout_constraintLeft_toRightOf="@id/tv_hint"

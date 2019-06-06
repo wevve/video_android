@@ -11,6 +11,7 @@
             android:src="@mipmap/empty_video_list"
             android:layout_width="123dp" android:layout_height="108dp"/>
     <TextView
+            android:id="@+id/tv_empty_text"
             android:layout_marginTop="33dp"
             android:text="暂无缓存"
             android:textColor="#ff333333"

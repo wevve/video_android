@@ -6,6 +6,9 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.jyt.video.R
 import com.jyt.video.common.base.BaseAct
 import com.jyt.video.promotion.adapter.PromotionAdapter
+import com.jyt.video.service.ServiceCallback
+import com.jyt.video.service.UserService
+import com.jyt.video.service.impl.UserServiceImpl
 import kotlinx.android.synthetic.main.act_promotion_record.*
 import kotlinx.android.synthetic.main.act_web.*
 import kotlinx.android.synthetic.main.act_web.refresh_layout
@@ -20,15 +23,18 @@ class PromotionRecordAct:BaseAct(){
 
     var adapter:PromotionAdapter?=null
 
+    lateinit var userService: UserService
 
     override fun initView() {
+        userService = UserServiceImpl()
         adapter = PromotionAdapter()
         recycler_view.adapter = adapter
         recycler_view.layoutManager = LinearLayoutManager(this)
 
         refresh_layout.setOnRefreshListener(object :SmoothRefreshLayout.OnRefreshListener{
             override fun onLoadingMore() {
-                getData(curPage+1)
+//                getData(curPage+1)
+                refresh_layout.refreshComplete()
             }
 
             override fun onRefreshing() {
@@ -47,16 +53,33 @@ class PromotionRecordAct:BaseAct(){
 
     private fun getData(page:Int){
 
-        adapter?.data?.add(Any())
-        adapter?.data?.add(Any())
-        adapter?.notifyDataSetChanged()
+//        adapter?.data?.add(Any())
+//        adapter?.data?.add(Any())
+//        adapter?.notifyDataSetChanged()
 
-        if(adapter?.data?.size!=0){
-            ll_empty.visibility = View.GONE
-        }else{
-            ll_empty.visibility = View.VISIBLE
-        }
+        userService.getPromotionUserList(ServiceCallback{
+            code, data ->
+            if (data!=null){
+                tv_total_people.text = data.total.toString()
 
-        refresh_layout.refreshComplete()
+                tv_today_people.text = data.today.toString()
+
+                adapter?.data?.clear()
+                adapter?.data?.addAll(data.list)
+
+            }
+
+            if(adapter?.data?.size!=0){
+                ll_empty.visibility = View.GONE
+            }else{
+                ll_empty.visibility = View.VISIBLE
+            }
+
+            refresh_layout.refreshComplete()
+
+        })
+
+
+
     }
 }

@@ -2,7 +2,9 @@ package com.jyt.video.video.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-public class VideoInfoBean {
+import java.io.Serializable;
+
+public class VideoInfoBean implements Serializable {
 
     /**
      * title : Plastic - WonderlandPlastic - Wonderland
@@ -22,8 +24,17 @@ public class VideoInfoBean {
     private String short_info;
     private double gold;
     private long click;
+    private String play_time;
     @SerializedName("class")
     private String classX;
+
+    public String getPlay_time() {
+        return play_time;
+    }
+
+    public void setPlay_time(String play_time) {
+        this.play_time = play_time;
+    }
 
     public String getTitle() {
         return title;

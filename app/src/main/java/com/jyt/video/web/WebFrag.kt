@@ -29,7 +29,6 @@ class WebFrag : BaseFrag() {
         var setting = web_view.settings
         setting.cacheMode = WebSettings.LOAD_NO_CACHE
         setting.useWideViewPort = true; //将图片调整到适合webview的大小
-
 // 若加载的 html 里有JS 在执行动画等操作，会造成资源浪费（CPU、电量）
 // 在 onStop 和 onResume 里分别把 setJavaScriptEnabled() 给设置成 false 和 true 即可
         setting.javaScriptEnabled = true

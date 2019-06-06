@@ -14,6 +14,10 @@ class VipDateDialog:DialogFragment(), View.OnClickListener {
     }
 
     private var endData:String? = null
+
+    var title:String? = null
+    var content:String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE,R.style.customDialog)
@@ -29,11 +33,21 @@ class VipDateDialog:DialogFragment(), View.OnClickListener {
 
         btn_ok.setOnClickListener(this)
         setMsg(endData?:"")
+
+        if (!title.isNullOrEmpty()){
+            tv_title.text = title
+        }
+        if (!content.isNullOrEmpty()){
+            tv_msg.text = content
+        }
     }
 
-    private fun setMsg(endDate:String){
+    public fun setMsg(endDate:String){
         tv_msg.text = "尊贵的VIP用户，您的ViP会员特权将于三天后 ($endDate)到期，至此到期后将无法体验会员特权服务，立即续费吧"
     }
+
+
+
 
     override fun onStart() {
         super.onStart()

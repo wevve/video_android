@@ -20,6 +20,9 @@ public class UserInfo {
         }
         return true;
     }
+    public static void logout(){
+        setUserId(0L);
+    }
 
     public static void setUserHomeInfo(PersonHomeResult info){
         Hawk.put(KEY_USER_INFO,info);

@@ -10,4 +10,11 @@ public class VideoGroupTitle {
     public void setText(String text) {
         this.text = text;
     }
+
+    public VideoGroupTitle() {
+    }
+
+    public VideoGroupTitle(String text) {
+        this.text = text;
+    }
 }

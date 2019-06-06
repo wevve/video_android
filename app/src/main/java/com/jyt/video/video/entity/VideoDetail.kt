@@ -1,6 +1,8 @@
 package com.jyt.video.video.entity
 
-class VideoDetail {
+import java.io.Serializable
+
+class VideoDetail : Serializable {
 
     /**
      * videoCut : ["http://v.msvodx.com/XResource/20180522/5jt8TDMpezTrRZRWBn4QFbQJSYD387Zm.jpg","http://v.msvodx.com/XResource/20180522/C4JnYXAQk7AQT2Kt5GbxkDtpiZjmehPm.jpg","http://v.msvodx.com/XResource/20180522/t5rj7MXcsQB72rDBPCsaYbyPJSnaGjwW.jpg","http://v.msvodx.com/XResource/20180522/Apx3Xfp2RnzNSKEEywWF3DFTmYzTmWbk.jpg","http://v.msvodx.com/XResource/20180522/ixn8e3cDfp7szQsyHtPBjiiiFrES4TKh.jpg"]
@@ -26,7 +28,8 @@ class VideoDetail {
      var isCollection: Int = 0
      var alreadyBuy: Int = 0
      var videoCut: List<String>? = null
-     var guess: List<GuessBean>? = null
+     var guess: List<ThumbVideo>? = null
 
     var videoId:Long? = null
+
 }

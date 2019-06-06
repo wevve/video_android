@@ -8,6 +8,7 @@ import com.jyt.video.setting.entity.BankCardAccount
 import com.jyt.video.setting.vh.ALiPayAccountItemVH
 import com.jyt.video.setting.vh.AddAccountVH
 import com.jyt.video.setting.vh.BankCardAccountItemVH
+import kotlinx.android.synthetic.main.vh_add_account_item.*
 
 class AccountAdapter : BaseRcvAdapter<Any>(){
     companion object {
@@ -16,6 +17,8 @@ class AccountAdapter : BaseRcvAdapter<Any>(){
         val BANK_CARD_ACCOUNT = 2
     }
     private var showDelete = false
+
+    var addAccountText:String? = null
 
     override fun createCustomViewHolder(viewGroup: ViewGroup, i: Int): BaseVH<Any>? {
         return when(i){
@@ -26,7 +29,9 @@ class AccountAdapter : BaseRcvAdapter<Any>(){
                 BankCardAccountItemVH(viewGroup) as BaseVH<Any>
             }
             ADD_ACCOUNT->{
-                AddAccountVH(viewGroup)
+                var holder = AddAccountVH(viewGroup)
+                holder.tv_label.text = addAccountText
+                holder
             }else ->{
                 null
             }

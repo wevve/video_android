@@ -1,11 +1,13 @@
 package com.jyt.video.video
 
+import android.Manifest
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import cn.jzvd.JZDataSource
 import cn.jzvd.JZUtils
+import cn.jzvd.Jzvd
 import cn.jzvd.JzvdStd
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -13,32 +15,47 @@ import com.binbook.binbook.common.util.GlideHelper
 import com.bumptech.glide.Glide
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
+import com.jyt.video.App
 import com.jyt.video.R
+import com.jyt.video.common.adapter.BaseRcvAdapter
 import com.jyt.video.common.base.BaseAct
+import com.jyt.video.common.base.BaseVH
 import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.common.entity.CommonTab
+import com.jyt.video.common.helper.UserInfo
 import com.jyt.video.common.util.TimeHelper
 import com.jyt.video.common.util.ToastUtil
+import com.jyt.video.home.entity.Advertising
+import com.jyt.video.home.entity.Banner
 import com.jyt.video.home.entity.VideoGroupTitle
 import com.jyt.video.home.entity.VideoType
 import com.jyt.video.service.CommentService
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.VideoService
+import com.jyt.video.service.WalletService
 import com.jyt.video.service.impl.CommentServiceImpl
 import com.jyt.video.service.impl.VideoServiceImpl
+import com.jyt.video.service.impl.WalletServiceImpl
 import com.jyt.video.video.adapter.VideoDetailAdapter
+import com.jyt.video.video.entity.Gift
+import com.jyt.video.video.entity.ThumbVideo
 import com.jyt.video.video.entity.VideoDetail
 import com.jyt.video.video.util.JZMediaExo
 import com.jyt.video.video.widget.CustomJzvdStd
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.act_play_video.*
+import kotlinx.android.synthetic.main.vh_introduce_header.*
 import me.dkzwm.widget.srl.SmoothRefreshLayout
 import java.util.ArrayList
 
 @Route(path = "/video/play")
-class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateListener, TimeHelper.TimerListener {
-
+class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateListener {
+    companion object{
+        var giftList:ArrayList<Gift>? = null
+    }
 
     lateinit var videoService:VideoService
+    lateinit var walletService: WalletService
     lateinit var commentService: CommentService
     lateinit var introduceAdapter: VideoDetailAdapter
     lateinit var commentAdapter: VideoDetailAdapter
@@ -47,12 +64,10 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
     var videoId:Long =0
 
-    lateinit var timer:TimeHelper
 
     var videoCommentLastId:Long? = 0
     override fun initView() {
         videoId = intent.getLongExtra("videoId",0)
-
         if (videoId==0L){
             ToastUtil.showShort(this,"无法播放该视频")
             finish()
@@ -61,35 +76,21 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
         videoService = VideoServiceImpl()
         commentService = CommentServiceImpl()
-        initTimer()
+        walletService = WalletServiceImpl()
         hideToolbar()
         initRcv()
         initTab()
         setListener()
         getData()
+        getGiftList()
         getCommentData(null)
     }
 
-    private fun initTimer(){
-        timer = TimeHelper(tv_not_member_timer)
-        timer.needRecord = false
-        timer.setOriText("60")
-        timer.setTimerText("%s")
-        timer.setTimerListener(this)
-    }
-    override fun timeStateChangeListener(state: String?) {
-        when(state){
-            "end"->{
-                fl_before.visibility = View.GONE
-            }
-        }
-    }
+
 
     private fun setListener(){
+        tv_send.setOnClickListener(this)
         img_close.setOnClickListener(this)
-        img_ad_before.setOnClickListener(this)
-        img_ad_pause.setOnClickListener(this)
-
         refresh_layout_detail.setOnRefreshListener(object :SmoothRefreshLayout.OnRefreshListener{
             override fun onRefreshing() {
                 getData()
@@ -118,31 +119,43 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
             }
             false
         }
-
     }
+
     override fun onClick(v: View?) {
         when(v){
             img_close->{
                 finish()
+                return
             }
+
+
 
         }
         if (videoDetail==null){
             return
         }
         when(v){
-            img_ad_before->{
-                ARouter.getInstance().build("/web/index").withString("url",videoDetail?.ad?.before?.url).navigation()
+            tv_send->{
+                addComment(input_comment.text.toString())
             }
-            img_ad_pause->{
-                ARouter.getInstance().build("/web/index").withString("url",videoDetail?.ad?.pause?.url).navigation()
-                img_ad_pause.visibility = View.GONE
-            }
+
         }
+
     }
 
     private fun initRcv(){
         introduceAdapter = VideoDetailAdapter()
+        introduceAdapter.activity = this
+        introduceAdapter.onTriggerListener= object :BaseRcvAdapter.OnViewHolderTriggerListener<BaseVH<*>>{
+            override fun <T : BaseVH<*>> onTrigger(holder: T, event: String) {
+                when(event){
+                    "BUY"->{
+                        buyVideo()
+                    }
+                }
+            }
+
+        }
         rcv_introduce.adapter = introduceAdapter
         var introduceLayoutManager = GridLayoutManager(this,2)
         introduceLayoutManager.spanSizeLookup = object :GridLayoutManager.SpanSizeLookup(){
@@ -152,8 +165,10 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
                 return when(data){
                     is VideoDetail,
+                    is Banner,
                     is VideoGroupTitle,
-                    is VideoType ->{
+                    is Advertising,
+                    is VideoType->{
                         2
                     }
                     else->{
@@ -161,7 +176,6 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
                     }
                 }
             }
-
         }
         rcv_introduce.layoutManager = introduceLayoutManager
 
@@ -169,6 +183,8 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
         rcv_comment.adapter = commentAdapter
         rcv_comment.layoutManager = LinearLayoutManager(this)
+
+
     }
 
     private fun getData(){
@@ -176,29 +192,69 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
          code, data ->
             if (data!=null){
                 data.videoId = videoId
+                videoDetail = data
                 setupView(data)
-                initVideo(data)
             }
+            refresh_layout_detail.refreshComplete()
         })
     }
+
     private fun setupView(data:VideoDetail){
+        introduceAdapter.data.clear()
         introduceAdapter.data.add(data)
+
+        if (data.guess!=null && data.guess?.isNotEmpty()==true){
+
+            introduceAdapter.data.add(VideoGroupTitle("猜你喜欢"))
+
+            introduceAdapter.data.addAll(data.guess!!)
+
+        }
+
         introduceAdapter.notifyDataSetChanged()
+
+        initVideo(data)
+
 
     }
     private fun initVideo(data:VideoDetail){
+//        var url = "http://jzvd.nathen.cn/c494b340ff704015bb6682ffde3cd302/64929c369124497593205a4190d7d128-5287d2089db37e62345123a1be272f8b.mp4"
+//
+        var url = data?.videoInfo?.url
+        RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE).subscribe {
+            if (it){
+                if (data.isVip){
+                    //创建本地缓存 边下边播
+                    url = App.getProxy().getProxyUrl(url)
+                }else{
 
-        val jzDataSource = JZDataSource(data.videoInfo?.url)
-        jzDataSource.looping = true
-//        JZUtils.clearSavedProgress(this,data.videoInfo?.url)
-        videoplayer.playerStateListener = this
-        videoplayer.fullscreenButton.visibility = View.INVISIBLE
-        videoplayer.setUp(jzDataSource, JzvdStd.SCREEN_NORMAL , JZMediaExo(videoplayer));
+                }
+            }else{
+
+            }
+
+            val jzDataSource = JZDataSource(url)
+            jzDataSource.looping = true
+
+            JzvdStd.SAVE_PROGRESS = videoDetail?.alreadyBuy==1 ||
+                    videoDetail?.isVip==true
 
 
-        Glide.with(this).load(data.ad?.before?.img).into(img_ad_before)
-        timer.start()
+            videoplayer.playerStateListener = this
+            videoplayer.setUp(url, "",JzvdStd.SCREEN_NORMAL );
+            videoplayer.videoDetail = videoDetail
+            videoplayer.initWithData()
+        }
     }
+
+    override fun onStateEventChange(event: String) {
+        when(event){
+            CustomJzvdStd.EVENT_BUY_VIDEO->{
+                buyVideo()
+            }
+        }
+    }
+
 
 
     private fun initTab(){
@@ -224,17 +280,6 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
         })
     }
 
-    override fun onStateEventChange(event: String) {
-        when (event) {
-            "PLAYING" -> {
-                img_ad_pause.visibility = View.GONE
-            }
-            "PAUSE" -> {
-                img_ad_pause.visibility = View.VISIBLE
-            }
-        }
-    }
-
     private fun getCommentData(lastId:Long?){
 
         commentService.getCommentList(videoId,lastId,ServiceCallback{
@@ -247,12 +292,19 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
                 commentAdapter.notifyDataSetChanged()
                 videoCommentLastId = data.list.last()?.id
             }
+            refresh_layout_comment.refreshComplete()
         })
 
     }
 
 
     private fun addComment(comment:String){
+        if (!UserInfo.isLogin()){
+            ToastUtil.showShort(this,"请先登录")
+            ARouter.getInstance().build("/login/index").navigation()
+            return
+        }
+
         if (comment.isNullOrEmpty()){
             ToastUtil.showShort(this,"请输入评论")
             return
@@ -273,4 +325,40 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
         return R.layout.act_play_video
     }
 
+
+    override fun onBackPressed() {
+        if (Jzvd.backPress()) {
+            return
+        }
+        super.onBackPressed()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Jzvd.resetAllVideos()
+    }
+
+
+    private fun buyVideo(){
+        if (!UserInfo.isLogin()){
+            ToastUtil.showShort(this,"请先登录")
+            ARouter.getInstance().build("/login/index").navigation()
+            return
+        }
+        videoService.buyVideo(videoDetail?.videoId!!,ServiceCallback{
+            code, data ->
+            if (code==BaseJson.CODE_SUCCESS){
+                videoDetail?.alreadyBuy = 1
+
+                setupView(videoDetail!!)
+            }
+        })
+    }
+
+    private fun getGiftList(){
+        walletService.getGiftList(ServiceCallback{
+            code, data ->
+            giftList = data
+        })
+    }
 }

@@ -7,9 +7,13 @@ import com.jyt.video.common.util.RxHelper
 import com.jyt.video.service.AccountService
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.setting.entity.AlipayAccount
+import com.jyt.video.setting.entity.Bank
 import com.jyt.video.setting.entity.BankCardAccount
 
 class AccountServiceImpl:AccountService{
+    override fun getPopBankList(callback: ServiceCallback<ArrayList<Bank>>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.popBankList,callback)
+    }
 
 
     override fun addBankCard(account: BankCardAccount, callback: ServiceCallback<BankCardAccount>) {
@@ -18,7 +22,7 @@ class AccountServiceImpl:AccountService{
         map.put("bankName",account.bankName)
         map.put("cardUser",account.cardUser)
         map.put("cardNum",account.cardNum)
-        if (account.carId!=null) {
+        if (account.carId!=null && account.carId!=0L) {
             map.put("cardId", account.carId.toString())
             map.put("type","2")
         }else{

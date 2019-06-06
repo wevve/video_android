@@ -9,6 +9,7 @@ public class BaseJson<T> {
     private int Code;
     private String Msg;
 
+    @SerializedName(value = "Data",alternate = "data")
     private T Data;
 
     public int getCode() {

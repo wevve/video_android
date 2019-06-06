@@ -5,6 +5,10 @@ import android.view.View
 import com.jyt.video.recharge.entity.RechargeItem
 
 class RechargeCoinFrag:BaseRechargeFrag(){
+    var items:ArrayList<RechargeItem>? = null
+
+    var coinMoneyRate:Double? = 1.0
+
     override fun pay(type:String,price: Double) {
 
 
@@ -25,15 +29,16 @@ class RechargeCoinFrag:BaseRechargeFrag(){
 
     private fun getData(){
 
-        adapter?.data.add(RechargeItem())
-        adapter?.data.add(RechargeItem())
-        adapter?.data.add(RechargeItem())
-        adapter?.data.add(RechargeItem())
-        adapter?.data.add(RechargeItem())
-        adapter?.data.add(RechargeItem())
-        var input = RechargeItem()
-        input.canInput = true
-        adapter?.data.add(input)
+        adapter?.data.clear()
+        if (items?.isNotEmpty()==true){
+            adapter?.data.addAll(items!!)
+
+            var input = RechargeItem()
+            input.canInput = true
+            adapter?.data.add(input)
+        }
+        adapter?.notifyDataSetChanged()
+
     }
 
 

@@ -1,6 +1,7 @@
 package com.jyt.video.recharge.vh
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.jyt.video.R
 import com.jyt.video.common.base.BaseVH
@@ -9,7 +10,7 @@ import kotlinx.android.synthetic.main.vh_recharge_item.*
 
 class RechargeItemVH(viewGroup: ViewGroup):BaseRechargeItemVH(LayoutInflater.from(viewGroup.context).inflate(R.layout.vh_recharge_item,viewGroup,false)){
     override fun getPrice(): Double {
-        return data?.price?:0.0
+        return (data?.money?:"0").toDouble()
     }
 
     init {
@@ -24,5 +25,32 @@ class RechargeItemVH(viewGroup: ViewGroup):BaseRechargeItemVH(LayoutInflater.fro
             itemView.resources.getDrawable(R.drawable.shape_recharge_item_nor)
         }
 
+
+        tv_discount.visibility = View.GONE
+//        if (data?.tips)
+//        tv_discount.text = data?.tips
+        tv_title.text = data?.title
+
+        if (isVip()){
+            if (data?.time=="0"){
+                tv_content.text = "VIP 永久"
+
+            }else{
+                tv_content.text = "VIP ${data?.time}天"
+
+            }
+            tv_price.text = data?.money
+            tv_unit.visibility = View.VISIBLE
+        }else{
+            tv_unit.visibility = View.GONE
+            tv_price.text = data?.corn
+            tv_content.text = "¥ ${data?.money}"
+        }
+
     }
+
+    private fun isVip():Boolean{
+        return data?.vipId!=null && data?.vipId!=0L
+    }
+
 }

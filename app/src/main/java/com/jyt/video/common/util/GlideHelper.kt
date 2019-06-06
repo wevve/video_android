@@ -18,5 +18,9 @@ class GlideHelper{
            return  centerCrop().circleCrop()
                .error(R.mipmap.default_avatar)
         }
+
+        fun tuiguangBanner():RequestOptions{
+            return centerCrop().error(R.mipmap.tuiguang_banner)
+        }
     }
 }
