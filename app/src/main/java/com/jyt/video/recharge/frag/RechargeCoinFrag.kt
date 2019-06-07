@@ -34,6 +34,7 @@ class RechargeCoinFrag:BaseRechargeFrag(){
             adapter?.data.addAll(items!!)
 
             var input = RechargeItem()
+            input.coinRate = coinMoneyRate?:1.0
             input.canInput = true
             adapter?.data.add(input)
         }

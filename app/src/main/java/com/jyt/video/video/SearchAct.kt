@@ -12,6 +12,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.jyt.video.R
 import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.db.bean.SearchText
+import com.jyt.video.service.SearchHistoryService
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.impl.SearchHistoryServiceImpl
 import kotlinx.android.synthetic.main.act_search.*
@@ -19,9 +20,11 @@ import kotlinx.android.synthetic.main.act_search.*
 @Route(path = "/video/search")
 class SearchAct :BaseAct(), View.OnClickListener {
 
-    var searchService:SearchHistoryServiceImpl? = null
+    var searchService: SearchHistoryService = SearchHistoryServiceImpl()
 
 
+
+    var history:ArrayList<SearchText> = ArrayList()
     override fun onClick(v: View?) {
         when(v){
             img_back2->{
@@ -29,10 +32,12 @@ class SearchAct :BaseAct(), View.OnClickListener {
             }
 
             tv_clear_history->{
-                searchService?.delSearchHistory()
-                flow_layout.removeAllViews()
-                ll_empty.visibility = View.VISIBLE
-                tv_clear_history.visibility = View.GONE
+                if(history.isNotEmpty()) {
+                    searchService?.delSearchHistory(*history!!.toTypedArray())
+                    flow_layout.removeAllViews()
+                    ll_empty.visibility = View.VISIBLE
+                    tv_clear_history.visibility = View.GONE
+                }
             }
             is ImageView->{
                 var searchText =v.tag
@@ -53,9 +58,7 @@ class SearchAct :BaseAct(), View.OnClickListener {
     }
 
     override fun initView() {
-        searchService = SearchHistoryServiceImpl()
         hideToolbar()
-        getData()
         search_view.input?.imeOptions = EditorInfo.IME_ACTION_SEARCH
         search_view.input?.setOnEditorActionListener { v, actionId, event ->
             if (actionId== EditorInfo.IME_ACTION_SEARCH){
@@ -74,6 +77,13 @@ class SearchAct :BaseAct(), View.OnClickListener {
         return R.layout.act_search
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        getData()
+
+    }
+
     private fun getData(){
         searchService?.getSearchHistory(ServiceCallback {
                 code, data ->
@@ -86,6 +96,10 @@ class SearchAct :BaseAct(), View.OnClickListener {
                 tv_clear_history.visibility = View.VISIBLE
 
                 flow_layout.removeAllViews()
+
+                history?.clear()
+                history?.addAll(data)
+
                 data.forEach {
                     flow_layout.addView(createItem(it))
                 }

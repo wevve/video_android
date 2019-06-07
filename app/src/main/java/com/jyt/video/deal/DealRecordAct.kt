@@ -1,5 +1,6 @@
 package com.jyt.video.deal
 
+import android.graphics.Color
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.jyt.video.R
 import com.jyt.video.common.adapter.FragmentViewPagerAdapter
@@ -14,6 +15,8 @@ class DealRecordAct:BaseAct(){
     var adapter:FragmentViewPagerAdapter? = null
 
     override fun initView() {
+        tab_layout.setBackgroundColor(Color.WHITE)
+
         adapter = FragmentViewPagerAdapter(supportFragmentManager)
 
         var xfmx = DealRecordFrag()

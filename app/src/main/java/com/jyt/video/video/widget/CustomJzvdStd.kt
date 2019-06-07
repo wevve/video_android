@@ -49,6 +49,7 @@ class CustomJzvdStd : JzvdStd {
 //        Glide.with(this).load(data.ad?.before?.img).into(img_ad_before)
 //        Glide.with(this).load(image).into(img_ad_before)
 //        Glide.with(this).load(image).into(img_ad_pause)
+        vipTimer.setTime(videoDetail?.adTime?.toInt()?:0)
 
         btn_buy_video.text = "${videoDetail?.videoInfo?.gold}金币购买"
 
@@ -159,7 +160,7 @@ class CustomJzvdStd : JzvdStd {
                 var freeTime = (videoDetail?.feeLook ?: "0").toLong() * 1000
 //                freeTime = 5
 //                curFeedTime += 1
-                if (freeTime <= curFeedTime) {
+                if (freeTime <= position) {
                     isEndFreedTime = true
                     Jzvd.goOnPlayOnPause()
                 }

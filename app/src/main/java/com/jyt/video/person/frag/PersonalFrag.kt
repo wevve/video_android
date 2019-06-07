@@ -89,9 +89,9 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
         if (UserInfo.isLogin()){
             group_no_login.visibility = View.GONE
             group_login.visibility =  View.VISIBLE
-
             getUserInfo()
         }else{
+            group_vip.visibility = View.GONE
             group_no_login.visibility = View.VISIBLE
             group_login.visibility =  View.GONE
         }
@@ -138,8 +138,7 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
 
     private fun setupView(data: PersonHomeResult){
         if (data.isVip){
-            tv_is_vip.visibility = View.VISIBLE
-            tv_vip_end_date.visibility = View.VISIBLE
+            group_vip.visibility = View.VISIBLE
 
             if (data.vipEndDate==0L){
                 tv_vip_end_date.text = ""
@@ -148,8 +147,8 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
                 tv_vip_end_date.text = "到期时间 ${dateFormat.format(Date((data.vipEndDate ?: 0) * 1000))}"
             }
         }else{
-            tv_is_vip.visibility = View.GONE
-            tv_vip_end_date.visibility = View.GONE
+            group_vip.visibility = View.GONE
+
         }
 1
         Glide.with(this).load(data.avatar).apply(GlideHelper.avatar()).into(img_avatar)
@@ -162,11 +161,6 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
 
 
         UserInfo.setUserHomeInfo(data)
-
-    }
-
-
-    private fun tuiguangUrl(){
 
     }
 }

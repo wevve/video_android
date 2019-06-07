@@ -14,11 +14,19 @@ public interface SearchTextDao {
     int update(SearchText... videos);
 
     @Delete
-    void delete(SearchText ... videos);
+    void deleteOne(SearchText  video);
+
+    @Delete
+    void delete(SearchText...  video);
+
 
     @Query("SELECT * FROM SearchText order by weight desc")
     List<SearchText> loadAll();
 
     @Query("SELECT * FROM SearchText where content == :content")
     SearchText selectByContent(String content);
+
+
+    @Query("DELETE FROM searchtext")
+    void deleteAll();
 }

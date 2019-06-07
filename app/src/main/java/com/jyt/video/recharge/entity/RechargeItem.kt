@@ -4,7 +4,8 @@ class RechargeItem{
     var sel:Boolean = false
     var canInput:Boolean = false
     var price:Double? = 0.0
-
+    var inputCoin:Double? = 0.0
+    var coinRate:Double = 1.0
 
     var cornId:Long? = null
     var title:String? = null

@@ -17,6 +17,7 @@ import com.jyt.video.service.VideoService
 import com.jyt.video.service.WalletService
 import com.jyt.video.service.impl.VideoServiceImpl
 import com.jyt.video.service.impl.WalletServiceImpl
+import com.jyt.video.video.CacheVideoAct
 import com.jyt.video.video.adapter.VideoCaptureAdapter
 import com.jyt.video.video.dialog.AwardDialog
 import com.jyt.video.video.entity.Gift
@@ -73,9 +74,19 @@ class IntroduceHeaderVH(viewGroup: ViewGroup) :BaseVH<Any>(LayoutInflater.from(v
                   when(v){
                       img_download->{
                           if ((data as VideoDetail).isVip){
-                            ARouter.getInstance().build("/video/cache")
-                                .withSerializable("videoDetail",data as VideoDetail)
-                                .navigation()
+
+                              CacheVideoAct.startNew(data as VideoDetail)
+                              var dialog = AlertDialog()
+                              dialog.message = "已加入缓存"
+                              dialog.leftBtnText = "确定"
+                              dialog.onClickListener = {
+                                  dialogFragment, s ->
+                                  dialogFragment.dismissAllowingStateLoss()
+                              }
+                              dialog.show(activity?.supportFragmentManager,"")
+//                            ARouter.getInstance().build("/video/cache")
+//                                .withSerializable("videoDetail",data as VideoDetail)
+//                                .navigation()
                           }else{
                               var dialog = AlertDialog()
                               dialog.message="只有会员才能下载"

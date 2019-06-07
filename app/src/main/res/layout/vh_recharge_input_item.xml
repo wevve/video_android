@@ -28,7 +28,7 @@
             android:text="7折"
             android:textColor="#ffffffff"
             android:textSize="8dp"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tv_discount"/>
 
 
     <TextView
@@ -78,5 +78,5 @@
             android:text="VIP 30天"
             android:textColor="#ff000000"
             android:textSize="10dp"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tv_price"/>
 </android.support.constraint.ConstraintLayout>

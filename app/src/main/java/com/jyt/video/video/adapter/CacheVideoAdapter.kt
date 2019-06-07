@@ -27,12 +27,15 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
         val EVENT_START = "start"
         val EVENT_PAUSE = "pause"
         val EVENT_DELETE = "delete"
+
+        var taskMap:HashMap<Long,BaseDownloadTask> = HashMap()
+
     }
 
     var dataMap:HashMap<Long,Video> = HashMap()
 
 
-    var taskMap:HashMap<Long,BaseDownloadTask> = HashMap()
+
 
     public fun addData(video: Video, position:Int){
         data.add(position,video)
@@ -259,19 +262,25 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
             when(v){
                 btn_start->{
                     when (btn_start.text) {
+
                         "开始" -> {
 //                            onTriggerListener?.onTrigger(this, EVENT_START)
-                            btn_start.text = "暂停"
-                            var task = FileDownloader.getImpl().create(data?.url).setTag(data?.id).setListener(fileDownloadListener)
 
-                            taskMap.put(data?.id!!,task)
-                            task.start()
                         }
                         "暂停"->{
 //                            onTriggerListener?.onTrigger(this, EVENT_PAUSE)
                             btn_start.text = "开始"
 
                             var task = taskMap?.get(data?.id!!)
+                            if (task==null){
+                                btn_start.text = "暂停"
+                                var task = FileDownloader.getImpl().create(data?.url).setTag(data?.id).setListener(fileDownloadListener)
+
+                                taskMap.put(data?.id!!,task)
+                                task.start()
+                            }
+//                          else->{
+//                          }
                             FileDownloader.getImpl().pause(task?.id!!)
                         }
                     }

@@ -93,7 +93,7 @@
             android:layout_marginTop="11dp"
             app:layout_constraintLeft_toLeftOf="@id/img_deal_record"
             app:layout_constraintTop_toTopOf="@id/img_deal_record"
-            android:text="交易纪录"
+            android:text="交易记录"
             android:textColor="#ffffffff"
             android:textSize="20dp"
             android:layout_width="wrap_content" android:layout_height="wrap_content"/>

@@ -1,5 +1,6 @@
 package com.jyt.video.video
 
+import android.os.Bundle
 import android.os.Environment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -22,6 +23,7 @@ import com.jyt.video.common.dialog.AlertDialog
 import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.video.entity.CollectionVideo
 import com.jyt.video.video.entity.VideoDetail
+import com.liulishuo.filedownloader.FileDownloader
 import kotlinx.android.synthetic.main.act_cache.bottom_view
 import kotlinx.android.synthetic.main.act_cache.cb_sel_all
 import kotlinx.android.synthetic.main.act_cache.ll_select_all
@@ -173,6 +175,10 @@ class CacheVideoAct: BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolder
         tv_delete.setOnClickListener(this)
         tv_right_function.text = "编辑"
         tv_right_function.setOnClickListener(this)
+
+        CacheVideoAdapter.taskMap.forEach {
+            it.value.setListener(videoAdapter.fileDownloadListener)
+        }
     }
 
     override fun getLayoutId(): Int {
@@ -191,27 +197,46 @@ class CacheVideoAct: BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolder
         refresh_layout.refreshComplete()
     }
 
-
-    private fun startNew(videoDetail: VideoDetail){
-        var cacheVideo = Video()
-
-        cacheVideo.id = videoDetail.videoId!!
-        cacheVideo.title = videoDetail.videoInfo?.title
-        var url = videoDetail.videoInfo?.url?:""
-        var fileName = url.substring(url.lastIndexOf("/")+1,url.length)
-        cacheVideo.path = Constant.getAppCacheFile().absolutePath+"/"+fileName
-        cacheVideo.url = url
-        cacheVideo.cover = videoDetail.videoInfo?.thumbnail
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
 
-        App.getAppDataBase().videoDao().insertVideos(cacheVideo)
-        videoAdapter.addData(cacheVideo,0)
-        videoAdapter.notifyDataSetChanged()
     }
+
+    companion object{
+         fun startNew(videoDetail: VideoDetail){
+            var cacheVideo = Video()
+
+            cacheVideo.id = videoDetail.videoId!!
+            cacheVideo.title = videoDetail.videoInfo?.title
+            var url = videoDetail.videoInfo?.url?:""
+            var fileName = url.substring(url.lastIndexOf("/")+1,url.length)
+            cacheVideo.path = Constant.getAppCacheFile().absolutePath+"/"+fileName
+            cacheVideo.url = url
+            cacheVideo.cover = videoDetail.videoInfo?.thumbnail
+
+
+            App.getAppDataBase().videoDao().insertVideos(cacheVideo)
+
+             var task = FileDownloader.getImpl().create(cacheVideo?.url).setTag(cacheVideo?.id)
+             task.start()
+             CacheVideoAdapter.taskMap.put(cacheVideo?.id!!,task)
+
+//            videoAdapter.addData(cacheVideo,0)
+//            videoAdapter.notifyDataSetChanged()
+
+
+        }
+    }
+
+
+
 
     override fun onPause() {
         super.onPause()
         App.getAppDataBase().videoDao().updateVideos(*videoAdapter.data.toTypedArray())
     }
+
+
 
 }

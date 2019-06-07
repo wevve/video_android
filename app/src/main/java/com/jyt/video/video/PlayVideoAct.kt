@@ -20,6 +20,7 @@ import com.jyt.video.R
 import com.jyt.video.common.adapter.BaseRcvAdapter
 import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.base.BaseVH
+import com.jyt.video.common.dialog.AlertDialog
 import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.common.entity.CommonTab
 import com.jyt.video.common.helper.UserInfo
@@ -345,14 +346,44 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
             ARouter.getInstance().build("/login/index").navigation()
             return
         }
-        videoService.buyVideo(videoDetail?.videoId!!,ServiceCallback{
-            code, data ->
-            if (code==BaseJson.CODE_SUCCESS){
-                videoDetail?.alreadyBuy = 1
+        if (videoDetail?.alreadyBuy==1){
+            ToastUtil.showShort(this,"您已购买视频")
+            return
+        }
+        var dialog  = AlertDialog()
+        dialog.message = "是否购买视频"
+        dialog.rightBtnText = "取消"
+        dialog.leftBtnText = "确定"
+        dialog.onClickListener={
+            dialogFragment, s ->
+            if (s=="确定"){
+                videoService.buyVideo(videoDetail?.videoId!!,ServiceCallback{
+                        code, data ->
+                    if (code==BaseJson.CODE_SUCCESS){
+                        videoDetail?.alreadyBuy = 1
 
-                setupView(videoDetail!!)
+                        setupView(videoDetail!!)
+
+                        dialogFragment.dismissAllowingStateLoss()
+
+                        var dialog = AlertDialog()
+                        dialog.message = "购买成功"
+                        dialog.leftBtnText = "确定"
+                        dialog.onClickListener = {
+                            dialogFragment, _ ->
+                            dialogFragment.dismissAllowingStateLoss()
+                        }
+                        dialog.show(supportFragmentManager,"")
+
+                    }
+                })
+            }else{
+                dialogFragment.dismissAllowingStateLoss()
             }
-        })
+
+        }
+
+        dialog.show(supportFragmentManager,"")
     }
 
     private fun getGiftList(){

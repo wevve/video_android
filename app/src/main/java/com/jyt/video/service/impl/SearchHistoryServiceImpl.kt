@@ -29,10 +29,13 @@ class SearchHistoryServiceImpl : SearchHistoryService{
 
     }
 
+
     override fun delSearchHistory(vararg text: SearchText) {
-        if (text.isNotEmpty()) {
-            searchDao?.delete(*text)
-        }
+
+        searchDao?.delete(*text)
+//        text?.forEach {
+//            searchDao?.delete(it)
+//        }
     }
 
 

@@ -1,5 +1,7 @@
 package com.jyt.video.recharge.vh
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,7 @@ import com.jyt.video.R
 import com.jyt.video.common.base.BaseVH
 import com.jyt.video.common.util.SoftInputUtil
 import com.jyt.video.recharge.entity.RechargeItem
+import kotlinx.android.synthetic.main.act_add_alipay_account.*
 import kotlinx.android.synthetic.main.vh_recharge_input_item.*
 
 class RechargeInputItemVH(viewGroup: ViewGroup) :BaseRechargeItemVH(LayoutInflater.from(viewGroup.context).inflate(R.layout.vh_recharge_input_item,viewGroup,false)),
@@ -38,19 +41,28 @@ class RechargeInputItemVH(viewGroup: ViewGroup) :BaseRechargeItemVH(LayoutInflat
             itemView.callOnClick()
             false
         })
-//      input_price.isClickable  = false
-//        input_price.setOnClickListener(this)
-//        input_price.onFocusChangeListener = View.OnFocusChangeListener {
-//            v, hasFocus ->
-//            println(" hasFocus "+hasFocus)
-//            if (hasFocus){
-//                count = 1
-//            }
-//            if (!hasFocus && count==1){
-//                SoftInputUtil.hideSoftKeyboard(itemView.context,v)
-//                count = 0
-//            }
-//        }
+        input_price.addTextChangedListener(object :TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                data as RechargeItem
+                if (data==null || s.toString().isNullOrEmpty()){
+                    tv_price.text = "¥"
+                    return
+                }
+                data!!.inputCoin = s.toString().toDouble()
+                 var price = data!!.inputCoin?:0  / data!!.coinRate
+
+                tv_price.text = "¥${price}"
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+        tv_discount.visibility = View.GONE
     }
 
     override fun bindData(data: RechargeItem?) {
@@ -66,5 +78,12 @@ class RechargeInputItemVH(viewGroup: ViewGroup) :BaseRechargeItemVH(LayoutInflat
             SoftInputUtil.hideSoftKeyboard(itemView.context,input_price)
             itemView.resources.getDrawable(R.drawable.shape_recharge_item_nor)
         }
+
+        input_price.setText(data?.inputCoin.toString())
+
+
+
+
+
     }
 }

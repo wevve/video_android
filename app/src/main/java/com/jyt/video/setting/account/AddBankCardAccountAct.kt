@@ -18,6 +18,7 @@ import com.jyt.video.main.MainActivity
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder
 import com.bigkoo.pickerview.view.OptionsPickerView
 import com.jyt.video.common.entity.BaseJson
+import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.setting.entity.BankCardAccount
 import com.orhanobut.logger.Logger
 import java.util.ArrayList
@@ -104,6 +105,11 @@ class AddBankCardAccountAct:BaseAct(), View.OnClickListener {
         bankCardAccount?.bankName = tv_bank_name.text.toString()
         bankCardAccount?.cardUser = input_person_name.text.toString()
         bankCardAccount?.cardNum = input_card_number.text.toString()
+
+        if ((bankCardAccount?.cardNum?.length?:0)<16 ){
+            ToastUtil.showShort(this,"请输入正确的卡号")
+            return
+        }
 
         accountService.addBankCard(bankCardAccount!!,ServiceCallback{
             code, data ->
