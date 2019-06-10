@@ -139,17 +139,17 @@
             android:textSize="10dp"
             android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="gone"/>
 
-    <android.support.constraint.Group
-            android:id="@+id/group_down_loading"
-            app:constraint_referenced_ids="btn_start,btn_delete,tv_size,tv_state,tv_speed,progress"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <!--<android.support.constraint.Group-->
+            <!--android:id="@+id/group_down_loading"-->
+            <!--app:constraint_referenced_ids="btn_start,btn_delete,tv_size,tv_state,tv_speed,progress"-->
+            <!--android:layout_width="wrap_content" android:layout_height="wrap_content"/>-->
 
-    <android.support.constraint.Group
-            app:constraint_referenced_ids="tv_time_length,tv_total_size,img_next"
-            android:id="@+id/group_down_load_finish"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <!--<android.support.constraint.Group-->
+            <!--app:constraint_referenced_ids="tv_time_length,tv_total_size,img_next"-->
+            <!--android:id="@+id/group_down_load_finish"-->
+            <!--android:layout_width="wrap_content" android:layout_height="wrap_content"/>-->
 
-    <android.support.constraint.Group
-            android:id="@+id/group_edit"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <!--<android.support.constraint.Group-->
+            <!--android:id="@+id/group_edit"-->
+            <!--android:layout_width="wrap_content" android:layout_height="wrap_content"/>-->
 </android.support.constraint.ConstraintLayout>

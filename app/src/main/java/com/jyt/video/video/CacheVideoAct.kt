@@ -24,6 +24,7 @@ import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.video.entity.CollectionVideo
 import com.jyt.video.video.entity.VideoDetail
 import com.liulishuo.filedownloader.FileDownloader
+import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.act_cache.bottom_view
 import kotlinx.android.synthetic.main.act_cache.cb_sel_all
 import kotlinx.android.synthetic.main.act_cache.ll_select_all
@@ -206,7 +207,8 @@ class CacheVideoAct: BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolder
     companion object{
          fun startNew(videoDetail: VideoDetail){
             var cacheVideo = Video()
-
+             cacheVideo.status = 1
+             cacheVideo.play_time = videoDetail.videoInfo?.play_time
             cacheVideo.id = videoDetail.videoId!!
             cacheVideo.title = videoDetail.videoInfo?.title
             var url = videoDetail.videoInfo?.url?:""
@@ -216,10 +218,13 @@ class CacheVideoAct: BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolder
             cacheVideo.cover = videoDetail.videoInfo?.thumbnail
 
 
+
+             Logger.d(cacheVideo)
             App.getAppDataBase().videoDao().insertVideos(cacheVideo)
 
              var task = FileDownloader.getImpl().create(cacheVideo?.url).setTag(cacheVideo?.id)
              task.start()
+
              CacheVideoAdapter.taskMap.put(cacheVideo?.id!!,task)
 
 //            videoAdapter.addData(cacheVideo,0)

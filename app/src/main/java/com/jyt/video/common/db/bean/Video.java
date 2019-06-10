@@ -130,4 +130,22 @@ public class Video {
     public void setCurSize(int curSize) {
         this.curSize = curSize;
     }
+
+    @Override
+    public String toString() {
+        return "Video{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", desc='" + desc + '\'' +
+                ", path='" + path + '\'' +
+                ", url='" + url + '\'' +
+                ", size=" + size +
+                ", curSize=" + curSize +
+                ", cover='" + cover + '\'' +
+                ", play_time='" + play_time + '\'' +
+                ", status=" + status +
+                ", isSel=" + isSel +
+                ", holder=" + holder +
+                '}';
+    }
 }

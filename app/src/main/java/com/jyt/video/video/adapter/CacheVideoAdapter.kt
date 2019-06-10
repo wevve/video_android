@@ -6,14 +6,16 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import com.bumptech.glide.Glide
 import com.jyt.video.App
-import com.jyt.video.R
 import com.jyt.video.common.adapter.BaseRcvAdapter
 import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.base.BaseVH
 import com.jyt.video.common.db.bean.Video
 import com.jyt.video.common.dialog.AlertDialog
-import com.liulishuo.filedownloader.*
+import com.liulishuo.filedownloader.BaseDownloadTask
+import com.liulishuo.filedownloader.FileDownloadListener
+import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.model.FileDownloadStatus
+import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.vh_cache_video_item.*
 import java.io.File
 
@@ -60,7 +62,7 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
         dataMap.clear()
     }
 
-    lateinit var fileDownloadListener: FileDownloadListener
+    var fileDownloadListener: FileDownloadListener
 
 
     constructor() : super(){
@@ -135,11 +137,13 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
         var id = task?.tag as Long
         var video  = dataMap.get(id)
         var holder = getHolder(id)
-        task.status
+        Logger.d(getDownloadStatusText(task.status))
+
         holder?.tv_state?.text = getDownloadStatusText(task.status)
         holder?.tv_speed?.text = "${task.speed}KB/s"
         holder?.progress?.setPercent(soFarBytes*1f/totalBytes)
-        holder?.tv_size?.text = "${soFarBytes*1f/1024/1024}MB/${totalBytes/1024/1024}MB"
+        holder?.tv_size?.text = "${String.format("%.2f",(soFarBytes*1f/1024/1024))}MB/${String.format("%.2f",totalBytes*1f/1024/1024)}MB"
+        holder?.progress?.visibility = View.VISIBLE
 
         holder?.tv_size?.visibility = View.VISIBLE
         holder?.tv_speed?.visibility = View.VISIBLE
@@ -161,6 +165,7 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
         if (task==null){
             return
         }
+        Logger.d("下载完成")
         var id =  task?.tag as Long
         var video = dataMap.get(id)
         var holder =  getHolder(id)
@@ -171,6 +176,7 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
         holder?.tv_size?.visibility = View.GONE
         holder?.tv_speed?.visibility = View.GONE
         holder?.tv_state?.visibility = View.GONE
+        holder?.progress?.visibility = View.GONE
 
         holder?.tv_total_size?.visibility = View.VISIBLE
         holder?.tv_time_length?.visibility = View.VISIBLE
@@ -180,6 +186,8 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
         holder?.img_next?.visibility = View.VISIBLE
 
         video?.status = 4
+        if (video!=null)
+            App.getAppDataBase().videoDao().updateVideos(video)
 
     }
 
@@ -230,6 +238,7 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
             var file = File(it?.path)
             if(file.exists()) {
                 file.delete()
+                Logger.d("delete")
             }
 
             removeItem(it!!)
@@ -261,16 +270,6 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
         override fun onClick(v: View?) {
             when(v){
                 btn_start->{
-                    when (btn_start.text) {
-
-                        "开始" -> {
-//                            onTriggerListener?.onTrigger(this, EVENT_START)
-
-                        }
-                        "暂停"->{
-//                            onTriggerListener?.onTrigger(this, EVENT_PAUSE)
-                            btn_start.text = "开始"
-
                             var task = taskMap?.get(data?.id!!)
                             if (task==null){
                                 btn_start.text = "暂停"
@@ -278,12 +277,11 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
 
                                 taskMap.put(data?.id!!,task)
                                 task.start()
+                            } else {
+                                btn_start.text = "开始"
+                                FileDownloader.getImpl().pause(task?.id!!)
                             }
-//                          else->{
-//                          }
-                            FileDownloader.getImpl().pause(task?.id!!)
-                        }
-                    }
+
                 }
                 btn_delete->{
                     onTriggerListener?.onTrigger(this, EVENT_DELETE)
@@ -323,11 +321,11 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
 //            data.url = "http://bhs.proof.ovh.net/files/10Gb.dat"
 
             if (data.status==4){
-                group_down_load_finish.visibility = View.VISIBLE
-                group_down_loading.visibility = View.GONE
+//                group_down_load_finish.visibility = View.VISIBLE
+//                group_down_loading.visibility = View.GONE
 
                 tv_time_length?.text = "${data?.play_time}"
-
+                tv_total_size?.text = "${data.size}"
                 tv_size?.visibility = View.GONE
                 tv_speed?.visibility = View.GONE
                 tv_state?.visibility = View.GONE
@@ -339,13 +337,13 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
                 btn_delete?.visibility = View.GONE
                 img_next?.visibility = View.VISIBLE
             }else{
-                group_down_load_finish.visibility = View.GONE
-                group_down_loading.visibility = View.VISIBLE
+//                group_down_load_finish.visibility = View.GONE
+//                group_down_loading.visibility = View.VISIBLE
 
 
                 tv_speed?.text = "0KB/s"
                 progress?.setPercent(data.curSize*1f/data.size)
-                tv_size?.text = "${data.curSize*1f/1024/1024}MB/${data.size*1f/1024/1024}MB"
+                tv_size?.text = "${String.format("%.2f",data.curSize*1f/1024/1024)}MB/${String.format("%.2f",data.size*1f/1024/1024)}MB"
 
                 tv_size?.visibility = View.VISIBLE
                 tv_speed?.visibility = View.VISIBLE
@@ -358,6 +356,22 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
                 btn_delete?.visibility = View.VISIBLE
                 img_next?.visibility = View.GONE
 
+                when (data.status){
+                    1->{
+                       tv_state.text = "正在下载"
+                    }
+                    2->{
+                        tv_state.text = "暂停"
+
+                    }
+                }
+
+                var task = taskMap?.get(data?.id!!)
+                if (task==null){
+                    btn_start.text = "暂停"
+                } else {
+                    btn_start.text = "开始"
+                }
 
             }
 
