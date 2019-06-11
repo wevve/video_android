@@ -32,6 +32,10 @@ import java.util.Map;
 
 public interface Api {
 
+    @POST("appapi/changePwd.html")
+    @FormUrlEncoded
+    Observable<BaseJson<Object>> modifyPsd(@FieldMap Map<String,String> map);
+
     @GET("appapi/tdRecord/userId/{userId}.html")
     Observable<BaseJson<PromotionUserListResult>> getPromotionUserList(@Path("userId") Long userId);
 

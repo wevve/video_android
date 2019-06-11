@@ -36,4 +36,6 @@ interface UserService{
 
     fun getPromotionUserList(callback: ServiceCallback<PromotionUserListResult>)
 
+    fun modifyPsd(oldPsd:String,newPsd:String,callback: ServiceCallback<Any>)
+
 }

@@ -33,7 +33,7 @@ import kotlinx.android.synthetic.main.act_collection_video.*
 
 
 @Route(path = "/video/cache")
-class CacheVideoAct: BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolderTriggerListener<BaseVH<Any>> {
+class CacheVideoAct: BaseAct(), View.OnClickListener {
 
 
 
@@ -44,23 +44,6 @@ class CacheVideoAct: BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolder
     var selItem:ArrayList<Any> = ArrayList()
 
 
-    override fun <T : BaseVH<*>> onTrigger(holder: T, event: String) {
-        when(holder){
-            is CacheVideoAdapter.VideoCacheItemVH ->{
-                when(event){
-                    CacheVideoAdapter.EVENT_DELETE->{
-
-                    }
-                    CacheVideoAdapter.EVENT_PAUSE->{
-
-                    }
-                    CacheVideoAdapter.EVENT_START->{
-
-                    }
-                }
-            }
-        }
-    }
 
     override fun onClick(v: View?) {
         when(v){
@@ -122,7 +105,7 @@ class CacheVideoAct: BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolder
             override fun <T : BaseVH<*>> onTrigger(holder: T, event: String) {
                 when(event){
                     "click"->{
-                        ARouter.getInstance().build("/video/detail").withLong("videoId",(holder.data as CollectionVideo).videoId).navigation()
+                        ARouter.getInstance().build("/video/play").withLong("videoId",(holder.data as Video).id).navigation()
                     }
                     "sel"->{
                         selItem.add(holder.data!!)
@@ -155,7 +138,6 @@ class CacheVideoAct: BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolder
             startNew(vd)
         }
 
-        videoAdapter!!.setOnTriggerListener(this)
         recycler_view.adapter = videoAdapter
         recycler_view.layoutManager = LinearLayoutManager(this)
 
@@ -189,7 +171,19 @@ class CacheVideoAct: BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolder
     private fun getData(page:Int){
 
         var all = App.getAppDataBase().videoDao().loadAllVideos()
+        all.forEach {
+            video->
+            var task = CacheVideoAdapter.taskMap.get(video.id)
+            if (task==null){
+                video.status = 2//默认为暂停状态
+                var task = FileDownloader.getImpl().create(video?.url).setTag(video?.id).setPath(video.path)
 
+                CacheVideoAdapter.taskMap.put(video.id,task)
+            }else{
+
+
+            }
+        }
         videoAdapter.clearData()
         videoAdapter.setData(all)
 
@@ -223,6 +217,8 @@ class CacheVideoAct: BaseAct(), View.OnClickListener,BaseRcvAdapter.OnViewHolder
             App.getAppDataBase().videoDao().insertVideos(cacheVideo)
 
              var task = FileDownloader.getImpl().create(cacheVideo?.url).setTag(cacheVideo?.id)
+                 .setPath(cacheVideo?.path)
+
              task.start()
 
              CacheVideoAdapter.taskMap.put(cacheVideo?.id!!,task)

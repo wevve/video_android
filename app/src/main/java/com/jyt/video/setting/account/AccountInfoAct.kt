@@ -90,6 +90,11 @@ class AccountInfoAct :BaseAct(), View.OnClickListener {
                 UserInfo.logout()
                 ARouter.getInstance().build("/main/index").navigation()
             }
+            fl_to_modify_psd-> {
+
+                ARouter.getInstance().build("/modify/psd").navigation()
+
+            }
         }
     }
 
@@ -104,6 +109,7 @@ class AccountInfoAct :BaseAct(), View.OnClickListener {
         fl_edit_avatar.setOnClickListener(this)
         fl_edit_name.setOnClickListener(this)
         fl_to_cs_account.setOnClickListener(this)
+        fl_to_modify_psd.setOnClickListener(this)
         tv_logout.setOnClickListener(this)
         tv_name.text = UserInfo.getUserHomeInfo()?.nickname
 

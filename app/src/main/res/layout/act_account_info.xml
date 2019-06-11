@@ -89,8 +89,23 @@
                 android:background="#EEEEEE"
                 android:layout_width="match_parent" android:layout_height="1dp"/>
 
-        <FrameLayout android:layout_width="match_parent" android:layout_height="39dp"></FrameLayout>
+        <FrameLayout android:layout_width="match_parent" android:layout_height="50dp"
+                     android:id="@+id/fl_to_modify_psd">
 
+            <TextView
+                    android:layout_gravity="center_vertical|left"
+                    android:layout_marginLeft="15dp"
+                    android:text="修改密码"
+                    android:textColor="#ff000000"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+            <ImageView
+                    android:layout_marginRight="14dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:src="@mipmap/next_gray"
+                    android:layout_width="10dp" android:layout_height="18dp"/>
+        </FrameLayout>
     </LinearLayout>
 
     <TextView

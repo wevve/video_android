@@ -158,7 +158,14 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
 
         video?.size = totalBytes
         video?.curSize = soFarBytes
-        video?.status = 1
+        video?.status = if(task.status== FileDownloadStatus.paused ){
+            2
+        }else{
+            1
+        }
+
+
+        App.getAppDataBase().videoDao().updateVideos(video)
 
     }
     private fun downloadFinish(task: BaseDownloadTask?){
@@ -232,10 +239,14 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
 
     public fun deleteVideo(vararg video:Video){
         video.forEach {
-            if (taskMap.get(it?.id)!=null){
-                taskMap.get(it?.id)?.pause()
+            var taks = taskMap.get(it?.id)
+            if (taks!=null){
+                taks?.pause()
             }
-            var file = File(it?.path)
+//            var delPath = it?.path.substring(0, it?.path.lastIndexOf("."))
+//            Logger.d("del ${delPath}")
+//            var file = File(delPath)
+            var file = File(it.path)
             if(file.exists()) {
                 file.delete()
                 Logger.d("delete")
@@ -271,15 +282,19 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
             when(v){
                 btn_start->{
                             var task = taskMap?.get(data?.id!!)
-                            if (task==null){
+                            Logger.d(task?.path)
+                            if (task?.isRunning==true){
+                                btn_start.text = "开始"
+                                FileDownloader.getImpl().pause(task?.id!!)
+                            } else {
                                 btn_start.text = "暂停"
-                                var task = FileDownloader.getImpl().create(data?.url).setTag(data?.id).setListener(fileDownloadListener)
+                                var task = FileDownloader.getImpl().create(data?.url).setTag(data?.id)
+                                    .setPath(data?.path)
+                                    .setListener(fileDownloadListener)
 
                                 taskMap.put(data?.id!!,task)
                                 task.start()
-                            } else {
-                                btn_start.text = "开始"
-                                FileDownloader.getImpl().pause(task?.id!!)
+
                             }
 
                 }
@@ -301,6 +316,11 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
 
                     }
                     dialog.show(activity?.supportFragmentManager,"")
+                }
+                itemView->{
+                    if (data?.status==4 && !showCheckBox){
+                        onTriggerListener?.onTrigger(this,"click")
+                    }
                 }
             }
         }
@@ -325,10 +345,11 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
 //                group_down_loading.visibility = View.GONE
 
                 tv_time_length?.text = "${data?.play_time}"
-                tv_total_size?.text = "${data.size}"
+                tv_total_size?.text = "${String.format("%.2f",data.size*1f/1024/1024)}MB"
                 tv_size?.visibility = View.GONE
                 tv_speed?.visibility = View.GONE
                 tv_state?.visibility = View.GONE
+                progress.visibility = View.GONE
 
                 tv_total_size?.visibility = View.VISIBLE
                 tv_time_length?.visibility = View.VISIBLE
@@ -359,18 +380,14 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
                 when (data.status){
                     1->{
                        tv_state.text = "正在下载"
+                        btn_start.text = "暂停"
+
                     }
                     2->{
                         tv_state.text = "暂停"
+                        btn_start.text = "开始"
 
                     }
-                }
-
-                var task = taskMap?.get(data?.id!!)
-                if (task==null){
-                    btn_start.text = "暂停"
-                } else {
-                    btn_start.text = "开始"
                 }
 
             }

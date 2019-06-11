@@ -65,6 +65,7 @@
                   android:screenOrientation="portrait"/>
         <activity android:name=".promotion.PromotionAct" android:label="推广"/>
         <activity android:name=".video.SearchResultAct"/>
+        <activity android:name=".setting.account.ModifyPsdAct" android:label="修改密码"/>
     </application>
 
 </manifest>

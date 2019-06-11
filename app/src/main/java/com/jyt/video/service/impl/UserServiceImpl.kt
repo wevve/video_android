@@ -24,6 +24,14 @@ import java.io.File
 import java.net.URLEncoder
 
 class UserServiceImpl :UserService{
+    override fun modifyPsd(oldPsd: String, newPsd: String, callback: ServiceCallback<Any>) {
+
+        var map = mapOf(Pair("oldPwd",oldPsd),Pair("newPwd",newPsd),Pair("confirm",newPsd),Pair("userId",UserInfo.getUserId()))
+        RxHelper.simpleResult(ApiService.getInstance().api.modifyPsd(map as Map<String, String>?),callback)
+
+    }
+
+
     override fun getPromotionUserList(callback: ServiceCallback<PromotionUserListResult>) {
         RxHelper.simpleResult(ApiService.getInstance().api.getPromotionUserList(UserInfo.getUserId()),callback)
 
