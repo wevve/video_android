@@ -1,6 +1,7 @@
 package com.jyt.video.person.frag
 
 import android.os.Bundle
+import android.support.constraint.ConstraintSet
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.binbook.binbook.common.util.GlideHelper
@@ -9,6 +10,7 @@ import com.jyt.video.R
 import com.jyt.video.api.entity.PersonHomeResult
 import com.jyt.video.common.base.BaseFrag
 import com.jyt.video.common.helper.UserInfo
+import com.jyt.video.common.util.DensityUtil
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.UserService
 import com.jyt.video.service.impl.UserServiceImpl
@@ -146,9 +148,26 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
                 var dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm-ss")
                 tv_vip_end_date.text = "到期时间 ${dateFormat.format(Date((data.vipEndDate ?: 0) * 1000))}"
             }
+
+            var cs = ConstraintSet()
+            cs.clone(cl)
+            cs.connect(R.id.tv_money,ConstraintSet.TOP,R.id.img_avatar,ConstraintSet.BOTTOM,0)
+            cs.connect(R.id.tv_money,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,DensityUtil.dpToPx(context,20))
+
+            cs.clear(R.id.img_avatar,ConstraintSet.BOTTOM)
+
+            cs.applyTo(cl)
         }else{
             group_vip.visibility = View.GONE
 
+            var cs = ConstraintSet()
+            cs.clone(cl)
+            cs.connect(R.id.tv_money,ConstraintSet.BOTTOM,R.id.img_avatar,ConstraintSet.BOTTOM)
+            cs.clear(R.id.tv_money,ConstraintSet.TOP)
+//            cs.connect(R.id.tv_money,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,DensityUtil.dpToPx(context,20))
+
+            cs.connect(R.id.img_avatar,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,DensityUtil.dpToPx(context,20))
+            cs.applyTo(cl)
         }
 1
         Glide.with(this).load(data.avatar).apply(GlideHelper.avatar()).into(img_avatar)

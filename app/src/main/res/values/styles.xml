@@ -10,6 +10,13 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="customDialog" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
 
     <style name="WelcomeStyle" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
@@ -28,13 +35,7 @@
     
 
 
-    <style name="customDialog" parent="Base.Theme.AppCompat.Light.Dialog">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">false</item>
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:background">@color/transparent</item>
-        <item name="android:windowBackground">@color/transparent</item>
-    </style>
+
 
     <declare-styleable name="SearchView">
         <attr name="canInput" format="boolean"></attr>

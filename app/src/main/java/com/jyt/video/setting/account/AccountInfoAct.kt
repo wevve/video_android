@@ -32,6 +32,7 @@ import android.widget.EditText
 import android.support.v7.app.AlertDialog
 import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.common.helper.UserInfo
+import com.jyt.video.common.util.DensityUtil
 import com.jyt.video.common.util.ToastUtil
 
 
@@ -59,6 +60,7 @@ class AccountInfoAct :BaseAct(), View.OnClickListener {
             }
             fl_edit_name->{
                 val editText = EditText(this)
+                editText.setPadding(DensityUtil.dpToPx(this,8),editText.paddingTop,DensityUtil.dpToPx(this,8),editText.paddingBottom)
                 var builder = AlertDialog.Builder(this).setTitle("").setView(editText)
                     .setTitle("修改昵称")
                     .setNegativeButton("取消", DialogInterface.OnClickListener { dialogInterface, i ->

@@ -17,7 +17,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" android:id="@+id/cl">
 
 
             <ImageView
@@ -97,7 +97,8 @@
                     android:includeFontPadding="false"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:background="@drawable/shape_vip" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    android:background="@drawable/shape_vip" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             <TextView
                     android:id="@+id/tv_vip_end_date"
                     android:text="到期时间 2019-03-11"
@@ -113,15 +114,14 @@
                     app:layout_constraintHorizontal_chainStyle="packed"
                     android:layout_marginBottom="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginTop="126dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@id/tv_coin"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:id="@+id/tv_money"
                     android:text="余额：999元"
                     android:textColor="#ffffffff"
                     android:textSize="16dp"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/img_avatar"/>
 
             <TextView
                     android:layout_marginLeft="11dp"
@@ -136,13 +136,15 @@
             <android.support.constraint.Group
                     app:constraint_referenced_ids="btn_to_register,btn_to_login"
                     android:id="@+id/group_no_login"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="invisible">
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:visibility="invisible">
 
             </android.support.constraint.Group>
 
             <android.support.constraint.Group
                     app:constraint_referenced_ids="tv_coin,tv_money,tv_name,img_crown,img_avatar"
-                    android:id="@+id/group_login" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    android:id="@+id/group_login" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
             </android.support.constraint.Group>
 

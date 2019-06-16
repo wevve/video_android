@@ -5,6 +5,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.jyt.video.R
 import com.jyt.video.common.adapter.FragmentViewPagerAdapter
 import com.jyt.video.common.base.BaseAct
+import com.jyt.video.recharge.entity.PayWay
 import com.jyt.video.recharge.frag.BaseRechargeFrag
 import com.jyt.video.recharge.frag.RechargeCoinFrag
 import com.jyt.video.recharge.frag.RechargeMemberFrag
@@ -20,6 +21,11 @@ class RechargeAct:BaseAct(){
 
     lateinit var walletService: WalletService
 
+    companion object{
+        var payway:ArrayList<PayWay>? = null
+        var coinRate = 1.0
+    }
+
 
     var startIndex:Int = 0
     override fun initView() {
@@ -33,6 +39,8 @@ class RechargeAct:BaseAct(){
         view_pager.adapter = adapter
 
         getData()
+
+        getPayWay()
     }
 
     override fun getLayoutId(): Int {
@@ -46,10 +54,13 @@ class RechargeAct:BaseAct(){
             if (data!=null){
                 var vip = RechargeMemberFrag()
                 vip.items = data.vip
+                vip.walletService = walletService
                 adapter?.addFragment(vip,"会员充值")
 
                 var coin =  RechargeCoinFrag()
                 coin.items = data.corn
+                coin.walletService = walletService
+                coinRate = data.cornCal.toDouble()
                 coin.coinMoneyRate = data.cornCal.toDouble()
                 adapter?.addFragment(coin,"金币充值")
 
@@ -60,6 +71,14 @@ class RechargeAct:BaseAct(){
                 view_pager.currentItem = startIndex
             }
 
+        })
+    }
+
+
+    private fun getPayWay(){
+        walletService.getPayWayList(ServiceCallback{
+            code, data ->
+            payway = data
         })
     }
 }

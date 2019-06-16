@@ -31,8 +31,6 @@ class CustomJzvdStd : JzvdStd {
     internal var isEndFreedTime = false
     lateinit var vipTimer:TimeHelper
 
-    var curFeedTime = 0
-
     constructor(context: Context?) : this(context,null)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
@@ -49,7 +47,11 @@ class CustomJzvdStd : JzvdStd {
 //        Glide.with(this).load(data.ad?.before?.img).into(img_ad_before)
 //        Glide.with(this).load(image).into(img_ad_before)
 //        Glide.with(this).load(image).into(img_ad_pause)
+
+        isEndFreedTime = false
+
         vipTimer.setTime(videoDetail?.adTime?.toInt()?:0)
+
 
         btn_buy_video.text = "${videoDetail?.videoInfo?.gold}金币购买"
 

@@ -13,10 +13,13 @@ import com.jyt.video.common.dialog.AlertDialog
 import com.jyt.video.common.util.DensityUtil
 import com.jyt.video.recharge.adapter.RechargeItemAdapter
 import com.jyt.video.common.dialog.ActionSheetDialog
+import com.jyt.video.recharge.RechargeAct
 import com.jyt.video.recharge.entity.RechargeItem
 import com.jyt.video.recharge.vh.BaseRechargeItemVH
 import kotlinx.android.synthetic.main.frag_recharge_base.*
 import kotlinx.android.synthetic.main.layout_refresh_recyclerview.*
+import me.dkzwm.widget.srl.SmoothRefreshLayout
+import java.util.ArrayList
 
 abstract class BaseRechargeFrag :BaseFrag(),BaseRcvAdapter.OnViewHolderTriggerListener<BaseVH<RechargeItem>>,
     View.OnClickListener {
@@ -33,16 +36,21 @@ abstract class BaseRechargeFrag :BaseFrag(),BaseRcvAdapter.OnViewHolderTriggerLi
     override fun <T : BaseVH<*>> onTrigger(holder: T, event: String) {
         holder as BaseRechargeItemVH
 
-        if (holder==selHolder){
-            return
+        if ("CHANGE_PRICE"== event){
+            tv_total_price.text =  "支付金额：${holder.getPrice()}"
+
+        }else{
+            if (holder==selHolder){
+                return
+            }
+            holder.isCheck = true
+
+            selHolder?.isCheck = false
+
+            selHolder = holder
+
         }
-        holder.isCheck = true
 
-        selHolder?.isCheck = false
-
-        selHolder = holder
-
-        tv_total_price.text =  "支付金额：${holder.getPrice()}"
 
     }
     override fun onClick(v: View?) {
@@ -51,6 +59,18 @@ abstract class BaseRechargeFrag :BaseFrag(),BaseRcvAdapter.OnViewHolderTriggerLi
                 if (selHolder==null){
                     return
                 }
+
+                var array = ArrayList<ActionSheetDialog.Item>()
+                RechargeAct.payway?.forEach {
+
+                    var item =  ActionSheetDialog.Item(it.payName,it.payIcon)
+                    item.extra = it
+                    array.add(item)
+                }
+                choosePayWayDialog?.items = array.toTypedArray()
+//                choosePayWayDialog?.items = arrayOf(
+//                    ActionSheetDialog.Item("微信支付",R.mipmap.weixin)
+//                    , ActionSheetDialog.Item("支付宝支付",R.mipmap.zhifubao))
 
                 choosePayWayDialog?.show(childFragmentManager,"")
             }
@@ -71,6 +91,16 @@ abstract class BaseRechargeFrag :BaseFrag(),BaseRcvAdapter.OnViewHolderTriggerLi
         recycler_view.layoutManager = GridLayoutManager(context,3)
 
 
+        refresh_layout.setOnRefreshListener(object :SmoothRefreshLayout.OnRefreshListener{
+            override fun onRefreshing() {
+                refresh_layout.refreshComplete()
+            }
+
+            override fun onLoadingMore() {
+                refresh_layout.refreshComplete()
+            }
+
+        })
         btn_pay.setOnClickListener(this)
 
         (recycler_view.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = DensityUtil.dpToPx(context,13)
@@ -82,12 +112,12 @@ abstract class BaseRechargeFrag :BaseFrag(),BaseRcvAdapter.OnViewHolderTriggerLi
 
 
         choosePayWayDialog = ActionSheetDialog()
-        choosePayWayDialog?.items = arrayOf(
-            ActionSheetDialog.Item("微信支付",R.mipmap.weixin)
-            , ActionSheetDialog.Item("支付宝支付",R.mipmap.zhifubao))
+//        choosePayWayDialog?.items = arrayOf(
+//            ActionSheetDialog.Item("微信支付",R.mipmap.weixin)
+//            , ActionSheetDialog.Item("支付宝支付",R.mipmap.zhifubao))
         choosePayWayDialog?.onItemClickListener = object : ActionSheetDialog.OnItemClickListener{
-            override fun onClick(dialogFragment: DialogFragment, item: String) {
-                pay(item,selHolder!!.getPrice())
+            override fun onClick(dialogFragment: DialogFragment, item:  ActionSheetDialog.Item) {
+                pay(item,selHolder!!.getPrice(),selHolder!!.data as RechargeItem)
                 dialogFragment.dismiss()
             }
 
@@ -96,7 +126,7 @@ abstract class BaseRechargeFrag :BaseFrag(),BaseRcvAdapter.OnViewHolderTriggerLi
 
 
 
-    abstract fun pay(type:String,price:Double)
+    abstract fun pay(item:  ActionSheetDialog.Item,price:Double,rechargeItem: RechargeItem)
 
 
 }

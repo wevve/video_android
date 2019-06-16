@@ -93,16 +93,19 @@
         </android.support.v7.widget.RecyclerView>
 
     </me.dkzwm.widget.srl.ClassicSmoothRefreshLayout>
-    <FrameLayout
+    <LinearLayout
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:background="@color/white"
             android:id="@+id/fl_comment_bottom"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_width="match_parent" android:layout_height="55dp">
         <FrameLayout
+                android:layout_marginLeft="39dp"
                 android:background="@drawable/shape_r18_f4"
-                android:layout_gravity="center"
-                android:layout_width="231dp" android:layout_height="33dp">
+                android:layout_weight="1"
+                android:layout_width="match_parent" android:layout_height="33dp">
             <ImageView
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="18dp"
@@ -123,13 +126,17 @@
 
         </FrameLayout>
         <TextView
-                android:gravity="center_vertical"
+                android:layout_marginLeft="7dp"
+                android:background="@drawable/shape_primary_dark_btn"
+                android:gravity="center"
                 android:id="@+id/tv_send"
-                android:layout_gravity="right"
+                android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="16dp"
-                android:text="发送"
-                android:layout_width="wrap_content" android:layout_height="match_parent"/>
-    </FrameLayout>
+                android:text="评论"
+                android:textColor="#ffffffff"
+                android:textSize="16dp"
+                android:layout_width="92dp" android:layout_height="32dp"/>
+    </LinearLayout>
 
     <android.support.constraint.Group
             android:visibility="gone"

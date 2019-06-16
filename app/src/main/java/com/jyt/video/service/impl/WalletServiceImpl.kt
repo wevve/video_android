@@ -4,6 +4,8 @@ import com.jyt.video.api.ApiService
 import com.jyt.video.common.helper.UserInfo
 import com.jyt.video.common.util.RxHelper
 import com.jyt.video.recharge.entity.CardInfo
+import com.jyt.video.recharge.entity.CreateOrderResult
+import com.jyt.video.recharge.entity.PayWay
 import com.jyt.video.recharge.entity.RechargeDataResult
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.WalletService
@@ -11,6 +13,35 @@ import com.jyt.video.video.entity.Gift
 import com.jyt.video.wallet.entity.WalletIndexInfo
 
 class WalletServiceImpl : WalletService {
+    override fun createOrder(
+        payCode: String,
+        price: Double,
+        buyType: Int,
+        packageId: Int?,
+        gold: Double?,
+        callback: ServiceCallback<CreateOrderResult>
+    ) {
+        var map = HashMap<String,Any>()
+        map.put("userId",UserInfo.getUserId())
+        map.put("payCode",payCode)
+        map.put("price",price)
+        map.put("buyType",buyType)
+        if (buyType==1){
+            map.put("gold",gold!!)
+        }else if(buyType==2){
+            map.put("packageId",packageId!!)
+        }
+        RxHelper.simpleResult(ApiService.getInstance().api.createOrder(map),callback)
+
+    }
+
+    override fun getPayWayList(callback: ServiceCallback<ArrayList<PayWay>>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.payWayList(),callback)
+    }
+
+
+
+
     override fun sendGift(videoId: Long, giftId: Long, callback: ServiceCallback<Any>) {
         RxHelper.simpleResult(ApiService.getInstance().api.sendGiftToVideo(videoId,giftId,UserInfo.getUserId()),callback)
     }

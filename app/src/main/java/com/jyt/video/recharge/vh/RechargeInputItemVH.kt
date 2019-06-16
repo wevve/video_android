@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo
 import com.jyt.video.R
 import com.jyt.video.common.base.BaseVH
 import com.jyt.video.common.util.SoftInputUtil
+import com.jyt.video.recharge.RechargeAct
 import com.jyt.video.recharge.entity.RechargeItem
 import kotlinx.android.synthetic.main.act_add_alipay_account.*
 import kotlinx.android.synthetic.main.vh_recharge_input_item.*
@@ -26,12 +27,21 @@ class RechargeInputItemVH(viewGroup: ViewGroup) :BaseRechargeItemVH(LayoutInflat
 
 
     override fun getPrice(): Double {
+        //输入的是金币
+        var coin = input_price.text.toString()
 
-        var text = input_price.text.toString()
-        if (text.isNullOrEmpty()){
-            return  0.0
+        var cpinD =  if (coin.isNullOrEmpty()){
+              0.0
+        }else{
+            coin.toDouble()
         }
-        return text.toDouble()
+
+        data?.corn = coin.toString()
+        data?.inputCoin = coin.toDouble()
+
+
+        return cpinD / RechargeAct.coinRate
+
     }
 
     init {
@@ -49,9 +59,13 @@ class RechargeInputItemVH(viewGroup: ViewGroup) :BaseRechargeItemVH(LayoutInflat
                     return
                 }
                 data!!.inputCoin = s.toString().toDouble()
-                 var price = data!!.inputCoin?:0  / data!!.coinRate
+
+                 var price = ((data!!.inputCoin?:0.0) / data!!.coinRate)
 
                 tv_price.text = "¥${price}"
+
+
+                onTriggerListener?.onTrigger(this@RechargeInputItemVH,"CHANGE_PRICE")
 
             }
 

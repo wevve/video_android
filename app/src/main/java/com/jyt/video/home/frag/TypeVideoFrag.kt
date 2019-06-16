@@ -115,7 +115,7 @@ class TypeVideoFrag:BaseFrag(), View.OnClickListener {
                 filterMap["area_id"] = typeId.toString()
             }
             "排序"->{
-                when(subTypeId){
+                when(typeId){
                     0->{
                         filterMap["orderCode"] = "lastTime"
                     }

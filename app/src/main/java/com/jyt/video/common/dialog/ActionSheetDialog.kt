@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.jyt.video.R
 import com.jyt.video.common.util.DensityUtil
 import kotlinx.android.synthetic.main.dialog_action_sheet.*
@@ -50,7 +51,7 @@ class ActionSheetDialog:DialogFragment(){
 
        var clickListener =  object :View.OnClickListener{
            override fun onClick(v: View?) {
-               onItemClickListener?.onClick(this@ActionSheetDialog,v!!.tag.toString())
+               onItemClickListener?.onClick(this@ActionSheetDialog,v!!.tag as Item)
            }
 
        }
@@ -68,7 +69,7 @@ class ActionSheetDialog:DialogFragment(){
 
     private fun createSheetItem( item: Item):View{
         var ll = LinearLayout(context)
-        ll.tag = item.title
+        ll.tag = item
         ll.gravity = Gravity.CENTER
         var llParams =LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,DensityUtil.dpToPx(context,65))
         ll.layoutParams = llParams
@@ -80,7 +81,8 @@ class ActionSheetDialog:DialogFragment(){
             imageParams.rightMargin = DensityUtil.dpToPx(context,18)
             image.layoutParams = imageParams
             image.adjustViewBounds = true
-            image.setImageDrawable(resources.getDrawable(it))
+            Glide.with(context).load(it).into(image)
+//            image.setImageDrawable(resources.getDrawable(it))
             ll.addView(image)
 
         }
@@ -99,15 +101,16 @@ class ActionSheetDialog:DialogFragment(){
 
     class Item{
         var title:String? = null
-        var imageId:Int? = null
+        var imageId:Any? = null
+        var extra:Any? = null
 
-        constructor(title: String?, imageId: Int?) {
+        constructor(title: String?, imageId: Any?) {
             this.title = title
             this.imageId = imageId
         }
     }
 
     public interface OnItemClickListener{
-        fun onClick(dialogFragment: DialogFragment,item:String)
+        fun onClick(dialogFragment: DialogFragment,item:Item)
     }
 }

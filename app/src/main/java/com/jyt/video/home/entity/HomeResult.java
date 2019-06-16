@@ -7,7 +7,7 @@ import java.util.List;
 public class HomeResult {
     private  String app_logo;
     private List<Banner.Data> banner;
-    private List<ThumbVideo> hotVideos;
+    private List<HomeVideoList> Videos;
 
     public List<Banner.Data> getBanner() {
         return banner;
@@ -17,12 +17,12 @@ public class HomeResult {
         this.banner = banner;
     }
 
-    public List<ThumbVideo> getHotVideos() {
-        return hotVideos;
+    public List<HomeVideoList> getVideos() {
+        return Videos;
     }
 
-    public void setHotVideos(List<ThumbVideo> hotVideos) {
-        this.hotVideos = hotVideos;
+    public void setVideos(List<HomeVideoList> videos) {
+        Videos = videos;
     }
 
     public String getApp_logo() {

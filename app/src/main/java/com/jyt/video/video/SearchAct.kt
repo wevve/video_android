@@ -7,11 +7,13 @@ import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.jyt.video.R
 import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.db.bean.SearchText
+import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.service.SearchHistoryService
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.impl.SearchHistoryServiceImpl
@@ -62,6 +64,10 @@ class SearchAct :BaseAct(), View.OnClickListener {
         search_view.input?.imeOptions = EditorInfo.IME_ACTION_SEARCH
         search_view.input?.setOnEditorActionListener { v, actionId, event ->
             if (actionId== EditorInfo.IME_ACTION_SEARCH){
+                if (v.text.toString().isNullOrBlank()){
+                    ToastUtil.showShort(this,"请输入搜索内容")
+                    return@setOnEditorActionListener true
+                }
                 searchService?.doSearch(search_view.input?.text.toString(),ServiceCallback{
                     code, data ->
                     ARouter.getInstance().build("/search/result").withString("keyWord",(search_view.input?.text.toString())).navigation()

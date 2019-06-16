@@ -13,6 +13,8 @@ import com.jyt.video.main.entity.HomeDialogResult;
 import com.jyt.video.promotion.entity.PromotionBean;
 import com.jyt.video.promotion.entity.PromotionUserListResult;
 import com.jyt.video.recharge.entity.CardInfo;
+import com.jyt.video.recharge.entity.CreateOrderResult;
+import com.jyt.video.recharge.entity.PayWay;
 import com.jyt.video.recharge.entity.RechargeDataResult;
 import com.jyt.video.setting.entity.AlipayAccount;
 import com.jyt.video.setting.entity.Bank;
@@ -31,6 +33,13 @@ import java.util.List;
 import java.util.Map;
 
 public interface Api {
+
+    @POST("/appapi/createOrder")
+    @FormUrlEncoded
+    Observable<BaseJson<CreateOrderResult>>  createOrder(@FieldMap Map<String,Object> map);
+
+    @GET("/appapi/chargeType")
+    Observable<BaseJson<ArrayList<PayWay>>> payWayList();
 
     @POST("appapi/changePwd.html")
     @FormUrlEncoded

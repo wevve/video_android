@@ -31,15 +31,25 @@ class RecommendFrag:BaseVideoListFrag(){
 
         if (page==1) {
             videoService.getHomeData(ServiceCallback { code, data ->
+                adapter?.data?.clear()
                 if (data != null) {
                     var list = adapter?.data
                     var banner = Banner()
                     banner.data = data.banner
                     list?.add(banner)
-                    var hotTitle = VideoGroupTitle()
-                    hotTitle.text = "热门视频"
-                    list?.add(hotTitle)
-                    list?.addAll(data.hotVideos)
+
+
+
+                    if (data.videos!=null) {
+
+                        for (i in 0 until data.videos.size){
+                            var vl = data.videos[i]
+                            var hotTitle = VideoGroupTitle()
+                            hotTitle.text = vl.title
+                            list?.add(hotTitle)
+                            list?.addAll(vl.list)
+                        }
+                    }
 
                     Glide.with(context).load(data.app_logo).apply(RequestOptions.circleCropTransform()).into(HomeFrag.frag.img_avatar )
                 }

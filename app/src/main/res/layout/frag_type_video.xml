@@ -29,6 +29,7 @@
     </LinearLayout>
 
     <LinearLayout
+            android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:id="@+id/ll_video_type"
             android:orientation="vertical"
