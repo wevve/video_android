@@ -16,7 +16,6 @@ import com.jyt.video.common.base.BaseVH
 import com.jyt.video.common.db.bean.Video
 import com.jyt.video.video.adapter.CacheVideoAdapter
 import kotlinx.android.synthetic.main.act_cache.*
-import kotlinx.android.synthetic.main.layout_refresh_recyclerview.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import me.dkzwm.widget.srl.SmoothRefreshLayout
 import com.jyt.video.common.dialog.AlertDialog
@@ -30,6 +29,7 @@ import kotlinx.android.synthetic.main.act_cache.cb_sel_all
 import kotlinx.android.synthetic.main.act_cache.ll_select_all
 import kotlinx.android.synthetic.main.act_cache.tv_delete
 import kotlinx.android.synthetic.main.act_collection_video.*
+import kotlinx.android.synthetic.main.layout_video_list_empty.*
 
 
 @Route(path = "/video/cache")
@@ -188,6 +188,12 @@ class CacheVideoAct: BaseAct(), View.OnClickListener {
         videoAdapter.setData(all)
 
         videoAdapter?.notifyDataSetChanged()
+
+        if (all.isEmpty()){
+            ll_empty.visibility = View.VISIBLE
+        }else{
+            ll_empty.visibility = View.GONE
+        }
 
         refresh_layout.refreshComplete()
     }

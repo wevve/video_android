@@ -106,7 +106,7 @@ class WidthDrawAct :BaseAct(), View.OnClickListener {
                     tv_bank_card.text ="支付宝（${data.alipayAccount})"
                 }
                 is BankCardAccount->{
-                    tv_bank_card.text = "到账银行卡"
+                    tv_to_bank_card_label.text = "到账银行卡"
                     tv_bank_card.text = "${data.bankName}(${data.cardNum})"
                 }
             }

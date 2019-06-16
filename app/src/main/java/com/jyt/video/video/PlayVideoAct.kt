@@ -45,6 +45,7 @@ import com.jyt.video.video.util.JZMediaExo
 import com.jyt.video.video.widget.CustomJzvdStd
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.act_play_video.*
+import kotlinx.android.synthetic.main.layout_video_list_empty.*
 import kotlinx.android.synthetic.main.vh_introduce_header.*
 import me.dkzwm.widget.srl.SmoothRefreshLayout
 import java.util.ArrayList
@@ -259,6 +260,8 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
 
     private fun initTab(){
+        tv_empty_text.text = "暂无数据"
+
         tab_layout.setTabData(
             arrayListOf(CommonTab("简介"),
             CommonTab("评论")) as ArrayList<CustomTabEntity>)
@@ -292,6 +295,13 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
                 commentAdapter.data.addAll(data.list)
                 commentAdapter.notifyDataSetChanged()
                 videoCommentLastId = data.list.last()?.id
+            }
+
+            if (commentAdapter.data.size==0){
+                ll_empty.visibility = View.VISIBLE
+            }else{
+                ll_empty.visibility = View.GONE
+
             }
             refresh_layout_comment.refreshComplete()
         })

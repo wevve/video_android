@@ -5,8 +5,27 @@
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent">
 
-    <include layout="@layout/layout_refresh_recyclerview"></include>
-    <android.support.design.card.MaterialCardView
+
+    <me.dkzwm.widget.srl.ClassicSmoothRefreshLayout
+            android:layout_weight="1"
+            android:id="@+id/refresh_layout"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:background="@color/white"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:sr_enableLoadMore="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+            <include layout="@layout/layout_video_list_empty"/>
+        </FrameLayout>
+
+    </me.dkzwm.widget.srl.ClassicSmoothRefreshLayout>    <android.support.design.card.MaterialCardView
             android:visibility="gone"
             android:id="@+id/bottom_view"
             android:layout_width="match_parent"
