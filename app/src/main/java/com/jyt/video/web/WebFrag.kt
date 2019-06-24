@@ -30,15 +30,7 @@ class WebFrag : BaseFrag() {
 
         if (!url.isNullOrBlank() &&  web_view.url.isNullOrBlank()){
             web_view.loadUrl(url)
-            Logger.d("loadUrl")
         }
-        try {
-            Logger.d(url)
-            Logger.d(web_view.url)
-        }catch (e:Exception){
-            e.printStackTrace()
-        }
-
 
     }
 

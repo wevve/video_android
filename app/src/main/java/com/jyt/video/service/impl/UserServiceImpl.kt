@@ -4,6 +4,7 @@ import com.jyt.video.App
 import com.jyt.video.api.Api
 import com.jyt.video.api.ApiService
 import com.jyt.video.api.entity.PersonHomeResult
+import com.jyt.video.api.entity.VersionBean
 import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.common.helper.UserInfo
 import com.jyt.video.common.util.RxHelper
@@ -24,6 +25,11 @@ import java.io.File
 import java.net.URLEncoder
 
 class UserServiceImpl :UserService{
+    override fun getVersion(callback: ServiceCallback<VersionBean>) {
+
+        RxHelper.simpleResult(ApiService.getInstance().api.version,callback)
+    }
+
     override fun modifyPsd(oldPsd: String, newPsd: String, callback: ServiceCallback<Any>) {
 
         var map = mapOf(Pair("oldPwd",oldPsd),Pair("newPwd",newPsd),Pair("confirm",newPsd),Pair("userId",UserInfo.getUserId()))

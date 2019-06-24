@@ -3,6 +3,7 @@ package com.jyt.video.api;
 
 import com.jyt.video.api.entity.FilterVideoListResult;
 import com.jyt.video.api.entity.PersonHomeResult;
+import com.jyt.video.api.entity.VersionBean;
 import com.jyt.video.common.entity.BaseJson;
 import com.jyt.video.deal.entity.Record;
 import com.jyt.video.home.entity.HomeResult;
@@ -33,6 +34,10 @@ import java.util.List;
 import java.util.Map;
 
 public interface Api {
+
+
+    @GET("/appapi/getVersion")
+    Observable<BaseJson<VersionBean>> getVersion();
 
     @POST("/appapi/createOrder")
     @FormUrlEncoded

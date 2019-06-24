@@ -1,7 +1,12 @@
 package com.jyt.video.main
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.media.Image
+import android.net.Uri
+import android.os.Build
 import android.support.v4.app.Fragment
 import android.view.View
 import android.widget.ImageView
@@ -9,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.jyt.video.BuildConfig
 import com.jyt.video.R
 import com.jyt.video.api.Constans
 import com.jyt.video.common.adapter.FragmentViewPagerAdapter
@@ -26,6 +32,7 @@ import com.jyt.video.service.impl.UserServiceImpl
 import com.jyt.video.web.WebFrag
 import com.jyt.video.xuanchuan.XuanChuanFrag
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Double.parseDouble
 import java.lang.Exception
 
 @Route(path = "/main/index")
@@ -89,6 +96,8 @@ class MainActivity : BaseAct(), View.OnClickListener {
 
         getDaiLiData()
         getXuanChuanData()
+
+        checkVersion()
     }
 
     override fun getLayoutId(): Int {
@@ -142,6 +151,36 @@ class MainActivity : BaseAct(), View.OnClickListener {
 
 
 
+    }
+
+
+    private fun checkVersion(){
+        userService.getVersion(ServiceCallback{
+            code, data ->
+            if (data!=null){
+                var version = BuildConfig.VERSION_NAME
+                if ( data.apk_version?.compareTo( version)?:0  >0){
+
+                    if(data?.android.isNullOrBlank()){
+                        return@ServiceCallback
+                    }
+                    AlertDialog.Builder(this)
+                        .setMessage("检测到新版本")
+                        .setPositiveButton("去下载") { dialog, which ->
+                            dialog.dismiss()
+
+                            val uri = Uri.parse(data.android)
+                            val intent = Intent(Intent.ACTION_VIEW, uri)
+                            startActivity(intent)
+                        }
+                        .setNegativeButton("取消") { dialog, which ->
+
+                            dialog.dismiss()
+                        }
+                        .create().show()
+                }
+            }
+        })
     }
 
 
