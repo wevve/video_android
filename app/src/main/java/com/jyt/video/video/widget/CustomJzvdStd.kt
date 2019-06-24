@@ -57,8 +57,15 @@ class CustomJzvdStd : JzvdStd {
 
         img_ad_before.setOnClickListener(this)
         img_ad_pause.setOnClickListener(this)
+
         Glide.with(this).load(videoDetail?.ad?.before?.img).into(img_ad_before)
         Glide.with(this).load(videoDetail?.ad?.pause?.img).into(img_ad_pause)
+
+        fl_end_free.visibility = View.GONE
+        fl_before.visibility = View.GONE
+        img_ad_pause.visibility = View.GONE
+        img_ad_before.visibility = View.GONE
+
     }
 
     private fun setListener(){

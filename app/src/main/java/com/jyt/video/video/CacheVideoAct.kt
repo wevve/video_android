@@ -22,6 +22,8 @@ import com.jyt.video.common.dialog.AlertDialog
 import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.video.entity.CollectionVideo
 import com.jyt.video.video.entity.VideoDetail
+import com.liulishuo.filedownloader.BaseDownloadTask
+import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.act_cache.bottom_view
@@ -223,6 +225,27 @@ class CacheVideoAct: BaseAct(), View.OnClickListener {
             App.getAppDataBase().videoDao().insertVideos(cacheVideo)
 
              var task = FileDownloader.getImpl().create(cacheVideo?.url).setTag(cacheVideo?.id)
+                 .setListener(object :FileDownloadListener(){
+                     override fun warn(task: BaseDownloadTask?) {
+
+                     }
+
+                     override fun completed(task: BaseDownloadTask?) {
+                     }
+
+                     override fun pending(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                     }
+
+                     override fun error(task: BaseDownloadTask?, e: Throwable?) {
+                     }
+
+                     override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                     }
+
+                     override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                     }
+
+                 })
                  .setPath(cacheVideo?.path)
 
              task.start()

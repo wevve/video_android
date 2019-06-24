@@ -147,14 +147,14 @@ class HomeFrag:BaseFrag(),BaseRcvAdapter.OnViewHolderTriggerListener<BaseVH<Any>
             tg.name = "排序"
             var zuixin = type.Type()
             zuixin.id = 0
-            zuixin.name = "最新视频"
+            zuixin.name = "最新"
             var zuire = type.Type()
             zuire.id = 1
-            zuire.name = "热门视频"
+            zuire.name = "热门"
 
             var zuiduo = type.Type()
             zuiduo.id = 2
-            zuiduo.name = "点赞最多"
+            zuiduo.name = "点赞"
 
             tg.items = arrayListOf(zuixin,zuire,zuiduo)
             videoType?.add(tg)

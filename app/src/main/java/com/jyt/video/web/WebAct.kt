@@ -18,8 +18,8 @@ class WebAct :BaseAct(){
     override fun initView() {
         url = intent.getStringExtra("url")
         if(url?.isEmpty()==true){
-            finish()
-            return
+//            finish()
+//            return
         }
         title = intent.getStringExtra("title")
         if (title?.isNotEmpty()==true){
@@ -29,6 +29,7 @@ class WebAct :BaseAct(){
 
         refresh_layout.setOnRefreshListener(object :SmoothRefreshLayout.OnRefreshListener{
             override fun onLoadingMore() {
+                refresh_layout.refreshComplete()
             }
 
             override fun onRefreshing() {
@@ -51,7 +52,6 @@ class WebAct :BaseAct(){
         var setting = web_view.settings
         setting.cacheMode = WebSettings.LOAD_NO_CACHE
         setting.useWideViewPort = true; //将图片调整到适合webview的大小
-
 // 若加载的 html 里有JS 在执行动画等操作，会造成资源浪费（CPU、电量）
 // 在 onStop 和 onResume 里分别把 setJavaScriptEnabled() 给设置成 false 和 true 即可
         setting.javaScriptEnabled = true
@@ -67,13 +67,22 @@ class WebAct :BaseAct(){
         }
 
         web_view.webViewClient = object :WebViewClient(){
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                view?.loadUrl(url);// 强制在当前 WebView 中加载 url
-                return true;
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                view?.loadUrl(url)
+                return true
             }
         }
 
+
+
     }
 
+    override fun onBackPressed() {
+        if (web_view.canGoBack()){
+            web_view.goBack()
+        }else {
+            super.onBackPressed()
+        }
+    }
 
 }

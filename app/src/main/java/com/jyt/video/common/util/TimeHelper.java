@@ -16,6 +16,7 @@ public class TimeHelper {
 
     };
     TimerListener timerListener;
+    TimerValueListener valueListener;
     private String oriText;
     private String timerText;
     TimerRunnable timerRunnable;
@@ -34,6 +35,10 @@ public class TimeHelper {
         this.textView = textView;
         timerRunnable = new TimerRunnable();
 
+    }
+
+    public void setValueListener(TimerValueListener valueListener) {
+        this.valueListener = valueListener;
     }
 
     public void setTime(int time) {
@@ -57,13 +62,21 @@ public class TimeHelper {
         if (needRecord)
             UserInfo.add(tag,endTime);
         handler.post(timerRunnable);
-        timerListener.timeStateChangeListener("start");
+
+        if (timerListener!=null)
+            timerListener.timeStateChangeListener("start");
+
+
+        if (valueListener!=null)
+            valueListener.value(time);
 
     }
 
     public void stop(){
         handler.removeCallbacks(timerRunnable);
-        timerListener.timeStateChangeListener("end");
+
+        if (timerListener!=null)
+            timerListener.timeStateChangeListener("end");
 
     }
 
@@ -94,8 +107,8 @@ public class TimeHelper {
                 if (textView!=null && !TextUtils.isEmpty(oriText)) {
                     textView.setText(oriText);
                 }
-
-                timerListener.timeStateChangeListener("end");
+                if (timerListener!=null)
+                    timerListener.timeStateChangeListener("end");
 
             }else {
                 isLoading = true;
@@ -107,7 +120,11 @@ public class TimeHelper {
                     textView.setText(String.format(timerText, time));
                 }
 
-                timerListener.timeStateChangeListener("loading");
+                if (valueListener!=null)
+                    valueListener.value(time);
+
+                if (timerListener!=null)
+                    timerListener.timeStateChangeListener("loading");
 
             }
 
@@ -120,6 +137,10 @@ public class TimeHelper {
 
     public interface TimerListener{
         void timeStateChangeListener(String state);
+    }
+
+    public interface TimerValueListener{
+        void value(int value);
     }
 
 

@@ -11,7 +11,6 @@ import com.jyt.video.service.RecordService
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.impl.RecordServiceImpl
 import kotlinx.android.synthetic.main.frag_deal_record.*
-import kotlinx.android.synthetic.main.layout_refresh_recyclerview.*
 import me.dkzwm.widget.srl.SmoothRefreshLayout
 
 class DealRecordFrag:BaseFrag(){
@@ -71,7 +70,6 @@ class DealRecordFrag:BaseFrag(){
 
                 if (adapter?.data?.isEmpty()==true){
                     ll_empty?.visibility = View.VISIBLE
-
                 }else{
                     ll_empty?.visibility = View.GONE
 

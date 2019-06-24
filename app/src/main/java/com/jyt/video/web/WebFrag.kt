@@ -5,6 +5,7 @@ import android.view.View
 import android.webkit.*
 import com.jyt.video.R
 import com.jyt.video.common.base.BaseFrag
+import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.frag_web.*
 
 class WebFrag : BaseFrag() {
@@ -20,7 +21,24 @@ class WebFrag : BaseFrag() {
 
         initWebView()
 
-        web_view.loadUrl(url)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+
+        if (!url.isNullOrBlank() &&  web_view.url.isNullOrBlank()){
+            web_view.loadUrl(url)
+            Logger.d("loadUrl")
+        }
+        try {
+            Logger.d(url)
+            Logger.d(web_view.url)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+
 
     }
 
@@ -35,13 +53,12 @@ class WebFrag : BaseFrag() {
 
 
 
-        web_view.webViewClient = object : WebViewClient(){
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                view?.loadUrl(url);// 强制在当前 WebView 中加载 url
-                return true;
+        web_view.webViewClient = object :WebViewClient(){
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                view?.loadUrl(url)
+                return true
             }
         }
-
     }
 
 }

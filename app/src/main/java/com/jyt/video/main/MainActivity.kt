@@ -64,11 +64,13 @@ class MainActivity : BaseAct(), View.OnClickListener {
         adapter = FragmentViewPagerAdapter(supportFragmentManager)
         adapter!!.addFragment(HomeFrag(),null)
 
-        var daili = DaiLiFrag()
+        var daili = WebFrag()
+//        var daili = DaiLiFrag()
 //        daili.url = Constans.BaseUrl+"/appapi/delegate"
         adapter!!.addFragment(daili,null)
 
-        var xuanchuan = XuanChuanFrag()
+        var xuanchuan = WebFrag()
+//        var xuanchuan = XuanChuanFrag()
 //        xuanchuan.url = Constans.BaseUrl+"/appapi/introduce"
         adapter!!.addFragment(xuanchuan,null)
 
@@ -78,11 +80,15 @@ class MainActivity : BaseAct(), View.OnClickListener {
 
         adapter!!.addFragment(PersonalFrag(),null)
         view_pager.adapter = adapter
+        view_pager.offscreenPageLimit = adapter?.fragments?.size?:1
 
         StatusBarUtil.setStatusBarColor(this,Color.TRANSPARENT)
 
         getVipData()
         getDialogData()
+
+        getDaiLiData()
+        getXuanChuanData()
     }
 
     override fun getLayoutId(): Int {
@@ -103,9 +109,11 @@ class MainActivity : BaseAct(), View.OnClickListener {
         }
 
         if (!UserInfo.isLogin()){
-            if(tab==ll_tab_proxy
-                || tab==ll_tab_publicity
-                ||tab==ll_tab_personal){
+            if(
+//                tab==ll_tab_proxy
+//                || tab==ll_tab_publicity
+//                ||
+                    tab==ll_tab_personal){
                 ARouter.getInstance().build("/login/index").navigation()
                 return
             }
@@ -165,4 +173,24 @@ class MainActivity : BaseAct(), View.OnClickListener {
     }
 
 
+    private fun getDaiLiData(){
+        userService.getDaiLiInfo(ServiceCallback{
+                code, data ->
+            if (data!=null) {
+                var dailiUrl = data["url"]
+                (adapter?.fragments?.get(1) as WebFrag).url = dailiUrl
+
+            }
+        })
+    }
+
+    private fun getXuanChuanData(){
+        userService.getXuanChuanInfo(ServiceCallback{
+                code, data ->
+            if (data!=null) {
+                var xuanchuanUrl = data["url"]
+                (adapter?.fragments?.get(2) as WebFrag).url = xuanchuanUrl
+            }
+        })
+    }
 }

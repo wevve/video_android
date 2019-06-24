@@ -3,6 +3,7 @@ package com.jyt.video.recharge.frag
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import android.view.ViewGroup
 import com.jyt.video.R
@@ -88,7 +89,10 @@ abstract class BaseRechargeFrag :BaseFrag(),BaseRcvAdapter.OnViewHolderTriggerLi
 
         adapter.setOnTriggerListener(this)
         recycler_view.adapter = adapter
-        recycler_view.layoutManager = GridLayoutManager(context,3)
+
+//        var layoutManager = GridLayoutManager(context,3)
+        var layoutManager = StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL)
+        recycler_view.layoutManager = layoutManager
 
 
         refresh_layout.setOnRefreshListener(object :SmoothRefreshLayout.OnRefreshListener{

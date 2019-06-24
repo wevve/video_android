@@ -24,6 +24,7 @@ import com.jyt.video.common.dialog.AlertDialog
 import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.common.entity.CommonTab
 import com.jyt.video.common.helper.UserInfo
+import com.jyt.video.common.util.NetWorkUtil
 import com.jyt.video.common.util.TimeHelper
 import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.home.entity.Advertising
@@ -46,6 +47,7 @@ import com.jyt.video.video.widget.CustomJzvdStd
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.act_play_video.*
 import kotlinx.android.synthetic.main.layout_video_list_empty.*
+import kotlinx.android.synthetic.main.vh_cache_video_item.view.*
 import kotlinx.android.synthetic.main.vh_introduce_header.*
 import me.dkzwm.widget.srl.SmoothRefreshLayout
 import java.util.ArrayList
@@ -221,21 +223,28 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
     }
     private fun initVideo(data:VideoDetail){
 //        var url = "http://jzvd.nathen.cn/c494b340ff704015bb6682ffde3cd302/64929c369124497593205a4190d7d128-5287d2089db37e62345123a1be272f8b.mp4"
-//
+
+        data?.videoInfo?.url = "https://v3.mjshcn.com:987/20190429/5hgQbFzH/index.m3u8"
         var url = data?.videoInfo?.url
         RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE).subscribe {
             if (it){
-                if (data.isVip){
-                    //创建本地缓存 边下边播
-                    url = App.getProxy().getProxyUrl(url)
-                }else{
+                if ((data as VideoDetail)?.videoInfo?.url?.endsWith(".m3u8")==true){
+//                    ToastUtil.showShort(itemView.context,"暂不支持此格式")
 
+                }else{
+                    if (data.isVip){
+                        //创建本地缓存 边下边播
+                        url = App.getProxy().getProxyUrl(url)
+                    }else{
+
+                    }
                 }
+
             }else{
 
             }
 
-            val jzDataSource = JZDataSource(url)
+            val jzDataSource = JZDataSource(url,data?.videoInfo?.title)
             jzDataSource.looping = true
 
             JzvdStd.SAVE_PROGRESS = videoDetail?.alreadyBuy==1 ||
@@ -243,9 +252,14 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
 
             videoplayer.playerStateListener = this
-            videoplayer.setUp(url, "",JzvdStd.SCREEN_NORMAL );
+            videoplayer.setUp(url, "",JzvdStd.SCREEN_NORMAL ,JZMediaExo(videoplayer));
             videoplayer.videoDetail = videoDetail
             videoplayer.initWithData()
+
+            var isConnectWifi = NetWorkUtil.isWifiConnect(this)
+            if (isConnectWifi){
+                videoplayer.startButton.callOnClick()
+            }
         }
     }
 
@@ -354,6 +368,10 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
         if (!UserInfo.isLogin()){
             ToastUtil.showShort(this,"请先登录")
             ARouter.getInstance().build("/login/index").navigation()
+            return
+        }
+        if (videoDetail?.isVip==true){
+            ToastUtil.showShort(this,"你是VIP会员 无需购买")
             return
         }
         if (videoDetail?.alreadyBuy==1){

@@ -17,7 +17,6 @@ import com.jyt.video.service.VideoService
 import com.jyt.video.service.impl.VideoServiceImpl
 import com.jyt.video.video.entity.ThumbVideo
 import kotlinx.android.synthetic.main.frag_type_video.*
-import kotlinx.android.synthetic.main.layout_refresh_recyclerview.*
 import me.dkzwm.widget.srl.SmoothRefreshLayout
 
 class TypeVideoFrag:BaseFrag(), View.OnClickListener {
@@ -163,7 +162,19 @@ class TypeVideoFrag:BaseFrag(), View.OnClickListener {
                 adapter?.notifyDataSetChanged()
                 curPage = page
             }
-            refresh_layout.refreshComplete()
+
+            if (adapter?.data?.size==0){
+                ll_empty?.let {
+                    ll_empty.visibility = View.VISIBLE
+                }
+            }else{
+                ll_empty?.let {
+                    ll_empty.visibility = View.GONE
+                }
+            }
+            refresh_layout?.let {
+                refresh_layout.refreshComplete()
+            }
         })
 
     }

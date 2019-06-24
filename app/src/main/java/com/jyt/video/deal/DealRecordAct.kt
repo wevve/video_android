@@ -27,18 +27,21 @@ class DealRecordAct:BaseAct(){
         czmx.typeId = 1
         adapter?.addFragment(czmx,"充值明细")
 
-        var tx = DealRecordFrag()
-        tx.typeId = 2
-        adapter?.addFragment(tx,"提现")
+//        var tx = DealRecordFrag()
+//        tx.typeId = 2
+//        adapter?.addFragment(tx,"提现")
 
         var tgjb = DealRecordFrag()
         tgjb.typeId = 3
-        adapter?.addFragment(tgjb,"推广金币")
+//        adapter?.addFragment(tgjb,"推广金币")
+        adapter?.addFragment(tgjb,"金币收入")
 
-        var tcsr = DealRecordFrag()
-        tcsr.typeId = 4
-        adapter?.addFragment(tcsr,"提成收入")
+//        var tcsr = DealRecordFrag()
+//        tcsr.typeId = 4
+//        adapter?.addFragment(tcsr,"提成收入")
+//
         view_pager.adapter=adapter
+        view_pager.offscreenPageLimit = adapter?.fragments?.size?:1
         tab_layout.setViewPager(view_pager)
     }
 

@@ -69,9 +69,15 @@ class XuanChuanFrag : BaseFrag() {
                 var qrcode = data["introduce_code"]
 
 
-                Glide.with(this).load(image).apply(GlideHelper.tuiguangBanner()).into(img_top)
-                Glide.with(this).load(qrcode).into(img_qrcode_bg)
-                tv_content.text = text
+                img_top?.let{
+                    Glide.with(this).load(image).apply(GlideHelper.tuiguangBanner()).into(img_top)
+                }
+                img_qrcode_bg?.let {
+                    Glide.with(this).load(qrcode).into(img_qrcode_bg)
+                }
+                tv_content?.let {
+                    tv_content.text = text
+                }
             }
         })
     }

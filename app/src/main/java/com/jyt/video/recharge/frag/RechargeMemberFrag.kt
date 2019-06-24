@@ -54,13 +54,5 @@ class RechargeMemberFrag:BaseRechargeFrag(){
 
 
 
-    private fun getData(){
 
-//        adapter?.data.add(RechargeItem())
-//        adapter?.data.add(RechargeItem())
-//        adapter?.data.add(RechargeItem())
-//        adapter?.data.add(RechargeItem())
-//        adapter?.data.add(RechargeItem())
-
-    }
 }

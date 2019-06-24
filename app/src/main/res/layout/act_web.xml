@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<me.dkzwm.widget.srl.ClassicSmoothRefreshLayout
-        android:id="@+id/refresh_layout"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent">
+<FrameLayout         xmlns:android="http://schemas.android.com/apk/res/android"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+>
+    <me.dkzwm.widget.srl.ClassicSmoothRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    </me.dkzwm.widget.srl.ClassicSmoothRefreshLayout>
     <WebView
             android:id="@+id/web_view"
             android:layout_width="match_parent" android:layout_height="match_parent"></WebView>
-</me.dkzwm.widget.srl.ClassicSmoothRefreshLayout>
+</FrameLayout>

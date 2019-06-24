@@ -151,22 +151,18 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
 
             var cs = ConstraintSet()
             cs.clone(cl)
-            cs.connect(R.id.tv_money,ConstraintSet.TOP,R.id.img_avatar,ConstraintSet.BOTTOM,0)
-            cs.connect(R.id.tv_money,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,DensityUtil.dpToPx(context,20))
-
+            cs.connect(R.id.tv_coin,ConstraintSet.TOP,R.id.img_avatar,ConstraintSet.BOTTOM,0)
+            cs.connect(R.id.tv_coin,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,DensityUtil.dpToPx(context,20))
             cs.clear(R.id.img_avatar,ConstraintSet.BOTTOM)
-
             cs.applyTo(cl)
         }else{
             group_vip.visibility = View.GONE
 
             var cs = ConstraintSet()
             cs.clone(cl)
-            cs.connect(R.id.tv_money,ConstraintSet.BOTTOM,R.id.img_avatar,ConstraintSet.BOTTOM)
-            cs.clear(R.id.tv_money,ConstraintSet.TOP)
-//            cs.connect(R.id.tv_money,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,DensityUtil.dpToPx(context,20))
-
+            cs.connect(R.id.tv_coin,ConstraintSet.BOTTOM,R.id.img_avatar,ConstraintSet.BOTTOM)
             cs.connect(R.id.img_avatar,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,DensityUtil.dpToPx(context,20))
+            cs.clear(R.id.tv_coin,ConstraintSet.TOP)
             cs.applyTo(cl)
         }
 1
@@ -174,7 +170,7 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
 
         tv_name.text = data.nickname
 
-        tv_money.text = "余额：${data.money.toString()}"
+//        tv_money.text = "余额：${data.money.toString()}"
 
         tv_coin.text = "金币：${data.corn.toString()}"
 

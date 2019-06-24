@@ -11,6 +11,7 @@ import com.jyt.video.common.util.TimeHelper
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.UserService
 import com.jyt.video.service.impl.UserServiceImpl
+import com.jyt.video.welcome.entity.WelcomeResult
 import kotlinx.android.synthetic.main.act_welcome.*
 
 class WelcomeAct : BaseAct(){
@@ -18,6 +19,11 @@ class WelcomeAct : BaseAct(){
     lateinit var userService: UserService
 
      lateinit var timeHelper:TimeHelper
+
+    var clickAD = false
+
+    var welcomeResult: WelcomeResult? = null
+
     override fun initView() {
 
 
@@ -28,14 +34,24 @@ class WelcomeAct : BaseAct(){
         hideToolbar()
         userService = UserServiceImpl()
 
-        timeHelper = TimeHelper(null)
+        timeHelper = TimeHelper(tv_next)
+        timeHelper.setOriText("跳过")
+        timeHelper.setTimerText("跳过(%s)")
         timeHelper.setTimerListener {
             if (it=="end"){
 //                toMainAct()
                 ARouter.getInstance().build("/main/index").navigation()
+                if (clickAD){
+                    ARouter.getInstance().build("/web/index").withString("url",welcomeResult?.app_start_url).navigation()
+
+                }
                 finish()
+
             }
         }
+//        timeHelper.setValueListener {
+//
+//        }
         getWelcome()
     }
 
@@ -61,12 +77,14 @@ class WelcomeAct : BaseAct(){
     private fun getWelcome(){
         userService.getWelcomePhoto(ServiceCallback{
             code, data ->
+            welcomeResult = data
             if(data!=null){
                 img_welcome.setOnClickListener {
 //                    toMainAct()
 //                    ARouter.getInstance().build("/main/index").navigation()
+                    clickAD = true
+
                     timeHelper.stop()
-                    ARouter.getInstance().build("/web/index").withString("url",data.app_start_url).navigation()
 //                    finish()
                 }
                 Glide.with(this).load(data.app_start_screen).apply(RequestOptions.centerCropTransform()).into(img_welcome)

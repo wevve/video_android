@@ -78,7 +78,7 @@
                     android:includeFontPadding="false"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    android:text="乌蝇哥"
+                    android:text=" "
                     android:textColor="#ffffffff"
                     android:textSize="16dp"
                     android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tv_name"/>
@@ -110,39 +110,46 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.8"/>
 
+            <!--<TextView-->
+                    <!--android:visibility="gone"-->
+                    <!--app:layout_constraintHorizontal_chainStyle="packed"-->
+                    <!--android:layout_marginBottom="20dp"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--app:layout_constraintLeft_toLeftOf="@id/tv_name"-->
+                    <!--app:layout_constraintRight_toLeftOf="@id/tv_coin"-->
+                    <!--android:id="@+id/tv_money"-->
+                    <!--android:text="余额：999元"-->
+                    <!--android:textColor="#ffffffff"-->
+                    <!--android:textSize="16dp"-->
+                    <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+                    <!--app:layout_constraintTop_toBottomOf="@+id/img_avatar"-->
+            <!--/>-->
+
+
+            <!--app:layout_constraintBottom_toBottomOf="@id/tv_money"-->
+<!--            android:layout_marginLeft="11dp"
+-->
             <TextView
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    android:layout_marginBottom="20dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/tv_coin"
-                    android:id="@+id/tv_money"
-                    android:text="余额：999元"
-                    android:textColor="#ffffffff"
-                    android:textSize="16dp"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/img_avatar"/>
+            android:layout_marginBottom="20dp"
 
-            <TextView
-                    android:layout_marginLeft="11dp"
-                    app:layout_constraintLeft_toRightOf="@id/tv_money"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_money"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:id="@+id/tv_coin"
-                    android:text="金币：999"
-                    android:textColor="#ffffffff"
-                    android:textSize="16dp"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                app:layout_constraintLeft_toLeftOf="@id/tv_name"
+                app:layout_constraintTop_toBottomOf="@+id/img_avatar"
+                                android:id="@+id/tv_coin"
+                                android:text="金币：999"
+                                android:textColor="#ffffffff"
+                                android:textSize="16dp"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <android.support.constraint.Group
+                                app:constraint_referenced_ids="btn_to_register,btn_to_login"
+                                android:id="@+id/group_no_login"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:visibility="invisible">
+
+                        </android.support.constraint.Group>
+
+                        <!--tv_money-->
             <android.support.constraint.Group
-                    app:constraint_referenced_ids="btn_to_register,btn_to_login"
-                    android:id="@+id/group_no_login"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:visibility="invisible">
-
-            </android.support.constraint.Group>
-
-            <android.support.constraint.Group
-                    app:constraint_referenced_ids="tv_coin,tv_money,tv_name,img_crown,img_avatar"
+                    app:constraint_referenced_ids="tv_coin,tv_name,img_crown,img_avatar"
                     android:id="@+id/group_login" android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -241,7 +248,7 @@
                     android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/ll_my_wallet">
+                    android:id="@+id/ll_my_wallet" android:visibility="gone">
                 <ImageView
                         android:src="@mipmap/wodeqianbao"
                         android:layout_width="46dp" android:layout_height="38dp"/>
@@ -266,7 +273,7 @@
                         android:layout_width="43dp" android:layout_height="42dp"/>
                 <TextView
                         android:layout_marginTop="4dp"
-                        android:text="推广"
+                        android:text="宣传"
                         android:textColor="#ff000000"
                         android:textSize="12dp"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
@@ -280,7 +287,7 @@
                     android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/ll_promotion_record">
+                    android:id="@+id/ll_promotion_record" android:visibility="gone">
                 <ImageView
                         android:src="@mipmap/tuiguangjilu"
                         android:layout_width="46dp" android:layout_height="38dp"/>

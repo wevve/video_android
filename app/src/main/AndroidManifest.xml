@@ -54,8 +54,10 @@
         <activity android:name=".wallet.MyWalletAct" android:label="钱包"/>
         <activity android:name=".wallet.WidthDrawAct" android:label="提现"/>
         <activity android:name=".deal.DealRecordAct" android:label="交易记录"/>
-        <activity android:name=".promotion.PromotionRecordAct" android:label="推广记录"/>
-        <activity android:name=".web.WebAct"/>
+        <activity android:name=".promotion.PromotionRecordAct" android:label="宣传记录"/>
+        <activity android:name=".web.WebAct">
+
+        </activity>
         <activity android:name=".recharge.RechargeAct" android:label="充值" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".recharge.RechargeCardAct" android:label="卡密充值" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".video.MoreVideoAct" android:label="更多视频"/>
@@ -63,7 +65,7 @@
         <activity android:name=".video.PlayVideoAct" android:label="播放视频" android:windowSoftInputMode="adjustPan"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:screenOrientation="portrait"/>
-        <activity android:name=".promotion.PromotionAct" android:label="推广"/>
+        <activity android:name=".promotion.PromotionAct" android:label="宣传"/>
         <activity android:name=".video.SearchResultAct"/>
         <activity android:name=".setting.account.ModifyPsdAct" android:label="修改密码"/>
     </application>

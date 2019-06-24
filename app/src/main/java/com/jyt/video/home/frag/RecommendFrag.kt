@@ -15,6 +15,7 @@ import com.jyt.video.service.impl.VideoServiceImpl
 import com.jyt.video.video.entity.ThumbVideo
 import kotlinx.android.synthetic.main.frag_home.*
 import kotlinx.android.synthetic.main.layout_refresh_recyclerview.*
+import kotlinx.android.synthetic.main.layout_video_list_empty.*
 
 class RecommendFrag:BaseVideoListFrag(){
 
@@ -23,9 +24,7 @@ class RecommendFrag:BaseVideoListFrag(){
         return BaseVideoListAdapter()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
+
 
     override fun getData(page: Int) {
 
@@ -37,11 +36,7 @@ class RecommendFrag:BaseVideoListFrag(){
                     var banner = Banner()
                     banner.data = data.banner
                     list?.add(banner)
-
-
-
                     if (data.videos!=null) {
-
                         for (i in 0 until data.videos.size){
                             var vl = data.videos[i]
                             var hotTitle = VideoGroupTitle()
@@ -51,7 +46,14 @@ class RecommendFrag:BaseVideoListFrag(){
                         }
                     }
 
-                    Glide.with(context).load(data.app_logo).apply(RequestOptions.circleCropTransform()).into(HomeFrag.frag.img_avatar )
+                    HomeFrag.frag?.img_avatar?.let {
+                        Glide.with(context).load(data.app_logo).apply(RequestOptions.circleCropTransform()).into(HomeFrag.frag.img_avatar )
+                    }
+                }
+                if (adapter?.data?.isEmpty()==false){
+                        setEmptyViewVisible(false)
+                }else{
+                    setEmptyViewVisible(true)
                 }
                 adapter?.notifyDataSetChanged()
 
@@ -62,6 +64,16 @@ class RecommendFrag:BaseVideoListFrag(){
     }
 
     override fun setEmptyViewVisible(visible: Boolean) {
+        ll_empty?.visibility = if (visible){
+            View.VISIBLE
+        }else{
+            View.GONE
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        tv_empty_text.text = "暂无数据"
     }
 
 }
