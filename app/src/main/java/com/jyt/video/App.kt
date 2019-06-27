@@ -14,6 +14,10 @@ import com.liulishuo.filedownloader.util.FileDownloadUtils
 import com.orhanobut.hawk.Hawk
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
+import android.app.ActivityManager
+import android.content.Context
+import android.content.Context.ACTIVITY_SERVICE
+import com.fm.openinstall.OpenInstall
 
 
 class App : Application(){
@@ -24,17 +28,23 @@ class App : Application(){
     override fun onCreate() {
         super.onCreate()
 
-        app = this
 
-        ARouter.openDebug()
-        ARouter.openLog()
-        ARouter.init(this)
+        if(isMainProcess()){
+            app = this
+            ARouter.openDebug()
+            ARouter.openLog()
+            ARouter.init(this)
 
-        initHawk()
-        initDB()
-        initFileDownLoader()
+            initHawk()
+            initDB()
+            initFileDownLoader()
 
-        Logger.addLogAdapter(AndroidLogAdapter())
+            Logger.addLogAdapter(AndroidLogAdapter())
+
+            OpenInstall.init(this);
+
+        }
+
     }
 
 
@@ -108,6 +118,17 @@ class App : Application(){
             }
             .maxCacheFilesCount(999)
             .build()
+    }
+
+    fun isMainProcess(): Boolean {
+        val pid = android.os.Process.myPid()
+        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (appProcess in activityManager.runningAppProcesses) {
+            if (appProcess.pid == pid) {
+                return applicationInfo.packageName == appProcess.processName
+            }
+        }
+        return false
     }
 
 }

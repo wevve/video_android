@@ -1,45 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+>
+    <com.jyt.video.common.view.StatusBarHeightView
+    android:id="@+id/status_bar"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+<android.support.constraint.ConstraintLayout
                                              android:orientation="vertical"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent">
 
-    <!--<com.jyt.video.common.view.StatusBarHeightView-->
-            <!--android:id="@+id/status_bar"-->
-            <!--app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="parent"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
 
-    <!--</com.jyt.video.common.view.StatusBarHeightView>-->
+
     <!--app:layout_constraintTop_toBottomOf="@id/status_bar"-->
 
     <FrameLayout
             android:id="@+id/fl_video"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="match_parent" android:layout_height="250dp">
-        <com.jyt.video.video.widget.CustomJzvdStd
-                android:background="@color/black"
-                android:id="@+id/videoplayer"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"/>
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+        <FrameLayout
 
+                android:layout_width="match_parent" android:layout_height="250dp">
+            <com.jyt.video.video.widget.CustomJzvdStd
+                    android:background="@color/black"
+                    android:id="@+id/videoplayer"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"/>
+
+
+            <!--android:layout_marginTop="32dp"-->
+
+
+
+        </FrameLayout>
 
         <ImageView
-                android:adjustViewBounds="true"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginLeft="9dp"
-                android:layout_gravity="left"
-                android:src="@mipmap/back"
-                android:layout_width="wrap_content" android:layout_height="40dp" android:id="@+id/img_close"/>
 
+                android:paddingLeft="13dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:id="@+id/img_close"
+                android:layout_width="36dp"
+                android:layout_height="26dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="12dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/jz_click_back_selector" />
+        <!--<ImageView-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:paddingRight="10dp"-->
+                <!--android:paddingTop="10dp"-->
+                <!--android:paddingBottom="10dp"-->
+                <!--android:layout_marginLeft="9dp"-->
+                <!--android:layout_gravity="left"-->
+                <!--android:src="@mipmap/back"-->
+                <!--android:layout_width="wrap_content" android:layout_height="40dp" android:id="@+id/img_close"/>-->
     </FrameLayout>
+
 
 
 
@@ -62,10 +92,12 @@
 
 
     <me.dkzwm.widget.srl.ClassicSmoothRefreshLayout
+            app:sr_enableOverScroll="false"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="14dp"
             app:layout_goneMarginBottom="0dp"
             android:background="@color/white"
+            app:sr_enableLoadMore="false"
             app:layout_constraintTop_toBottomOf="@id/tab_layout"
             app:layout_constraintBottom_toTopOf="@id/fl_comment_bottom"
             android:id="@+id/refresh_layout_detail"
@@ -85,6 +117,8 @@
             android:layout_marginBottom="14dp"
             app:layout_goneMarginBottom="0dp"
             android:background="@color/white"
+            app:sr_enableOverScroll="false"
+            app:sr_enableLoadMore="false"
             app:layout_constraintTop_toBottomOf="@id/tab_layout"
             app:layout_constraintBottom_toTopOf="@id/fl_comment_bottom"
             android:id="@+id/refresh_layout_comment"
@@ -156,3 +190,5 @@
 
 
 </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

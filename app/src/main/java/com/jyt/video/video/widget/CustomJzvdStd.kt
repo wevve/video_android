@@ -9,6 +9,7 @@ import cn.jzvd.JzvdStd
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.jyt.video.R
+import com.jyt.video.common.helper.UserInfo
 import com.jyt.video.common.util.TimeHelper
 import com.jyt.video.video.entity.VideoDetail
 import kotlinx.android.synthetic.main.jz_layout_std_custom.view.*
@@ -38,9 +39,7 @@ class CustomJzvdStd : JzvdStd {
         setListener()
         initVIPTimer()
     }
-    private fun initFeedPlayTimer(){
 
-    }
 
     public fun initWithData(){
 //        var image = "http://pic.sc.chinaz.com/files/pic/pic9/201901/zzpic16093.jpg"
@@ -136,12 +135,22 @@ class CustomJzvdStd : JzvdStd {
                 if (videoDetail?.isVip==true){
                     vipTimer.stop()
                 }else{
-                    //提醒开通vip
-                    ARouter.getInstance().build("/recharge/member").navigation()
+                    if (UserInfo.isLogin()){
+                        //提醒开通vip
+                        ARouter.getInstance().build("/recharge/member").navigation()
+                    }else{
+                        ARouter.getInstance().build("/login/index").navigation()
+
+                    }
+
                 }
             }
             btn_buy_mumber->{
-                ARouter.getInstance().build("/recharge/member").navigation()
+                if (UserInfo.isLogin()) {
+                    ARouter.getInstance().build("/recharge/member").navigation()
+                }else{
+                    ARouter.getInstance().build("/login/index").navigation()
+                }
             }
             btn_buy_video->{
                 playerStateListener?.onStateEventChange(EVENT_BUY_VIDEO)
@@ -185,6 +194,13 @@ class CustomJzvdStd : JzvdStd {
         hidePauseAD()
 
 
+
+    }
+
+
+    override fun setScreenNormal() {
+        super.setScreenNormal()
+        backButton.visibility = View.VISIBLE
 
     }
 
@@ -242,7 +258,6 @@ class CustomJzvdStd : JzvdStd {
     private fun hideBeforeAD(){
         fl_before.visibility = View.GONE
         img_ad_before.visibility = View.GONE
-
 
     }
 

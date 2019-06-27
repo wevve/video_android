@@ -4,12 +4,41 @@
         android:id="@+id/refresh_layout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:background="@color/white"
+        app:sr_enableOverScroll="false"
+
                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
                                                 app:sr_enableLoadMore="true"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-                                            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/empty_view"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <ImageView
+                    android:src="@mipmap/empty_video_list"
+                    android:layout_width="123dp" android:layout_height="108dp"/>
+            <TextView
+                    android:id="@+id/tv_empty_view_text"
+                    android:layout_marginTop="33dp"
+                    android:text="暂无数据"
+                    android:textColor="#ff333333"
+                    android:textSize="18dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </FrameLayout>
+
 </me.dkzwm.widget.srl.ClassicSmoothRefreshLayout>

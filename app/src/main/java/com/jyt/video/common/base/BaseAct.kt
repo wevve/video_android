@@ -23,6 +23,8 @@ abstract class BaseAct :AppCompatActivity(){
         }
 
 
+
+
         baseInit()
 
         initView()

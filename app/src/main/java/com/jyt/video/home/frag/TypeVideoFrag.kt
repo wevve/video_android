@@ -80,17 +80,20 @@ class TypeVideoFrag:BaseFrag(), View.OnClickListener {
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
             override fun getSpanSize(p0: Int): Int {
 
-                var data = adapter?.data?.get(p0)
-
-                return when(data){
-                    is Banner,
-                    is VideoGroupTitle,
-                    is Advertising,
-                    is VideoType->{
-                        2
-                    }
-                    else->{
-                        1
+                if (adapter?.data?.isEmpty()|| p0>=adapter?.data?.size?:0){
+                    return 2
+                }else{
+                    var data = adapter?.data?.get(p0)
+                    return when(data){
+                        is Banner,
+                        is VideoGroupTitle,
+                        is Advertising,
+                        is VideoType->{
+                            2
+                        }
+                        else->{
+                            1
+                        }
                     }
                 }
             }
@@ -150,33 +153,57 @@ class TypeVideoFrag:BaseFrag(), View.OnClickListener {
 
 
     private fun getData(page:Long){
+
+
+
         videoService.getVideoAfterFilter(filterMap,page, ServiceCallback{
             code, data ->
-            if (data!=null ){
-                if (page==1L){
-                    adapter?.data?.clear()
-                }
-                if(data.videolist!=null){
-                    adapter?.data?.addAll( data.videolist!!)
-                }
-                adapter?.notifyDataSetChanged()
-                curPage = page
-            }
+            videoService.videoHorAd(2,ServiceCallback {
+                    _, ad ->
 
-            if (adapter?.data?.size==0){
-                ll_empty?.let {
-                    ll_empty.visibility = View.VISIBLE
+
+                if (data!=null ){
+                    if (page==1L){
+                        adapter?.data?.clear()
+                        if (ad!=null){
+                            adapter.data.add(ad)
+                        }
+                    }
+                    if(data.videolist!=null){
+                        adapter?.data?.addAll( data.videolist!!)
+                    }
+                    adapter?.notifyDataSetChanged()
+                    curPage = page
                 }
-            }else{
-                ll_empty?.let {
-                    ll_empty.visibility = View.GONE
+
+                if (isVideoEmpty()){
+                    ll_empty?.let {
+                        ll_empty.visibility = View.VISIBLE
+                    }
+                }else{
+                    ll_empty?.let {
+                        ll_empty.visibility = View.GONE
+                    }
                 }
-            }
-            refresh_layout?.let {
-                refresh_layout.refreshComplete()
-            }
+                refresh_layout?.let {
+                    refresh_layout.refreshComplete()
+                }
+
+            })
+
         })
 
+    }
+
+
+    private fun isVideoEmpty():Boolean{
+        adapter?.data?.forEach {
+            if(it is ThumbVideo){
+                return false
+            }
+        }
+
+        return true
     }
 
 }

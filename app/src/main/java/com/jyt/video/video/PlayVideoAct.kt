@@ -68,6 +68,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
     var videoId:Long =0
 
+    var ad:Advertising?=null
 
     var videoCommentLastId:Long? = 0
     override fun initView() {
@@ -81,6 +82,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
         videoService = VideoServiceImpl()
         commentService = CommentServiceImpl()
         walletService = WalletServiceImpl()
+
         hideToolbar()
         initRcv()
         initTab()
@@ -95,6 +97,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
     private fun setListener(){
         tv_send.setOnClickListener(this)
         img_close.setOnClickListener(this)
+//        img_close.setOnClickListener(this)
         refresh_layout_detail.setOnRefreshListener(object :SmoothRefreshLayout.OnRefreshListener{
             override fun onRefreshing() {
                 getData()
@@ -165,18 +168,22 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
         introduceLayoutManager.spanSizeLookup = object :GridLayoutManager.SpanSizeLookup(){
             override fun getSpanSize(p0: Int): Int {
 
-                var data = introduceAdapter?.data?.get(p0)
+                if (introduceAdapter?.data?.isEmpty() || p0>=introduceAdapter?.data.size){
+                    return 2
+                }else {
+                    var data = introduceAdapter?.data?.get(p0)
 
-                return when(data){
-                    is VideoDetail,
-                    is Banner,
-                    is VideoGroupTitle,
-                    is Advertising,
-                    is VideoType->{
-                        2
-                    }
-                    else->{
-                        1
+                    return when (data) {
+                        is VideoDetail,
+                        is Banner,
+                        is VideoGroupTitle,
+                        is Advertising,
+                        is VideoType -> {
+                            2
+                        }
+                        else -> {
+                            1
+                        }
                     }
                 }
             }
@@ -194,17 +201,25 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
     private fun getData(){
         videoService.getVideoDetail(videoId, ServiceCallback{
          code, data ->
-            if (data!=null){
-                data.videoId = videoId
-                videoDetail = data
-                setupView(data)
-            }
-            refresh_layout_detail.refreshComplete()
+            videoService.videoHorAd(3,ServiceCallback{
+                _,ad->
+                this@PlayVideoAct.ad = ad
+                if (data!=null){
+                    data.videoId = videoId
+                    videoDetail = data
+                    setupView(data,ad)
+                }
+                refresh_layout_detail.refreshComplete()
+            })
+
         })
     }
 
-    private fun setupView(data:VideoDetail){
+    private fun setupView(data:VideoDetail,ad:Advertising?){
         introduceAdapter.data.clear()
+        if (ad!=null){
+            introduceAdapter.data.add(ad)
+        }
         introduceAdapter.data.add(data)
 
         if (data.guess!=null && data.guess?.isNotEmpty()==true){
@@ -224,7 +239,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
     private fun initVideo(data:VideoDetail){
 //        var url = "http://jzvd.nathen.cn/c494b340ff704015bb6682ffde3cd302/64929c369124497593205a4190d7d128-5287d2089db37e62345123a1be272f8b.mp4"
 
-        data?.videoInfo?.url = "https://v3.mjshcn.com:987/20190429/5hgQbFzH/index.m3u8"
+//        data?.videoInfo?.url = "https://v3.mjshcn.com:987/20190429/5hgQbFzH/index.m3u8"
         var url = data?.videoInfo?.url
         RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE).subscribe {
             if (it){
@@ -252,7 +267,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
 
             videoplayer.playerStateListener = this
-            videoplayer.setUp(url, "",JzvdStd.SCREEN_NORMAL ,JZMediaExo(videoplayer));
+            videoplayer.setUp(url, data?.videoInfo?.title,JzvdStd.SCREEN_NORMAL ,JZMediaExo(videoplayer));
             videoplayer.videoDetail = videoDetail
             videoplayer.initWithData()
 
@@ -374,10 +389,15 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
             ToastUtil.showShort(this,"你是VIP会员 无需购买")
             return
         }
+        if (videoDetail?.videoInfo?.gold==0.0){
+            ToastUtil.showShort(this,"免费视频无需购买")
+            return
+        }
         if (videoDetail?.alreadyBuy==1){
             ToastUtil.showShort(this,"您已购买视频")
             return
         }
+
         var dialog  = AlertDialog()
         dialog.message = "是否购买视频"
         dialog.rightBtnText = "取消"
@@ -390,7 +410,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
                     if (code==BaseJson.CODE_SUCCESS){
                         videoDetail?.alreadyBuy = 1
 
-                        setupView(videoDetail!!)
+                        setupView(videoDetail!!,ad)
 
                         dialogFragment.dismissAllowingStateLoss()
 

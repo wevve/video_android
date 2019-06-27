@@ -87,7 +87,9 @@ class WelcomeAct : BaseAct(){
                     timeHelper.stop()
 //                    finish()
                 }
-                Glide.with(this).load(data.app_start_screen).apply(RequestOptions.centerCropTransform()).into(img_welcome)
+                var options = RequestOptions.centerCropTransform()
+                    .placeholder(R.mipmap.welcome_loading)
+                Glide.with(this).load(data.app_start_screen).apply(options).into(img_welcome)
 
                 timeHelper.setTime(data.app_start_time.toInt())
                 timeHelper.start()

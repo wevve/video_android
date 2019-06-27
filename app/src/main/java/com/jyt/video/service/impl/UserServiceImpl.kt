@@ -117,13 +117,18 @@ class UserServiceImpl :UserService{
         )
     }
 
-    override fun register(account: String, pwd: String,pwd2: String, callback: ServiceCallback<Any>) {
+    override fun register(account: String, pwd: String,pwd2: String,pid:String?,did:String, callback: ServiceCallback<Any>) {
         if (!validate(account,pwd,pwd2)){
             return
         }
+        var map = hashMapOf(Pair("account",account)
+        , Pair("pwd",pwd2)
+        , Pair("did",did))
+        if(!pid.isNullOrBlank()){
+            map.put("pid",pid)
+        }
 
-        ApiService.getInstance().api.register(account,pwd).compose(RxHelper.schedulersTransformer()).subscribe(
-            RxHelper.SimpleConsume(callback),RxHelper.ErrorConsume(callback))
+        RxHelper.simpleResult(ApiService.getInstance().api.register(map),callback)
     }
 
 

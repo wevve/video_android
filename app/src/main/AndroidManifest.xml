@@ -4,12 +4,12 @@
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <application
             android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/houzi"
             android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:name=".App"
             android:networkSecurityConfig="@xml/network_config"
@@ -18,7 +18,9 @@
                 android:name="notch.config"
                 android:value="landscape"/>
         <meta-data android:name="android.max_aspect"  android:value="2.1"/>
-
+        <meta-data
+                android:name="com.openinstall.APP_KEY"
+                android:value="x98kap"/>
         <meta-data
                 android:name="design_width_in_dp"
                 android:value="375"/>
@@ -39,7 +41,14 @@
 
         </activity>
         <!--注册-->
-        <activity android:name=".login.RegisterAct" android:label="登录"/>
+        <activity android:name=".login.RegisterAct" android:label="注册并登录">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="x98kap"/>
+            </intent-filter>
+        </activity>
 
         <activity android:name=".setting.SettingAct" android:label="设置"/>
         <activity android:name=".setting.account.AccountInfoAct" android:label="账户资料"/>
@@ -68,6 +77,7 @@
         <activity android:name=".promotion.PromotionAct" android:label="宣传"/>
         <activity android:name=".video.SearchResultAct"/>
         <activity android:name=".setting.account.ModifyPsdAct" android:label="修改密码"/>
+        <activity android:name=".video.BrowseImageAct" android:label="浏览图片"/>
     </application>
 
 </manifest>

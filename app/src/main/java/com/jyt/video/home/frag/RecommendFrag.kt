@@ -16,6 +16,7 @@ import com.jyt.video.video.entity.ThumbVideo
 import kotlinx.android.synthetic.main.frag_home.*
 import kotlinx.android.synthetic.main.layout_refresh_recyclerview.*
 import kotlinx.android.synthetic.main.layout_video_list_empty.*
+import kotlin.collections.ArrayList
 
 class RecommendFrag:BaseVideoListFrag(){
 
@@ -30,32 +31,48 @@ class RecommendFrag:BaseVideoListFrag(){
 
         if (page==1) {
             videoService.getHomeData(ServiceCallback { code, data ->
-                adapter?.data?.clear()
-                if (data != null) {
-                    var list = adapter?.data
-                    var banner = Banner()
-                    banner.data = data.banner
-                    list?.add(banner)
-                    if (data.videos!=null) {
-                        for (i in 0 until data.videos.size){
-                            var vl = data.videos[i]
-                            var hotTitle = VideoGroupTitle()
-                            hotTitle.text = vl.title
-                            list?.add(hotTitle)
-                            list?.addAll(vl.list)
+                videoService.videoHorAd(1,ServiceCallback{
+                    _, adData ->
+
+                    adapter?.data?.clear()
+                    if (data != null) {
+                        var list = adapter?.data
+                        var banner = Banner()
+                        banner.data = data.banner
+                        list?.add(banner)
+
+                        if (adData!=null)
+                            list?.add(adData)
+                        if (data.videos!=null) {
+                            for (i in 0 until data.videos.size){
+                                var vl = data.videos[i]
+                                var hotTitle = VideoGroupTitle()
+                                hotTitle.text = vl.title
+                                hotTitle.videos = vl.list
+
+                                list?.add(hotTitle)
+
+                                var tempList = vl.list
+                                if (vl.list.size>6) {
+                                    tempList = ArrayList(vl.list.subList(0, 6))
+                                }
+
+                                list?.addAll(tempList)
+                            }
+                        }
+
+                        HomeFrag.frag?.img_avatar?.let {
+                            Glide.with(context).load(data.app_logo).apply(RequestOptions.circleCropTransform()).into(HomeFrag.frag.img_avatar )
                         }
                     }
-
-                    HomeFrag.frag?.img_avatar?.let {
-                        Glide.with(context).load(data.app_logo).apply(RequestOptions.circleCropTransform()).into(HomeFrag.frag.img_avatar )
-                    }
-                }
-                if (adapter?.data?.isEmpty()==false){
+                    if (adapter?.data?.isEmpty()==false){
                         setEmptyViewVisible(false)
-                }else{
-                    setEmptyViewVisible(true)
-                }
-                adapter?.notifyDataSetChanged()
+                    }else{
+                        setEmptyViewVisible(true)
+                    }
+                    adapter?.notifyDataSetChanged()
+                })
+
 
             })
         }
@@ -64,7 +81,7 @@ class RecommendFrag:BaseVideoListFrag(){
     }
 
     override fun setEmptyViewVisible(visible: Boolean) {
-        ll_empty?.visibility = if (visible){
+        empty_view?.visibility = if (visible){
             View.VISIBLE
         }else{
             View.GONE
@@ -73,7 +90,6 @@ class RecommendFrag:BaseVideoListFrag(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tv_empty_text.text = "暂无数据"
     }
 
 }

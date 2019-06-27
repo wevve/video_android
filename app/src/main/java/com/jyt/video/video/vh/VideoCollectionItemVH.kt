@@ -41,11 +41,14 @@ class VideoCollectionItemVH(parent: View) : BaseVH<Any>(
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when(buttonView){
             cb_sel->{
+
+                var data = data as CollectionVideo
+
+                data.isSel = isChecked
                 if (isChecked){
                     onTriggerListener?.onTrigger(this,"sel")
                 }else{
                     onTriggerListener?.onTrigger(this,"disSel")
-
                 }
             }
         }
@@ -58,7 +61,7 @@ class VideoCollectionItemVH(parent: View) : BaseVH<Any>(
 
         Glide.with(itemView).load(data.videoImgUrl).into(img_cover)
         tv_name.text = data.videoTitle
-        tv_date.text = simpleDateFormat.format(data.videoSendDate+1000)
+        tv_date.text = simpleDateFormat.format(data.videoSendDate*1000)
         tv_type.text = data.videoKind
     }
 

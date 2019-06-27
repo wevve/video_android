@@ -68,6 +68,11 @@ class SearchResultAct: BaseAct(), View.OnClickListener {
                 adapter.data.addAll(data?.list)
                 adapter.notifyDataSetChanged()
             }
+            if (adapter.data.size==0){
+                empty_view.visibility = View.VISIBLE
+            }else{
+                empty_view.visibility = View.GONE
+            }
             refresh_layout.refreshComplete()
         })
     }
@@ -91,19 +96,23 @@ class SearchResultAct: BaseAct(), View.OnClickListener {
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
             override fun getSpanSize(p0: Int): Int {
 
-                var data = adapter?.data?.get(p0)
-
-                return when(data){
-                    is Banner,
-                    is VideoGroupTitle,
-                    is Advertising,
-                    is VideoType ->{
-                        2
-                    }
-                    else->{
-                        1
+                if (adapter?.data?.isEmpty()|| p0>=adapter?.data?.size?:0){
+                    return 2
+                }else{
+                    var data = adapter?.data?.get(p0)
+                    return when(data){
+                        is Banner,
+                        is VideoGroupTitle,
+                        is Advertising,
+                        is VideoType ->{
+                            2
+                        }
+                        else->{
+                            1
+                        }
                     }
                 }
+
             }
 
         }

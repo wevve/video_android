@@ -1,8 +1,11 @@
 package com.jyt.video.video.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
-public class ThumbVideo implements Serializable {
+public class ThumbVideo implements Serializable , Parcelable {
     private Long id;
     private String title;
     private Long click;
@@ -11,6 +14,52 @@ public class ThumbVideo implements Serializable {
     private String play_time;
     private Long gold;
     private Long update_time;
+
+    public ThumbVideo() {
+    }
+
+    protected ThumbVideo(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readLong();
+        }
+        title = in.readString();
+        if (in.readByte() == 0) {
+            click = null;
+        } else {
+            click = in.readLong();
+        }
+        if (in.readByte() == 0) {
+            good = null;
+        } else {
+            good = in.readLong();
+        }
+        thumbnail = in.readString();
+        play_time = in.readString();
+        if (in.readByte() == 0) {
+            gold = null;
+        } else {
+            gold = in.readLong();
+        }
+        if (in.readByte() == 0) {
+            update_time = null;
+        } else {
+            update_time = in.readLong();
+        }
+    }
+
+    public static final Creator<ThumbVideo> CREATOR = new Creator<ThumbVideo>() {
+        @Override
+        public ThumbVideo createFromParcel(Parcel in) {
+            return new ThumbVideo(in);
+        }
+
+        @Override
+        public ThumbVideo[] newArray(int size) {
+            return new ThumbVideo[size];
+        }
+    };
 
     public Long getId() {
         return id;
@@ -74,5 +123,47 @@ public class ThumbVideo implements Serializable {
 
     public void setUpdate_time(Long update_time) {
         this.update_time = update_time;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(id);
+        }
+        dest.writeString(title);
+        if (click == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(click);
+        }
+        if (good == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(good);
+        }
+        dest.writeString(thumbnail);
+        dest.writeString(play_time);
+        if (gold == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(gold);
+        }
+        if (update_time == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(update_time);
+        }
     }
 }

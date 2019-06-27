@@ -5,6 +5,8 @@ import android.content.Intent
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.jyt.video.R
 import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.helper.UserInfo
@@ -21,6 +23,10 @@ class LoginAct:BaseAct(), View.OnClickListener {
 
     override fun initView() {
         userService = UserServiceImpl()
+
+        Glide.with(this).load(R.mipmap.houzi).apply(RequestOptions().circleCrop()).into(logo)
+
+
 
         btn_login.setOnClickListener (this)
         btn_to_register.setOnClickListener (this)

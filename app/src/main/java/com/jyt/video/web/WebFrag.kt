@@ -37,6 +37,7 @@ class WebFrag : BaseFrag() {
 
     private fun initWebView(){
         var setting = web_view.settings
+        setting.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
         setting.cacheMode = WebSettings.LOAD_NO_CACHE
         setting.useWideViewPort = true; //将图片调整到适合webview的大小
 // 若加载的 html 里有JS 在执行动画等操作，会造成资源浪费（CPU、电量）

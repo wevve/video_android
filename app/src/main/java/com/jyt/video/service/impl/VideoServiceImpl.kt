@@ -8,10 +8,7 @@ import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.common.helper.UserInfo
 import com.jyt.video.common.util.RxHelper
 import com.jyt.video.common.util.ToastUtil
-import com.jyt.video.home.entity.HomeResult
-import com.jyt.video.home.entity.HomeTabResult
-import com.jyt.video.home.entity.TabEntity
-import com.jyt.video.home.entity.VideoType
+import com.jyt.video.home.entity.*
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.video.entity.CollectionVideo
 import com.jyt.video.service.VideoService
@@ -29,6 +26,11 @@ import java.util.concurrent.ConcurrentNavigableMap
 import java.util.concurrent.atomic.AtomicInteger
 
 class VideoServiceImpl : VideoService {
+
+    override fun videoHorAd(adType: Int, callback: ServiceCallback<Advertising>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.videoHorAd(adType),callback);
+    }
+
     override fun buyVideo(videoId: Long, callback: ServiceCallback<Any>) {
         RxHelper.simpleResult(ApiService.getInstance().api.buyVideo(videoId,UserInfo.getUserId()),callback);
     }
@@ -78,7 +80,7 @@ class VideoServiceImpl : VideoService {
     }
 
 
-    override fun delCollection( callback: ServiceCallback<Any>,vararg videoId:Long) {
+    override fun delCollection( videoId:ArrayList<Long>, callback: ServiceCallback<Any>) {
 
         var count = videoId.size
         var successCount = AtomicInteger(0)

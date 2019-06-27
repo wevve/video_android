@@ -4,12 +4,16 @@
                                              android:layout_height="match_parent"
                                              xmlns:app="http://schemas.android.com/apk/res-auto">
     
-    <ImageView
+    <FrameLayout
             android:background="@color/white"
-            android:id="@+id/logo"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="match_parent" android:layout_height="115dp"/>
+            android:layout_width="match_parent" android:layout_height="115dp">
+        <ImageView
+                android:id="@+id/logo"
+                android:layout_gravity="center"
+                android:layout_width="60dp" android:layout_height="60dp"/>
+    </FrameLayout>
 
 
     <View

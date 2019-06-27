@@ -6,6 +6,7 @@ import com.jyt.video.api.entity.PersonHomeResult;
 import com.jyt.video.api.entity.VersionBean;
 import com.jyt.video.common.entity.BaseJson;
 import com.jyt.video.deal.entity.Record;
+import com.jyt.video.home.entity.Advertising;
 import com.jyt.video.home.entity.HomeResult;
 import com.jyt.video.home.entity.HomeTabResult;
 import com.jyt.video.home.entity.VideoType;
@@ -35,6 +36,8 @@ import java.util.Map;
 
 public interface Api {
 
+    @GET("/appapi/getAd/id/{type}")
+    Observable<BaseJson<Advertising>> videoHorAd(@Path("type")int type);
 
     @GET("/appapi/getVersion")
     Observable<BaseJson<VersionBean>> getVersion();
@@ -104,7 +107,7 @@ public interface Api {
     //注册
     @POST("/appapi/register.html")
     @FormUrlEncoded
-    public Observable<BaseJson> register(@Field("account")String account,@Field("pwd")String password);
+    public Observable<BaseJson> register(@FieldMap Map<String,String> data);
 
 
     //登录

@@ -52,6 +52,9 @@ class IntroduceHeaderVH(viewGroup: ViewGroup) :BaseVH<Any>(LayoutInflater.from(v
         v_goumai.setOnClickListener(this)
 
         img_download.setOnClickListener(this)
+
+        rcv_capture.setFocusableInTouchMode(false); //设置不需要焦点
+        rcv_capture.requestFocus();
     }
 
     override fun onClick(v: View?) {
@@ -96,6 +99,11 @@ class IntroduceHeaderVH(viewGroup: ViewGroup) :BaseVH<Any>(LayoutInflater.from(v
                               var dialog = AlertDialog()
                               dialog.message="只有会员才能下载"
                               dialog.leftBtnText = "确定"
+                              dialog.onClickListener={
+                                  dialogFragment, s ->
+                                  dialogFragment.dismissAllowingStateLoss()
+                              }
+                              dialog.show(activity?.supportFragmentManager,"")
                           }
                       }
                       img_collection->{

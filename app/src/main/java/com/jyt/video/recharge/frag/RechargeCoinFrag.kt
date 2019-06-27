@@ -24,7 +24,7 @@ class RechargeCoinFrag:BaseRechargeFrag(){
         walletService?.createOrder(payWay.payCode,price,1,null,rechargeItem.corn?.toDouble(), ServiceCallback{
                 code, data ->
             if (data!=null){
-                val uri = Uri.parse(Constans.BaseUrl+"/appapi/pay${data.order_sn}")
+                val uri = Uri.parse(Constans.BaseUrl+"/appapi/pay/orderSn/${data.order_sn}")
                 val intent = Intent(Intent.ACTION_VIEW, uri)
                 startActivity(intent)
             }

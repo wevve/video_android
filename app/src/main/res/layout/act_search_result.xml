@@ -29,5 +29,6 @@
         </RelativeLayout>
     </LinearLayout>
 
+
     <include layout="@layout/layout_refresh_recyclerview"/>
 </LinearLayout>

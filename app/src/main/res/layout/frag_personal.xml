@@ -240,30 +240,31 @@
                         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
             </LinearLayout>
 
-            <LinearLayout
-                    android:paddingTop="13dp"
-                    android:paddingBottom="24dp"
-                    app:layout_columnWeight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ll_my_wallet" android:visibility="gone">
-                <ImageView
-                        android:src="@mipmap/wodeqianbao"
-                        android:layout_width="46dp" android:layout_height="38dp"/>
-                <TextView
-                        android:layout_marginTop="6dp"
-                        android:text="我的钱包"
-                        android:textColor="#ff000000"
-                        android:textSize="12dp"
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            </LinearLayout>
+            <!--<LinearLayout-->
+                    <!--android:paddingTop="13dp"-->
+                    <!--android:paddingBottom="24dp"-->
+                    <!--app:layout_columnWeight="1"-->
+                    <!--android:gravity="center"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/ll_my_wallet" android:visibility="gone">-->
+                <!--<ImageView-->
+                        <!--android:src="@mipmap/wodeqianbao"-->
+                        <!--android:layout_width="46dp" android:layout_height="38dp"/>-->
+                <!--<TextView-->
+                        <!--android:layout_marginTop="6dp"-->
+                        <!--android:text="我的钱包"-->
+                        <!--android:textColor="#ff000000"-->
+                        <!--android:textSize="12dp"-->
+                        <!--android:layout_width="wrap_content" android:layout_height="wrap_content"/>-->
+            <!--</LinearLayout>-->
 
             <LinearLayout
+                    android:paddingTop="13dp"
+                    android:gravity="center"
                     android:paddingBottom="20dp"
                     app:layout_columnWeight="1"
-                    android:gravity="center"
                     android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -279,25 +280,25 @@
                         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
             </LinearLayout>
 
-            <LinearLayout
-                    android:paddingTop="5dp"
-                    android:paddingBottom="20dp"
-                    app:layout_columnWeight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ll_promotion_record" android:visibility="gone">
-                <ImageView
-                        android:src="@mipmap/tuiguangjilu"
-                        android:layout_width="46dp" android:layout_height="38dp"/>
-                <TextView
-                        android:layout_marginTop="5dp"
-                        android:text="推广记录"
-                        android:textColor="#ff000000"
-                        android:textSize="12dp"
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            </LinearLayout>
+            <!--<LinearLayout-->
+                    <!--android:paddingTop="5dp"-->
+                    <!--android:paddingBottom="20dp"-->
+                    <!--app:layout_columnWeight="1"-->
+                    <!--android:gravity="center"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/ll_promotion_record" android:visibility="gone">-->
+                <!--<ImageView-->
+                        <!--android:src="@mipmap/tuiguangjilu"-->
+                        <!--android:layout_width="46dp" android:layout_height="38dp"/>-->
+                <!--<TextView-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:text="推广记录"-->
+                        <!--android:textColor="#ff000000"-->
+                        <!--android:textSize="12dp"-->
+                        <!--android:layout_width="wrap_content" android:layout_height="wrap_content"/>-->
+            <!--</LinearLayout>-->
 
         </android.support.v7.widget.GridLayout>
     </LinearLayout>

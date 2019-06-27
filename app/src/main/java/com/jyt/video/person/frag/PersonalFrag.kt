@@ -57,15 +57,15 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
             ll_deal_record->{
                 ARouter.getInstance().build("/deal/record").navigation()
             }
-            ll_my_wallet->{
-                ARouter.getInstance().build("/wallet/index").navigation()
-            }
+//            ll_my_wallet->{
+//                ARouter.getInstance().build("/wallet/index").navigation()
+//            }
             ll_promotion->{
                 ARouter.getInstance().build("/promotion/index").navigation()
             }
-            ll_promotion_record->{
-                ARouter.getInstance().build("/promotion/record").navigation()
-            }
+//            ll_promotion_record->{
+//                ARouter.getInstance().build("/promotion/record").navigation()
+//            }
             ll_recharge_member->{
                 ARouter.getInstance().build("/recharge/member").navigation()
             }
@@ -116,9 +116,9 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
         ll_cache_video.setOnClickListener(this)
         ll_collection_video.setOnClickListener(this)
         ll_deal_record.setOnClickListener(this)
-        ll_my_wallet.setOnClickListener(this)
+//        ll_my_wallet.setOnClickListener(this)
         ll_promotion.setOnClickListener(this)
-        ll_promotion_record.setOnClickListener(this)
+//        ll_promotion_record.setOnClickListener(this)
 
         ll_recharge_member.setOnClickListener(this)
         ll_recharge.setOnClickListener(this)

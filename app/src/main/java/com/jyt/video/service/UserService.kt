@@ -13,9 +13,11 @@ import java.io.File
 
 interface UserService{
 
+
+
     fun getVersion(callback: ServiceCallback<VersionBean>)
 
-    fun register(account:String,pwd:String,pwd2: String, callback: ServiceCallback<Any>)
+    fun register(account:String,pwd:String,pwd2: String,pid:String?,did:String, callback: ServiceCallback<Any>)
 
     fun login(account:String,pwd:String,callback: ServiceCallback<LoginResult>)
 

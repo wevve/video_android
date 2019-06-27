@@ -15,7 +15,7 @@ class VideoGroupTitleVH(parent: View) : BaseVH<Any>(LayoutInflater.from(parent.c
     init {
         tv_more.setOnClickListener(this)
 
-        tv_more.visibility = View.GONE
+//        tv_more.visibility = View.GONE
     }
 
 
@@ -26,12 +26,19 @@ class VideoGroupTitleVH(parent: View) : BaseVH<Any>(LayoutInflater.from(parent.c
         if (!data.text.isNullOrEmpty()){
             tv_title.text = data.text
         }
+        if (data.videos==null){
+            tv_more.visibility = View.GONE
+        }else{
+            tv_more.visibility = View.VISIBLE
+        }
     }
 
     override fun onClick(v: View?) {
         when(v){
             tv_more->{
-                ARouter.getInstance().build("/video/more").navigation()
+                ARouter.getInstance().build("/video/more")
+                    .withParcelable("data",(data as VideoGroupTitle))
+                    .navigation()
             }
             else->{
                 super.onClick(v)

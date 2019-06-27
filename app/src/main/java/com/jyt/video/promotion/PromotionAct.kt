@@ -48,7 +48,7 @@ class PromotionAct: BaseAct(), View.OnClickListener {
     override fun initView() {
         userService = UserServiceImpl()
 
-        tv_right_function.text = "推广记录"
+        tv_right_function.text = "宣传记录"
         tv_right_function.visibility = View.VISIBLE
         tv_right_function.setOnClickListener(this)
         btn_copy.setOnClickListener(this)

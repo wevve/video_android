@@ -1,16 +1,15 @@
 package com.jyt.video.service
 
 import com.jyt.video.api.entity.FilterVideoListResult
-import com.jyt.video.home.entity.HomeResult
-import com.jyt.video.home.entity.HomeTabResult
-import com.jyt.video.home.entity.TabEntity
-import com.jyt.video.home.entity.VideoType
+import com.jyt.video.home.entity.*
 import com.jyt.video.video.entity.CollectionVideo
 import com.jyt.video.video.entity.SearchVideoResult
 import com.jyt.video.video.entity.VideoDetail
 import io.reactivex.Observable
 
 interface VideoService {
+
+    fun videoHorAd(adType:Int,callback: ServiceCallback<Advertising>)
 
     fun buyVideo(videoId: Long,callback: ServiceCallback<Any>)
 
@@ -28,7 +27,7 @@ interface VideoService {
 
     fun doCollection(videoId: Long?,callback: ServiceCallback<Any>)
 
-    fun delCollection(callback: ServiceCallback<Any>,vararg videoId: Long)
+    fun delCollection( videoId: ArrayList<Long>,callback: ServiceCallback<Any>)
 
     fun getHomeVideoType(callback: ServiceCallback<ArrayList<VideoType.TypeGroup>>)
 

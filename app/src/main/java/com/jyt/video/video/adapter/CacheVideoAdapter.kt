@@ -164,8 +164,8 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
             1
         }
 
-
-        App.getAppDataBase().videoDao().updateVideos(video)
+        if (video!=null)
+            App.getAppDataBase().videoDao().updateVideos(video)
 
     }
     private fun downloadFinish(task: BaseDownloadTask?){
@@ -243,13 +243,20 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
             if (taks!=null){
                 taks?.pause()
             }
+
 //            var delPath = it?.path.substring(0, it?.path.lastIndexOf("."))
 //            Logger.d("del ${delPath}")
 //            var file = File(delPath)
-            var file = File(it.path)
+
+            var file = File(taks?.path)
+            var tempFile = File(taks?.path+".temp")
+            Logger.d(taks?.path)
             if(file.exists()) {
                 file.delete()
                 Logger.d("delete")
+            }
+            if (tempFile.exists()){
+                tempFile.delete()
             }
 
             removeItem(it!!)
@@ -308,6 +315,7 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
                     dialog.onClickListener={
                             dialogFragment, s ->
                         if ("删除"==s){
+                            onTriggerListener?.onTrigger(this,"del")
                             deleteVideo(data!!)
                             notifyDataSetChanged()
                         }else {

@@ -67,7 +67,7 @@ class CollectionVideoAct:BaseAct(),BaseRcvAdapter.OnViewHolderTriggerListener<Ba
                                 videoIdList.add(data.videoId)
                             }
                         }
-                        deleteCollection(*(videoIdList.toLongArray()))
+                        deleteCollection(videoIdList)
                     }
                 }
                 alertDialog.leftBtnText="取消"
@@ -99,22 +99,14 @@ class CollectionVideoAct:BaseAct(),BaseRcvAdapter.OnViewHolderTriggerListener<Ba
                     }
                     "sel"->{
                         selItem.add(holder.data!!)
-                        if (selItem.size!=0){
-                            tv_delete.text = "删除（${selItem.size}）"
-                        }else{
-                            tv_delete.text = "删除"
-                        }
+                        updateDelText()
                         if (selItem?.size==adapter?.data?.size){
                             cb_sel_all.isChecked = true
                         }
                     }
                     "disSel"->{
                         selItem.remove(holder.data!!)
-                        if (selItem.size!=0){
-                            tv_delete.text = "删除（${selItem.size}）"
-                        }else{
-                            tv_delete.text = "删除"
-                        }
+                        updateDelText()
                         cb_sel_all.isChecked = false
                     }
                 }
@@ -130,7 +122,7 @@ class CollectionVideoAct:BaseAct(),BaseRcvAdapter.OnViewHolderTriggerListener<Ba
         videoService = VideoServiceImpl()
 
 
-        tv_empty_text.text="暂无收藏"
+        tv_empty_view_text.text="暂无收藏"
 
 
         adapter = CollectionVideoAdapter()
@@ -166,30 +158,41 @@ class CollectionVideoAct:BaseAct(),BaseRcvAdapter.OnViewHolderTriggerListener<Ba
             code, data ->
             if (data!=null){
                 if (page==1){
+
+                    selItem.clear()
+
                     adapter?.data?.clear()
                 }
                 adapter?.data?.addAll(data)
                 adapter?.notifyDataSetChanged()
 
-                if (adapter?.data?.isEmpty()==true){
-                    ll_empty.visibility = View.VISIBLE
-                }else{
-                    ll_empty.visibility = View.GONE
-                }
+
+            }
+
+            if (adapter?.data?.isEmpty()==true){
+                empty_view.visibility = View.VISIBLE
             }else{
-                ll_empty.visibility = View.VISIBLE
+                empty_view.visibility = View.GONE
             }
             refresh_layout.refreshComplete()
         })
 
     }
 
-    private fun deleteCollection(vararg videoId:Long){
-        videoService.delCollection(ServiceCallback{
+    private fun deleteCollection( videoId:ArrayList<Long>){
+        videoService.delCollection(videoId,ServiceCallback{
             code, data ->
            getData(1)
             tv_right_function.callOnClick()
-        },*videoId)
+        })
     }
 
+
+    private fun updateDelText(){
+        if (selItem.size!=0){
+            tv_delete.text = "删除（${selItem.size}）"
+        }else{
+            tv_delete.text = "删除"
+        }
+    }
 }

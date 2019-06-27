@@ -110,6 +110,8 @@ class SearchAct :BaseAct(), View.OnClickListener {
                     flow_layout.addView(createItem(it))
                 }
             }
+
+
         })
     }
 

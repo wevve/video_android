@@ -159,13 +159,19 @@ class MainActivity : BaseAct(), View.OnClickListener {
             code, data ->
             if (data!=null){
                 var version = BuildConfig.VERSION_NAME
-                if ( data.apk_version?.compareTo( version)?:0  >0){
-
+                if ( data.apk_version != version){
+                    var igVersion = UserInfo.get("apkversion","")
+                    if (igVersion==data.apk_version){
+                        return@ServiceCallback
+                    }
                     if(data?.android.isNullOrBlank()){
                         return@ServiceCallback
                     }
+
+
                     AlertDialog.Builder(this)
-                        .setMessage("检测到新版本")
+                        .setTitle("检测到新版本")
+                        .setMessage(data.apk_update)
                         .setPositiveButton("去下载") { dialog, which ->
                             dialog.dismiss()
 
@@ -173,8 +179,9 @@ class MainActivity : BaseAct(), View.OnClickListener {
                             val intent = Intent(Intent.ACTION_VIEW, uri)
                             startActivity(intent)
                         }
-                        .setNegativeButton("取消") { dialog, which ->
+                        .setNegativeButton("忽略") { dialog, which ->
 
+                            UserInfo.add("apkversion",data.apk_version?:"")
                             dialog.dismiss()
                         }
                         .create().show()
@@ -187,7 +194,7 @@ class MainActivity : BaseAct(), View.OnClickListener {
     private fun getVipData(){
         userService.getVipInfo(ServiceCallback{
             code, data ->
-            vipUrl = data?.get("vip")
+            vipUrl = data?.get("url")
 
             huiyuan.url = vipUrl
 

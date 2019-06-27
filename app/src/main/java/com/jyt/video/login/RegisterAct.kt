@@ -1,25 +1,50 @@
 package com.jyt.video.login
 
+import android.Manifest
 import android.app.Activity
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.fm.openinstall.OpenInstall
 import com.jyt.video.R
 import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.common.helper.UserInfo
+import com.jyt.video.common.util.DeviceIdUtil
+import com.jyt.video.common.util.PermissionUtil
 import com.jyt.video.common.util.RxBus
 import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.event.RefreshEvent
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.UserService
 import com.jyt.video.service.impl.UserServiceImpl
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.act_register.*
+import com.fm.openinstall.model.AppData
+import com.fm.openinstall.listener.AppWakeUpAdapter
+import android.content.Intent
+
+
+
+
 
 @Route(path = "/register/index")
 class RegisterAct:BaseAct(), View.OnClickListener {
 
+
+    var pid:String?=null
     lateinit var userService:UserService
+
+    var wakeUpAdapter: AppWakeUpAdapter? = object : AppWakeUpAdapter() {
+        override fun onWakeUp(appData: AppData) {
+            //获取渠道数据
+            val channelCode = appData.getChannel()
+            //获取绑定数据
+            val bindData = appData.getData()
+
+            pid = bindData
+        }
+    }
     override fun onClick(v: View?) {
         when(v){
             btn_register->{
@@ -28,16 +53,28 @@ class RegisterAct:BaseAct(), View.OnClickListener {
                 var psd1 = input_psd1.text.toString()
                 var psd2 = input_psd2.text.toString()
 
-                userService.register(account,psd1,psd2, ServiceCallback { code, data ->
-                    if (code==BaseJson.CODE_SUCCESS){
-                        userService.login(account,psd1, ServiceCallback { code, data ->
-                            if (data != null) {
-                                UserInfo.setUserId(data.member_id)
-                                getUserHomeInfo()
+                RxPermissions(this).request(Manifest.permission.READ_PHONE_STATE).subscribe {
+                    if (it){
+
+                        userService.register(account,psd1,psd2,pid ,DeviceIdUtil.getDeviceId(this),ServiceCallback { code, data ->
+                            if (code==BaseJson.CODE_SUCCESS){
+
+                                OpenInstall.reportRegister();
+
+                                userService.login(account,psd1, ServiceCallback { code, data ->
+                                    if (data != null) {
+                                        UserInfo.setUserId(data.member_id)
+                                        getUserHomeInfo()
+                                    }
+                                })
                             }
                         })
+                    }else{
+                        ToastUtil.showShort(this,"请授予权限")
+                        PermissionUtil.gotoPermission(this)
                     }
-                })
+                }
+
             }
             tv_to_protocol->{
 
@@ -49,6 +86,9 @@ class RegisterAct:BaseAct(), View.OnClickListener {
         userService = UserServiceImpl()
         btn_register.setOnClickListener(this)
         tv_to_protocol.setOnClickListener(this)
+
+        OpenInstall.getWakeUp(getIntent(), wakeUpAdapter);
+
     }
 
     override fun getLayoutId(): Int {
@@ -67,6 +107,18 @@ class RegisterAct:BaseAct(), View.OnClickListener {
                 finish()
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        wakeUpAdapter = null;
+
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        // 此处要调用，否则App在后台运行时，会无法截获
+        OpenInstall.getWakeUp(intent, wakeUpAdapter)
     }
 
 

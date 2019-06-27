@@ -106,27 +106,25 @@ class CacheVideoAct: BaseAct(), View.OnClickListener {
         videoAdapter.onTriggerListener = object :BaseRcvAdapter.OnViewHolderTriggerListener<BaseVH<*>>{
             override fun <T : BaseVH<*>> onTrigger(holder: T, event: String) {
                 when(event){
+                    "del"->{
+                        selItem.remove(holder.data!!)
+                        updateDelText()
+                        cb_sel_all.isChecked = false
+
+                    }
                     "click"->{
                         ARouter.getInstance().build("/video/play").withLong("videoId",(holder.data as Video).id).navigation()
                     }
                     "sel"->{
                         selItem.add(holder.data!!)
-                        if (selItem.size!=0){
-                            tv_delete.text = "删除（${selItem.size}）"
-                        }else{
-                            tv_delete.text = "删除"
-                        }
+                        updateDelText()
                         if (selItem?.size==videoAdapter?.data?.size){
                             cb_sel_all.isChecked = true
                         }
                     }
                     "disSel"->{
                         selItem.remove(holder.data!!)
-                        if (selItem.size!=0){
-                            tv_delete.text = "删除（${selItem.size}）"
-                        }else{
-                            tv_delete.text = "删除"
-                        }
+                        updateDelText()
                         cb_sel_all.isChecked = false
                     }
                 }
@@ -186,6 +184,7 @@ class CacheVideoAct: BaseAct(), View.OnClickListener {
 
             }
         }
+        selItem.clear()
         videoAdapter.clearData()
         videoAdapter.setData(all)
 
@@ -268,5 +267,11 @@ class CacheVideoAct: BaseAct(), View.OnClickListener {
     }
 
 
-
+    private fun updateDelText(){
+        if (selItem.size!=0){
+            tv_delete.text = "删除（${selItem.size}）"
+        }else{
+            tv_delete.text = "删除"
+        }
+    }
 }
