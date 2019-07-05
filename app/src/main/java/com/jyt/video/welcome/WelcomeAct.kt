@@ -36,7 +36,7 @@ class WelcomeAct : BaseAct(){
 
         timeHelper = TimeHelper(tv_next)
         timeHelper.setOriText("跳过")
-        timeHelper.setTimerText("跳过(%s)")
+        timeHelper.setTimerText("跳过(%ss)")
         timeHelper.setTimerListener {
             if (it=="end"){
 //                toMainAct()

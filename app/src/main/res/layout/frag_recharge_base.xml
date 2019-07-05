@@ -10,6 +10,8 @@
                                              android:layout_height="match_parent">
     <include layout="@layout/layout_refresh_recyclerview"/>
 
+
+    <View android:background="@drawable/divider_c8" android:layout_width="match_parent" android:layout_height="1dp"/>
     <com.sdsmdg.harjot.materialshadows.MaterialShadowViewWrapper
             xmlns:app="http://schemas.android.com/apk/res-auto"
             app:shadowOffsetY="-5"
@@ -21,7 +23,7 @@
                     android:id="@+id/tv_total_price"
                     android:layout_gravity="left|center_vertical"
                     android:layout_marginLeft="28dp"
-                    android:text="支付金额：￥188"
+                    android:text="支付金额：￥0"
                     android:textColor="#ff535353"
                     android:textSize="16dp"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"/>

@@ -28,7 +28,6 @@ class VideoDetailAdapter: BaseRcvAdapter<Any>() {
 
     }
 
-    var activity: BaseAct? = null
 
 
     override fun createCustomViewHolder(viewGroup: ViewGroup, i: Int): BaseVH<Any>? {
@@ -36,7 +35,7 @@ class VideoDetailAdapter: BaseRcvAdapter<Any>() {
 
             TYPE_INTRODUCE -> {
                 var holder = IntroduceHeaderVH(viewGroup)
-                holder.activity = activity
+//                holder.activity = activity
                 holder
             }
             TYPE_COMMENT -> {

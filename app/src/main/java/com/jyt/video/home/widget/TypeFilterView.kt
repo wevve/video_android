@@ -11,7 +11,9 @@ import com.jyt.video.common.adapter.BaseRcvAdapter
 import com.jyt.video.common.base.BaseVH
 import com.jyt.video.home.adapter.GroupTypeAdapter
 import com.jyt.video.home.adapter.SubTypeAdapter
+import com.jyt.video.home.entity.TabEntity
 import com.jyt.video.home.entity.VideoType
+import kotlinx.android.synthetic.main.frag_type_video.view.*
 import kotlinx.android.synthetic.main.vh_first_video_type.view.*
 
 class TypeFilterView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
@@ -23,6 +25,7 @@ class TypeFilterView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     lateinit var subAdapter: SubTypeAdapter
 
+    lateinit var tab:TabEntity
 
     var type:VideoType.Type?=null
     var subType:VideoType.Type?=null
@@ -79,10 +82,31 @@ class TypeFilterView @JvmOverloads constructor(context: Context, attrs: Attribut
 
 
     private fun setupView(typeGroup: VideoType.TypeGroup) {
+
+
+
+
         tv_group_name.text = typeGroup.name
         groupAdapter.data.addAll(typeGroup.items)
         groupAdapter.curSel = typeGroup.items.get(0)
         groupAdapter.notifyDataSetChanged()
+
+
+        if (typeGroup.name=="分类"){
+
+            typeGroup.items.forEachIndexed { index, type ->
+                if (type.id==tab.tabId?.toInt()){
+                    groupAdapter.curSel = type
+                    rcv_type.scrollToPosition(index)
+                }
+            }
+
+        }
+
+
+        groupAdapter.notifyDataSetChanged()
+
+
 
 //        typeClickListener?.invoke(typeGroup?.name?:"",groupAdapter.curSel?.id,subType?.id)
 

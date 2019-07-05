@@ -84,6 +84,7 @@ class App : Application(){
     }
     companion object{
 
+        public var id: Long = 0
         lateinit var app:App
 
         private var mAppDatabase: AppDatabase? = null

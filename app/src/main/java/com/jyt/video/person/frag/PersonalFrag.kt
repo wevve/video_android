@@ -61,7 +61,9 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
 //                ARouter.getInstance().build("/wallet/index").navigation()
 //            }
             ll_promotion->{
-                ARouter.getInstance().build("/promotion/index").navigation()
+                                ARouter.getInstance().build("/promotion/record").navigation()
+
+//                ARouter.getInstance().build("/promotion/index").navigation()
             }
 //            ll_promotion_record->{
 //                ARouter.getInstance().build("/promotion/record").navigation()
@@ -91,11 +93,14 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
         if (UserInfo.isLogin()){
             group_no_login.visibility = View.GONE
             group_login.visibility =  View.VISIBLE
+
             getUserInfo()
         }else{
             group_vip.visibility = View.GONE
             group_no_login.visibility = View.VISIBLE
             group_login.visibility =  View.GONE
+
+            img_crown.visibility = View.GONE
         }
 
 
@@ -155,7 +160,11 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
             cs.connect(R.id.tv_coin,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,DensityUtil.dpToPx(context,20))
             cs.clear(R.id.img_avatar,ConstraintSet.BOTTOM)
             cs.applyTo(cl)
+
+            img_crown.visibility = View.VISIBLE
         }else{
+            img_crown.visibility = View.GONE
+
             group_vip.visibility = View.GONE
 
             var cs = ConstraintSet()

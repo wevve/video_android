@@ -142,21 +142,37 @@ class HomeFrag:BaseFrag(),BaseRcvAdapter.OnViewHolderTriggerListener<BaseVH<Any>
             code, data ->
             videoType = data
 
+
+            //空列表 直接不显示
+            var iterator =  videoType?.iterator()
+            while (iterator?.hasNext()==true){
+                var item = iterator.next()
+                if (item.items?.isEmpty()==true){
+                    iterator.remove()
+                }
+            }
+
             var type = VideoType()
             var tg =  type.TypeGroup()
             tg.name = "排序"
             var zuixin = type.Type()
             zuixin.id = 0
-            zuixin.name = "最新"
+            zuixin.name = "最新视频"
             var zuire = type.Type()
             zuire.id = 1
-            zuire.name = "热门"
+            zuire.name = "热门视频"
 
             var zuiduo = type.Type()
             zuiduo.id = 2
-            zuiduo.name = "点赞"
+            zuiduo.name = "点赞最多"
 
-            tg.items = arrayListOf(zuixin,zuire,zuiduo)
+            var remen = type.Type()
+            remen.id = 3
+            remen.name = "热门视频"
+
+
+
+            tg.items = arrayListOf(zuixin,zuire,zuiduo,remen)
             videoType?.add(tg)
         })
     }

@@ -6,10 +6,12 @@ import android.net.Uri
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.jyt.video.App
 import com.jyt.video.BuildConfig
 import com.jyt.video.R
 import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.helper.UserInfo
+import com.jyt.video.common.util.DMUtil
 import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.UserService
@@ -47,9 +49,20 @@ class SettingAct : BaseAct(), View.OnClickListener {
                                 .setPositiveButton("去下载") { dialog, which ->
                                     dialog.dismiss()
 
-                                    val uri = Uri.parse(data.android)
-                                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                                    startActivity(intent)
+//                                    val uri = Uri.parse(data.android)
+//                                    val intent = Intent(Intent.ACTION_VIEW, uri)
+//                                    startActivity(intent)
+                                    var dmUtil =  DMUtil(this)
+                                    DMUtil.URL = data.android
+                                    DMUtil.TITLE =  data.android?.substring((data.android?.lastIndexOf("/")?:0)+1,data.android?.length?:0)
+                                    DMUtil.DESC = resources.getString(R.string.app_name)
+                                    if (dmUtil.checkDownloadManagerEnable()) {
+                                        if (App.id != 0L) {
+                                            dmUtil.clearCurrentTask(App.id);
+                                        }
+                                        App.id = dmUtil.download();
+                                    }
+
                                 }
                                 .setNegativeButton("取消") { dialog, which ->
                                     dialog.dismiss()

@@ -9,5 +9,5 @@ class PersonHomeResult {
     var isVip:Boolean = false
     var vipEndDate:Long? = null
     var money:Double? = null
-    var corn:Double? = null
+    var corn:Int? = null
 }

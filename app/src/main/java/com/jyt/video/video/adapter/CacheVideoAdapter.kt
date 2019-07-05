@@ -22,7 +22,6 @@ import java.io.File
 
 class CacheVideoAdapter:BaseRcvAdapter<Video>{
 
-    var activity:BaseAct? = null
 
     var showCheckBox:Boolean = false
     companion object{

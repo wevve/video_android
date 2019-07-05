@@ -1,5 +1,7 @@
 package com.jyt.video.common.adapter
 
+import android.app.Activity
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.jyt.video.common.base.BaseVH
@@ -11,6 +13,8 @@ abstract class BaseRcvAdapter<T> : RecyclerView.Adapter<BaseVH<T>>() {
 
     var data: ArrayList<T> = ArrayList()
 
+    var activity:AppCompatActivity ? = null
+
     internal var onTriggerListener: OnViewHolderTriggerListener<BaseVH<*>>? = null
 
 
@@ -19,6 +23,7 @@ abstract class BaseRcvAdapter<T> : RecyclerView.Adapter<BaseVH<T>>() {
         if (vh != null && onTriggerListener != null) {
             vh.setOnTriggerListener(onTriggerListener!!)
         }
+        vh?.activity = activity
         return vh!!
     }
 

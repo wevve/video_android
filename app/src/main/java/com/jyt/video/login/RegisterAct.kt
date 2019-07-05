@@ -23,28 +23,16 @@ import kotlinx.android.synthetic.main.act_register.*
 import com.fm.openinstall.model.AppData
 import com.fm.openinstall.listener.AppWakeUpAdapter
 import android.content.Intent
-
-
-
+import com.jyt.video.main.MainActivity
 
 
 @Route(path = "/register/index")
 class RegisterAct:BaseAct(), View.OnClickListener {
 
 
-    var pid:String?=null
     lateinit var userService:UserService
 
-    var wakeUpAdapter: AppWakeUpAdapter? = object : AppWakeUpAdapter() {
-        override fun onWakeUp(appData: AppData) {
-            //获取渠道数据
-            val channelCode = appData.getChannel()
-            //获取绑定数据
-            val bindData = appData.getData()
 
-            pid = bindData
-        }
-    }
     override fun onClick(v: View?) {
         when(v){
             btn_register->{
@@ -56,7 +44,8 @@ class RegisterAct:BaseAct(), View.OnClickListener {
                 RxPermissions(this).request(Manifest.permission.READ_PHONE_STATE).subscribe {
                     if (it){
 
-                        userService.register(account,psd1,psd2,pid ,DeviceIdUtil.getDeviceId(this),ServiceCallback { code, data ->
+                        userService.register(account,psd1,psd2,
+                            MainActivity.pid ,DeviceIdUtil.getDeviceId(this),ServiceCallback { code, data ->
                             if (code==BaseJson.CODE_SUCCESS){
 
                                 OpenInstall.reportRegister();
@@ -87,7 +76,6 @@ class RegisterAct:BaseAct(), View.OnClickListener {
         btn_register.setOnClickListener(this)
         tv_to_protocol.setOnClickListener(this)
 
-        OpenInstall.getWakeUp(getIntent(), wakeUpAdapter);
 
     }
 
@@ -111,15 +99,10 @@ class RegisterAct:BaseAct(), View.OnClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        wakeUpAdapter = null;
 
     }
 
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        // 此处要调用，否则App在后台运行时，会无法截获
-        OpenInstall.getWakeUp(intent, wakeUpAdapter)
-    }
+
 
 
 }

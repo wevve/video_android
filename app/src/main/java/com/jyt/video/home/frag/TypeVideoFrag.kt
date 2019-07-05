@@ -127,6 +127,10 @@ class TypeVideoFrag:BaseFrag(), View.OnClickListener {
                     2->{
                         filterMap["orderCode"] = "good"
                     }
+                    3->{
+                        filterMap["orderCode"] = "reco"
+
+                    }
                 }
             }
         }
@@ -142,10 +146,15 @@ class TypeVideoFrag:BaseFrag(), View.OnClickListener {
 
         HomeFrag.videoType?.forEach {
             tg->
+
+
+
             var tfv = TypeFilterView(context!!)
             tfv.typeClickListener = typeClickListener
-            tfv.setData(tg)
+            tfv.tab = tab
             ll_video_type.addView(tfv)
+            tfv.setData(tg)
+
             addToMap.invoke(tg.name,tg.items?.firstOrNull()?.id,tg.items?.firstOrNull()?.subItem?.firstOrNull()?.id)
 
         }
@@ -169,7 +178,7 @@ class TypeVideoFrag:BaseFrag(), View.OnClickListener {
                             adapter.data.add(ad)
                         }
                     }
-                    if(data.videolist!=null){
+                    if(data.videolist?.isEmpty()==false){
                         adapter?.data?.addAll( data.videolist!!)
                     }
                     adapter?.notifyDataSetChanged()

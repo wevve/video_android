@@ -77,7 +77,7 @@ class ActionSheetDialog:DialogFragment(){
 
         item.imageId?.let {
             var image = ImageView(context)
-            var imageParams = LinearLayout.LayoutParams(DensityUtil.dpToPx(context,30),LinearLayout.LayoutParams.WRAP_CONTENT)
+            var imageParams = LinearLayout.LayoutParams(DensityUtil.dpToPx(context,60),LinearLayout.LayoutParams.WRAP_CONTENT)
             imageParams.rightMargin = DensityUtil.dpToPx(context,18)
             image.layoutParams = imageParams
             image.adjustViewBounds = true

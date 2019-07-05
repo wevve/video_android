@@ -35,19 +35,19 @@
             </intent-filter>
         </activity>
         <activity android:name="com.jyt.video.main.MainActivity" android:launchMode="singleTask">
-
-        </activity>
-        <activity android:name=".login.LoginAct" android:label="登录">
-
-        </activity>
-        <!--注册-->
-        <activity android:name=".login.RegisterAct" android:label="注册并登录">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="x98kap"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".login.LoginAct" android:label="登录">
+
+        </activity>
+        <!--注册-->
+        <activity android:name=".login.RegisterAct" android:label="注册并登录">
+
         </activity>
 
         <activity android:name=".setting.SettingAct" android:label="设置"/>

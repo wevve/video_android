@@ -15,6 +15,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import com.binbook.binbook.common.util.GlideHelper
+import com.jyt.video.common.util.QrCodeUtil
 import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.service.impl.UserServiceImpl
 
@@ -67,8 +68,12 @@ class PromotionAct: BaseAct(), View.OnClickListener {
                 promotionBean = data
 
                 tv_content.text = promotionBean?.td_text
+                if (!promotionBean?.td_code.isNullOrBlank()){
 
-                Glide.with(this).load(promotionBean?.td_code).into(img_qrcode)
+//                    Glide.with(this).load(QrCodeUtil.createQRcodeImage(promotionBean?.td_code!!,500,500)).into(img_qrcode)
+//
+                    img_qrcode.setImageBitmap(QrCodeUtil.createQRcodeImage(promotionBean?.td_code!!,500,500))
+                }
 
 
                 Glide.with(this).load(promotionBean?.td_bgimg).apply(GlideHelper.tuiguangBanner()).into(img_top)

@@ -13,6 +13,7 @@ import com.jyt.video.R
 import com.jyt.video.common.adapter.BaseRcvAdapter
 import com.jyt.video.common.base.BaseVH
 import com.jyt.video.common.util.DensityUtil
+import com.jyt.video.video.dialog.BigImageDialog
 import kotlinx.android.synthetic.main.vh_video_capture_item.*
 
 class VideoCaptureAdapter : BaseRcvAdapter<String>() {
@@ -25,9 +26,18 @@ class VideoCaptureAdapter : BaseRcvAdapter<String>() {
     inner class ViewHolder(view: View): BaseVH<String>(view){
 
         override fun onClick(v: View?) {
-            ARouter.getInstance().build("/browse/image")
-                .withInt("index",adapterPosition)
-                .withStringArrayList("image",this@VideoCaptureAdapter.data).navigation()
+
+            var dialog = BigImageDialog()
+            dialog.url = data?:""
+            try {
+                dialog.show(activity?.supportFragmentManager,"")
+
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
+//            ARouter.getInstance().build("/browse/image")
+//                .withInt("index",adapterPosition)
+//                .withStringArrayList("image",this@VideoCaptureAdapter.data).navigation()
         }
         override fun bindData(data: String?) {
             super.bindData(data)

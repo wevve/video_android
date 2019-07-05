@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.vh_introduce_header.*
 
 class IntroduceHeaderVH(viewGroup: ViewGroup) :BaseVH<Any>(LayoutInflater.from(viewGroup.context).inflate(R.layout.vh_introduce_header,viewGroup,false)){
 
-    var activity:BaseAct? = null
 
     var captureAdapter:VideoCaptureAdapter = VideoCaptureAdapter()
 
@@ -154,7 +153,16 @@ class IntroduceHeaderVH(viewGroup: ViewGroup) :BaseVH<Any>(LayoutInflater.from(v
 
         tv_title.text = data.videoInfo?.title
 
-        tv_introduce.text = data.videoInfo?.info
+
+        if (data.videoInfo?.info.isNullOrBlank()){
+            tv_introduce.visibility = View.GONE
+            img_show_all_info.visibility = View.GONE
+
+        }else{
+            tv_introduce.visibility = View.VISIBLE
+            img_show_all_info.visibility = View.VISIBLE
+            tv_introduce.text = data.videoInfo?.info
+        }
 
         tv_video_price.text = "${data.videoInfo?.gold}金币购买"
 
@@ -168,6 +176,7 @@ class IntroduceHeaderVH(viewGroup: ViewGroup) :BaseVH<Any>(LayoutInflater.from(v
             tv_capture_label.visibility = View.VISIBLE
             rcv_capture.visibility = View.VISIBLE
             captureAdapter.data.addAll(data.videoCut!!)
+            captureAdapter.activity = activity
             captureAdapter.notifyDataSetChanged()
         }else{
             tv_capture_label.visibility = View.GONE

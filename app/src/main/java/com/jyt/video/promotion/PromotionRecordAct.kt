@@ -43,7 +43,7 @@ class PromotionRecordAct:BaseAct(){
 
         })
 
-//        refresh_layout.autoRefresh()
+        refresh_layout.autoRefresh()
     }
 
     override fun getLayoutId(): Int {
@@ -66,7 +66,7 @@ class PromotionRecordAct:BaseAct(){
 
                 adapter?.data?.clear()
                 adapter?.data?.addAll(data.list)
-
+                adapter?.notifyDataSetChanged()
             }
 
             if(adapter?.data?.size!=0){

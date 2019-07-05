@@ -5,6 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <ImageView
+            android:layout_marginTop="6dp"
             android:id="@+id/img_advertising"
             android:background="#EAEAEA"
             android:layout_width="match_parent" android:layout_height="60dp"/>

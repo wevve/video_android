@@ -7,9 +7,11 @@ import com.jyt.video.api.entity.PersonHomeResult
 import com.jyt.video.api.entity.VersionBean
 import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.common.helper.UserInfo
+import com.jyt.video.common.util.DeviceIdUtil
 import com.jyt.video.common.util.RxHelper
 import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.login.entity.LoginResult
+import com.jyt.video.main.MainActivity
 import com.jyt.video.main.entity.HomeDialogResult
 import com.jyt.video.promotion.entity.PromotionBean
 import com.jyt.video.promotion.entity.PromotionUserListResult
@@ -27,7 +29,7 @@ import java.net.URLEncoder
 class UserServiceImpl :UserService{
     override fun getVersion(callback: ServiceCallback<VersionBean>) {
 
-        RxHelper.simpleResult(ApiService.getInstance().api.version,callback)
+        RxHelper.simpleResult(ApiService.getInstance().api.getVersion(MainActivity.pid, DeviceIdUtil.getDeviceId(App.app)),callback)
     }
 
     override fun modifyPsd(oldPsd: String, newPsd: String, callback: ServiceCallback<Any>) {

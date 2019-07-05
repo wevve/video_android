@@ -149,7 +149,7 @@
 
                         <!--tv_money-->
             <android.support.constraint.Group
-                    app:constraint_referenced_ids="tv_coin,tv_name,img_crown,img_avatar"
+                    app:constraint_referenced_ids="tv_coin,tv_name,img_avatar"
                     android:id="@+id/group_login" android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -274,7 +274,7 @@
                         android:layout_width="43dp" android:layout_height="42dp"/>
                 <TextView
                         android:layout_marginTop="4dp"
-                        android:text="宣传"
+                        android:text="宣传记录"
                         android:textColor="#ff000000"
                         android:textSize="12dp"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"/>

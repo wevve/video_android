@@ -1,6 +1,8 @@
 package com.jyt.video.common.base
 
+import android.app.Activity
 import android.content.Context
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.jyt.video.common.adapter.BaseRcvAdapter
@@ -11,6 +13,9 @@ open class BaseVH<T>(parent: View) : RecyclerView.ViewHolder(parent), LayoutCont
     companion object{
         val EVENT_ITEM_CLICK = "itemClick"
     }
+
+
+    var activity:AppCompatActivity?=null
 
     override fun onClick(v: View?) {
         when(v){

@@ -1,6 +1,7 @@
 package com.jyt.video.video
 
 import android.Manifest
+import android.graphics.Color
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -25,6 +26,7 @@ import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.common.entity.CommonTab
 import com.jyt.video.common.helper.UserInfo
 import com.jyt.video.common.util.NetWorkUtil
+import com.jyt.video.common.util.StatusBarUtil
 import com.jyt.video.common.util.TimeHelper
 import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.home.entity.Advertising
@@ -39,6 +41,7 @@ import com.jyt.video.service.impl.CommentServiceImpl
 import com.jyt.video.service.impl.VideoServiceImpl
 import com.jyt.video.service.impl.WalletServiceImpl
 import com.jyt.video.video.adapter.VideoDetailAdapter
+import com.jyt.video.video.entity.CommentItem
 import com.jyt.video.video.entity.Gift
 import com.jyt.video.video.entity.ThumbVideo
 import com.jyt.video.video.entity.VideoDetail
@@ -62,13 +65,16 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
     lateinit var walletService: WalletService
     lateinit var commentService: CommentService
     lateinit var introduceAdapter: VideoDetailAdapter
-    lateinit var commentAdapter: VideoDetailAdapter
+//    lateinit var commentAdapter: VideoDetailAdapter
 
     var videoDetail:VideoDetail? = null
 
     var videoId:Long =0
 
     var ad:Advertising?=null
+
+
+    var refreshVideo = true
 
     var videoCommentLastId:Long? = 0
     override fun initView() {
@@ -82,6 +88,9 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
         videoService = VideoServiceImpl()
         commentService = CommentServiceImpl()
         walletService = WalletServiceImpl()
+
+        StatusBarUtil.setStatusBarColor(this,Color.BLACK)
+        StatusBarUtil.setStatusBarDarkTheme(this,false)
 
         hideToolbar()
         initRcv()
@@ -105,20 +114,22 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
             }
 
             override fun onLoadingMore() {
+
+//                getCommentData()
                 refresh_layout_detail.refreshComplete()
             }
         })
 
-        refresh_layout_comment.setOnRefreshListener(object :SmoothRefreshLayout.OnRefreshListener{
-            override fun onRefreshing() {
-                getCommentData(null)
-
-            }
-
-            override fun onLoadingMore() {
-                refresh_layout_comment.refreshComplete()
-            }
-        })
+//        refresh_layout_comment.setOnRefreshListener(object :SmoothRefreshLayout.OnRefreshListener{
+//            override fun onRefreshing() {
+//                getCommentData(null)
+//
+//            }
+//
+//            override fun onLoadingMore() {
+//                refresh_layout_comment.refreshComplete()
+//            }
+//        })
 
         input_comment.setOnEditorActionListener { v, actionId, event ->
             if (actionId== EditorInfo.IME_ACTION_SEND){
@@ -178,7 +189,8 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
                         is Banner,
                         is VideoGroupTitle,
                         is Advertising,
-                        is VideoType -> {
+                        is VideoType ,
+                        is CommentItem-> {
                             2
                         }
                         else -> {
@@ -190,10 +202,10 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
         }
         rcv_introduce.layoutManager = introduceLayoutManager
 
-        commentAdapter = VideoDetailAdapter()
+//        commentAdapter = VideoDetailAdapter()
 
-        rcv_comment.adapter = commentAdapter
-        rcv_comment.layoutManager = LinearLayoutManager(this)
+//        rcv_comment.adapter = commentAdapter
+//        rcv_comment.layoutManager = LinearLayoutManager(this)
 
 
     }
@@ -209,7 +221,8 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
                     videoDetail = data
                     setupView(data,ad)
                 }
-                refresh_layout_detail.refreshComplete()
+
+                getCommentData(null)
             })
 
         })
@@ -226,6 +239,9 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
             introduceAdapter.data.add(VideoGroupTitle("猜你喜欢"))
 
+            if (data.guess!!.size>6){
+                data.guess = data.guess!!.subList(0,6)
+            }
             introduceAdapter.data.addAll(data.guess!!)
 
         }
@@ -237,6 +253,10 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
     }
     private fun initVideo(data:VideoDetail){
+        if (!refreshVideo){
+            return
+        }
+        refreshVideo = false
 //        var url = "http://jzvd.nathen.cn/c494b340ff704015bb6682ffde3cd302/64929c369124497593205a4190d7d128-5287d2089db37e62345123a1be272f8b.mp4"
 
 //        data?.videoInfo?.url = "https://v3.mjshcn.com:987/20190429/5hgQbFzH/index.m3u8"
@@ -281,6 +301,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
     override fun onStateEventChange(event: String) {
         when(event){
             CustomJzvdStd.EVENT_BUY_VIDEO->{
+                videoplayer.setScreenNormal()
                 buyVideo()
             }
         }
@@ -289,50 +310,66 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
 
     private fun initTab(){
-        tv_empty_text.text = "暂无数据"
+//        tv_empty_text.text = "暂无数据"
 
-        tab_layout.setTabData(
-            arrayListOf(CommonTab("简介"),
-            CommonTab("评论")) as ArrayList<CustomTabEntity>)
-
-        tab_layout.setOnTabSelectListener(object :OnTabSelectListener{
-            override fun onTabSelect(position: Int) {
-                if (position==0){
-                    group_comment.visibility = View.GONE
-                    refresh_layout_detail.visibility = View.VISIBLE
-                }else{
-                    group_comment.visibility = View.VISIBLE
-                    refresh_layout_detail.visibility = View.GONE
-                }
-            }
-
-            override fun onTabReselect(position: Int) {
-
-            }
-
-        })
+//        tab_layout.setTabData(
+//            arrayListOf(CommonTab("简介"),
+//            CommonTab("评论")) as ArrayList<CustomTabEntity>)
+//
+//        tab_layout.setOnTabSelectListener(object :OnTabSelectListener{
+//            override fun onTabSelect(position: Int) {
+//                if (position==0){
+//                    group_comment.visibility = View.GONE
+//                    refresh_layout_detail.visibility = View.VISIBLE
+//                }else{
+//                    group_comment.visibility = View.VISIBLE
+//                    refresh_layout_detail.visibility = View.GONE
+//                }
+//            }
+//
+//            override fun onTabReselect(position: Int) {
+//
+//            }
+//
+//        })
     }
 
     private fun getCommentData(lastId:Long?){
 
         commentService.getCommentList(videoId,lastId,ServiceCallback{
             code, data ->
-            if (data!=null && data.list.isNotEmpty()){
+            if (data!=null && data.list?.isNotEmpty()==true){
                 if (lastId==null){
-                    commentAdapter.data.clear()
+
+//                    commentAdapter.data.clear()
+//                    introduceAdapter.data.clear()
+                    var iterator = introduceAdapter.data.iterator()
+                    while (iterator.hasNext()){
+                         var item  = iterator.next()
+                        if (item is VideoGroupTitle){
+                            if (item.text == "网友评论"){
+                                iterator.remove()
+                            }
+                        }else
+                        if (item is CommentItem){
+                            iterator.remove()
+                        }
+                    }
+
+                    introduceAdapter.data.add(VideoGroupTitle("网友评论"))
+
+
                 }
-                commentAdapter.data.addAll(data.list)
-                commentAdapter.notifyDataSetChanged()
+//                commentAdapter.data.addAll(data.list)
+                introduceAdapter.data.addAll(data.list)
+//                commentAdapter.notifyDataSetChanged()
+                introduceAdapter.notifyDataSetChanged()
                 videoCommentLastId = data.list.last()?.id
             }
 
-            if (commentAdapter.data.size==0){
-                ll_empty.visibility = View.VISIBLE
-            }else{
-                ll_empty.visibility = View.GONE
+            refresh_layout_detail.refreshComplete()
 
-            }
-            refresh_layout_comment.refreshComplete()
+//            refresh_layout_comment.refreshComplete()
         })
 
     }
@@ -354,6 +391,8 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
             code, data ->
             if (code==BaseJson.CODE_SUCCESS){
                 input_comment.setText("")
+
+
             }
             getCommentData(null)
         })
@@ -410,6 +449,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
                     if (code==BaseJson.CODE_SUCCESS){
                         videoDetail?.alreadyBuy = 1
 
+                        refreshVideo = true
                         setupView(videoDetail!!,ad)
 
                         dialogFragment.dismissAllowingStateLoss()

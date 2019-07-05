@@ -54,10 +54,9 @@ public class RxHelper {
         public void accept(Throwable throwable) throws Exception {
             throwable.printStackTrace();
             serviceCallback.getResult().invoke(BaseJson.CODE_ERROR,null);
-
             if (throwable.getClass()!=IllegalArgumentException.class){
 
-                ToastUtil.showShort(App.app,throwable.getMessage());
+//                ToastUtil.showShort(App.app,throwable.getMessage());
 
             }
 

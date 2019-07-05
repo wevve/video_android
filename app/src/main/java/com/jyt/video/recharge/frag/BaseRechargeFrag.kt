@@ -52,6 +52,7 @@ abstract class BaseRechargeFrag :BaseFrag(),BaseRcvAdapter.OnViewHolderTriggerLi
 
         }
 
+        tv_total_price.text =  "支付金额：${holder.getPrice()}"
 
     }
     override fun onClick(v: View?) {
@@ -73,7 +74,12 @@ abstract class BaseRechargeFrag :BaseFrag(),BaseRcvAdapter.OnViewHolderTriggerLi
 //                    ActionSheetDialog.Item("微信支付",R.mipmap.weixin)
 //                    , ActionSheetDialog.Item("支付宝支付",R.mipmap.zhifubao))
 
-                choosePayWayDialog?.show(childFragmentManager,"")
+                try {
+                    choosePayWayDialog?.show(childFragmentManager,"")
+
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
             }
         }
     }

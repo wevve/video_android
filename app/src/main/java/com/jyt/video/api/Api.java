@@ -40,7 +40,7 @@ public interface Api {
     Observable<BaseJson<Advertising>> videoHorAd(@Path("type")int type);
 
     @GET("/appapi/getVersion")
-    Observable<BaseJson<VersionBean>> getVersion();
+    Observable<BaseJson<VersionBean>> getVersion(@Query("pid")String pid,@Query("did")String did);
 
     @POST("/appapi/createOrder")
     @FormUrlEncoded

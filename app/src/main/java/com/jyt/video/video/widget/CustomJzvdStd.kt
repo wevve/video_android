@@ -8,9 +8,11 @@ import cn.jzvd.Jzvd
 import cn.jzvd.JzvdStd
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.jyt.video.R
 import com.jyt.video.common.helper.UserInfo
 import com.jyt.video.common.util.TimeHelper
+import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.video.entity.VideoDetail
 import kotlinx.android.synthetic.main.jz_layout_std_custom.view.*
 import java.util.logging.Handler
@@ -46,6 +48,7 @@ class CustomJzvdStd : JzvdStd {
 //        Glide.with(this).load(data.ad?.before?.img).into(img_ad_before)
 //        Glide.with(this).load(image).into(img_ad_before)
 //        Glide.with(this).load(image).into(img_ad_pause)
+         firstPlayAD = false
 
         isEndFreedTime = false
 
@@ -57,8 +60,8 @@ class CustomJzvdStd : JzvdStd {
         img_ad_before.setOnClickListener(this)
         img_ad_pause.setOnClickListener(this)
 
-        Glide.with(this).load(videoDetail?.ad?.before?.img).into(img_ad_before)
-        Glide.with(this).load(videoDetail?.ad?.pause?.img).into(img_ad_pause)
+        Glide.with(this).load(videoDetail?.ad?.before?.img).apply(RequestOptions().centerCrop()).into(img_ad_before)
+        Glide.with(this).load(videoDetail?.ad?.pause?.img).apply(RequestOptions().centerCrop()).into(img_ad_pause)
 
         fl_end_free.visibility = View.GONE
         fl_before.visibility = View.GONE
@@ -135,13 +138,14 @@ class CustomJzvdStd : JzvdStd {
                 if (videoDetail?.isVip==true){
                     vipTimer.stop()
                 }else{
-                    if (UserInfo.isLogin()){
-                        //提醒开通vip
-                        ARouter.getInstance().build("/recharge/member").navigation()
-                    }else{
-                        ARouter.getInstance().build("/login/index").navigation()
-
-                    }
+                    ToastUtil.showShort(context,"你还不是VIP会员")
+//                    if (UserInfo.isLogin()){
+//                        //提醒开通vip
+//                        ARouter.getInstance().build("/recharge/member").navigation()
+//                    }else{
+//                        ARouter.getInstance().build("/login/index").navigation()
+//
+//                    }
 
                 }
             }
@@ -170,7 +174,7 @@ class CustomJzvdStd : JzvdStd {
         super.onProgress(progress, position, duration)
 
         //收费视频
-        if((videoDetail?.videoInfo?.gold?:0)!=0){
+        if((videoDetail?.videoInfo?.gold?:0.0)!=0.0){
             //VIP 跟 已购买  跳过判断
             if (videoDetail?.isVip==true || videoDetail?.alreadyBuy==1){
 
