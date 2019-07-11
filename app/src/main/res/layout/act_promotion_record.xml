@@ -118,6 +118,7 @@
                 </FrameLayout>
 
                 <TextView
+                        android:id="@+id/tv_to_promotion"
                         android:layout_gravity="bottom|center_horizontal"
                         android:text="快去邀请更多好友吧"
                         android:textColor="#ff505050"

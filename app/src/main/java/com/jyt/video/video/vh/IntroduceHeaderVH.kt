@@ -11,6 +11,8 @@ import com.jyt.video.common.base.BaseVH
 import com.jyt.video.common.dialog.AlertDialog
 import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.common.helper.UserInfo
+import com.jyt.video.common.itemDecoration.SpaceItemDecoration
+import com.jyt.video.common.util.DensityUtil
 import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.VideoService
@@ -175,6 +177,8 @@ class IntroduceHeaderVH(viewGroup: ViewGroup) :BaseVH<Any>(LayoutInflater.from(v
         if (!data.videoCut.isNullOrEmpty()) {
             tv_capture_label.visibility = View.VISIBLE
             rcv_capture.visibility = View.VISIBLE
+//            rcv_capture.addItemDecoration(SpaceItemDecoration(DensityUtil.dpToPx(context,8),SpaceItemDecoration.LINEARLAYOUT))
+            captureAdapter.data.clear()
             captureAdapter.data.addAll(data.videoCut!!)
             captureAdapter.activity = activity
             captureAdapter.notifyDataSetChanged()

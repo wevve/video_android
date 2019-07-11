@@ -34,9 +34,10 @@
         android:visibility="invisible">
 
         <ImageView
+                android:paddingLeft="14dp"
                 android:id="@+id/img_video_play"
                 android:src="@mipmap/video_play"
-                android:layout_width="22dp" android:layout_height="22dp"/>
+                android:layout_width="36dp" android:layout_height="22dp"/>
         <TextView
 
                 android:id="@+id/current"
@@ -253,7 +254,9 @@
     </LinearLayout>
 
 
-    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+    <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl"
+            android:layout_width="match_parent"
                                                  android:layout_height="match_parent">
 
         <com.jyt.video.common.view.StatusBarHeightView
@@ -273,6 +276,8 @@
                     android:layout_gravity="right"
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:background="@drawable/shape_14r_30apl"
                     android:gravity="center"
                     android:orientation="horizontal"
@@ -300,6 +305,7 @@
                 android:layout_width="match_parent" android:layout_height="match_parent">
 
             <TextView
+                    android:id="@+id/tv_free_play_hint"
                     android:layout_marginBottom="144dp"
                     android:layout_gravity="bottom|center_horizontal"
                     android:text="试看结束，若要继续观看请先购买"

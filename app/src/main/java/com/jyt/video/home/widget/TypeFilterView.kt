@@ -1,6 +1,7 @@
 package com.jyt.video.home.widget
 
 import android.content.Context
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -54,6 +55,7 @@ class TypeFilterView @JvmOverloads constructor(context: Context, attrs: Attribut
         })
 
         rcv_type.adapter = groupAdapter
+
         rcv_type.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
 
 

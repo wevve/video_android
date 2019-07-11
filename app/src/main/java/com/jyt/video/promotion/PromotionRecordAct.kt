@@ -1,10 +1,14 @@
 package com.jyt.video.promotion
 
+import android.content.Intent
+import android.net.Uri
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.jyt.video.R
+import com.jyt.video.api.Constans
 import com.jyt.video.common.base.BaseAct
+import com.jyt.video.common.helper.UserInfo
 import com.jyt.video.promotion.adapter.PromotionAdapter
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.UserService
@@ -44,6 +48,12 @@ class PromotionRecordAct:BaseAct(){
         })
 
         refresh_layout.autoRefresh()
+
+        tv_to_promotion.setOnClickListener {
+            val uri = Uri.parse(Constans.BaseUrl+"/appapi/shareUrl/pid/"+ UserInfo.getUserId())
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
     }
 
     override fun getLayoutId(): Int {

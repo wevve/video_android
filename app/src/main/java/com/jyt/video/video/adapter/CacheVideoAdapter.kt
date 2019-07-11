@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import com.binbook.binbook.common.util.GlideHelper
 import com.bumptech.glide.Glide
 import com.jyt.video.App
+import com.jyt.video.R
 import com.jyt.video.common.adapter.BaseRcvAdapter
 import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.base.BaseVH
@@ -404,7 +406,9 @@ class CacheVideoAdapter:BaseRcvAdapter<Video>{
 
             tv_name.text = data.title
 
-            Glide.with(itemView).load(data.cover).into(img_cover)
+            var options = GlideHelper.centerCrop()
+            options.placeholder(R.mipmap.video_holder)
+            Glide.with(itemView).load(data.cover).apply(options).into(img_cover)
 
 
         }

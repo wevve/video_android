@@ -219,6 +219,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
                 if (data!=null){
                     data.videoId = videoId
                     videoDetail = data
+
                     setupView(data,ad)
                 }
 
@@ -230,7 +231,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
     private fun setupView(data:VideoDetail,ad:Advertising?){
         introduceAdapter.data.clear()
-        if (ad!=null){
+        if (ad!=null && ad.img?.isEmpty()==false){
             introduceAdapter.data.add(ad)
         }
         introduceAdapter.data.add(data)
@@ -285,10 +286,11 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
             JzvdStd.SAVE_PROGRESS = videoDetail?.alreadyBuy==1 ||
                     videoDetail?.isVip==true
 
-
+            Glide.with(this).asBitmap().load(data?.videoInfo?.thumbnail).into(videoplayer.thumbImageView)
             videoplayer.playerStateListener = this
             videoplayer.setUp(url, data?.videoInfo?.title,JzvdStd.SCREEN_NORMAL ,JZMediaExo(videoplayer));
             videoplayer.videoDetail = videoDetail
+            videoplayer.activity = this
             videoplayer.initWithData()
 
             var isConnectWifi = NetWorkUtil.isWifiConnect(this)
@@ -425,15 +427,16 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
             return
         }
         if (videoDetail?.isVip==true){
-            ToastUtil.showShort(this,"你是VIP会员 无需购买")
+            ToastUtil.showShort(this,"您是VIP会员 无需购买")
             return
         }
-        if (videoDetail?.videoInfo?.gold==0.0){
+        if (videoDetail?.videoInfo?.gold==0){
             ToastUtil.showShort(this,"免费视频无需购买")
             return
         }
         if (videoDetail?.alreadyBuy==1){
-            ToastUtil.showShort(this,"您已购买视频")
+//            ToastUtil.showShort(this,"您已购买视频")
+            ToastUtil.showShort(this,"您已购买视频24小时内无需购买")
             return
         }
 
@@ -452,7 +455,6 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
                         refreshVideo = true
                         setupView(videoDetail!!,ad)
 
-                        dialogFragment.dismissAllowingStateLoss()
 
                         var dialog = AlertDialog()
                         dialog.message = "购买成功"
@@ -464,6 +466,9 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
                         dialog.show(supportFragmentManager,"")
 
                     }
+
+                    dialogFragment.dismissAllowingStateLoss()
+
                 })
             }else{
                 dialogFragment.dismissAllowingStateLoss()

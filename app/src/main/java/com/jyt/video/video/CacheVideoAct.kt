@@ -2,6 +2,7 @@ package com.jyt.video.video
 
 import android.os.Bundle
 import android.os.Environment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -29,8 +30,11 @@ import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.act_cache.bottom_view
 import kotlinx.android.synthetic.main.act_cache.cb_sel_all
 import kotlinx.android.synthetic.main.act_cache.ll_select_all
+import kotlinx.android.synthetic.main.act_cache.recycler_view
+import kotlinx.android.synthetic.main.act_cache.refresh_layout
 import kotlinx.android.synthetic.main.act_cache.tv_delete
 import kotlinx.android.synthetic.main.act_collection_video.*
+import kotlinx.android.synthetic.main.layout_refresh_recyclerview.*
 import kotlinx.android.synthetic.main.layout_video_list_empty.*
 
 
@@ -140,6 +144,7 @@ class CacheVideoAct: BaseAct(), View.OnClickListener {
 
         recycler_view.adapter = videoAdapter
         recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
 
         refresh_layout.setOnRefreshListener(object :SmoothRefreshLayout.OnRefreshListener{
             override fun onLoadingMore() {

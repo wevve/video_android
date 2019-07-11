@@ -1,5 +1,6 @@
 package com.jyt.video.video
 
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -140,6 +141,7 @@ class CollectionVideoAct:BaseAct(),BaseRcvAdapter.OnViewHolderTriggerListener<Ba
         })
 
         recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
         recycler_view.adapter = adapter
 
 

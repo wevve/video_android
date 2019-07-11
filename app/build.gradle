@@ -8,6 +8,14 @@ apply plugin: 'kotlin-kapt'
 
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('../video')
+            storePassword '123456'
+            keyAlias = 'video'
+            keyPassword '123456'
+        }
+    }
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.jyt.video"
@@ -24,6 +32,12 @@ android {
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.debug
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.debug
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

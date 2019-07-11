@@ -45,6 +45,10 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
 
         when(v){
 
+            img_arrow->{
+                ARouter.getInstance().build("/setting/index").navigation()
+
+            }
             img_setting->{
                 ARouter.getInstance().build("/setting/index").navigation()
             }
@@ -116,6 +120,7 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
         btn_to_login.setOnClickListener(this)
         btn_to_register.setOnClickListener(this)
         img_setting.setOnClickListener(this)
+        img_arrow.setOnClickListener(this)
 
 
         ll_cache_video.setOnClickListener(this)
@@ -154,30 +159,32 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
                 tv_vip_end_date.text = "到期时间 ${dateFormat.format(Date((data.vipEndDate ?: 0) * 1000))}"
             }
 
-            var cs = ConstraintSet()
-            cs.clone(cl)
-            cs.connect(R.id.tv_coin,ConstraintSet.TOP,R.id.img_avatar,ConstraintSet.BOTTOM,0)
-            cs.connect(R.id.tv_coin,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,DensityUtil.dpToPx(context,20))
-            cs.clear(R.id.img_avatar,ConstraintSet.BOTTOM)
-            cs.applyTo(cl)
+            tv_is_vip.text = "VIP会员"
+//            var cs = ConstraintSet()
+//            cs.clone(cl)
+//            cs.connect(R.id.tv_coin,ConstraintSet.TOP,R.id.img_avatar,ConstraintSet.BOTTOM,0)
+//            cs.connect(R.id.tv_coin,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,DensityUtil.dpToPx(context,20))
+//            cs.clear(R.id.img_avatar,ConstraintSet.BOTTOM)
+//            cs.applyTo(cl)
 
             img_crown.visibility = View.VISIBLE
         }else{
             img_crown.visibility = View.GONE
 
             group_vip.visibility = View.GONE
+            tv_is_vip.text = "普通会员"
 
-            var cs = ConstraintSet()
-            cs.clone(cl)
-            cs.connect(R.id.tv_coin,ConstraintSet.BOTTOM,R.id.img_avatar,ConstraintSet.BOTTOM)
-            cs.connect(R.id.img_avatar,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,DensityUtil.dpToPx(context,20))
-            cs.clear(R.id.tv_coin,ConstraintSet.TOP)
-            cs.applyTo(cl)
+//            var cs = ConstraintSet()
+//            cs.clone(cl)
+//            cs.connect(R.id.tv_coin,ConstraintSet.BOTTOM,R.id.img_avatar,ConstraintSet.BOTTOM)
+//            cs.connect(R.id.img_avatar,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,DensityUtil.dpToPx(context,20))
+//            cs.clear(R.id.tv_coin,ConstraintSet.TOP)
+//            cs.applyTo(cl)
         }
 1
         Glide.with(this).load(data.avatar).apply(GlideHelper.avatar()).into(img_avatar)
 
-        tv_name.text = data.nickname
+        tv_name.text = data.username
 
 //        tv_money.text = "余额：${data.money.toString()}"
 

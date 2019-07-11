@@ -15,7 +15,7 @@
             android:layout_width="16dp" android:layout_height="16dp" android:visibility="gone"/>
 
     <ImageView
-            android:background="#666666"
+            android:src="@mipmap/video_holder"
             android:layout_marginTop="19dp"
             app:layout_goneMarginLeft="10dp"
             android:layout_marginLeft="32dp"
@@ -152,4 +152,6 @@
     <!--<android.support.constraint.Group-->
             <!--android:id="@+id/group_edit"-->
             <!--android:layout_width="wrap_content" android:layout_height="wrap_content"/>-->
+
+    <View android:layout_width="match_parent" android:layout_height="1dp"/>
 </android.support.constraint.ConstraintLayout>

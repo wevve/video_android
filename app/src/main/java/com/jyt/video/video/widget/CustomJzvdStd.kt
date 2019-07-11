@@ -2,8 +2,10 @@ package com.jyt.video.video.widget
 
 import android.content.Context
 import android.os.Message
+import android.support.v4.app.ActivityCompat
 import android.util.AttributeSet
 import android.view.View
+import android.view.WindowManager
 import cn.jzvd.Jzvd
 import cn.jzvd.JzvdStd
 import com.alibaba.android.arouter.launcher.ARouter
@@ -16,6 +18,11 @@ import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.video.entity.VideoDetail
 import kotlinx.android.synthetic.main.jz_layout_std_custom.view.*
 import java.util.logging.Handler
+import cn.jzvd.JZUtils.getWindow
+import android.os.Build
+import android.app.Activity
+import android.support.constraint.ConstraintSet
+
 
 class CustomJzvdStd : JzvdStd {
 
@@ -33,6 +40,8 @@ class CustomJzvdStd : JzvdStd {
 
     internal var isEndFreedTime = false
     lateinit var vipTimer:TimeHelper
+
+    var activity:Activity?=null
 
     constructor(context: Context?) : this(context,null)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -54,14 +63,17 @@ class CustomJzvdStd : JzvdStd {
 
         vipTimer.setTime(videoDetail?.adTime?.toInt()?:0)
 
-
+        tv_free_play_hint.text = "试看${videoDetail?.feeLook}秒结束，若要继续观看请先购买"
         btn_buy_video.text = "${videoDetail?.videoInfo?.gold}金币购买"
 
         img_ad_before.setOnClickListener(this)
         img_ad_pause.setOnClickListener(this)
 
-        Glide.with(this).load(videoDetail?.ad?.before?.img).apply(RequestOptions().centerCrop()).into(img_ad_before)
-        Glide.with(this).load(videoDetail?.ad?.pause?.img).apply(RequestOptions().centerCrop()).into(img_ad_pause)
+        var options = RequestOptions().centerCrop()
+        options.error(R.mipmap.ad_holder)
+        options.placeholder(R.mipmap.ad_holder)
+        Glide.with(this).load(videoDetail?.ad?.before?.img).apply(options).into(img_ad_before)
+        Glide.with(this).load(videoDetail?.ad?.pause?.img).apply(options).into(img_ad_pause)
 
         fl_end_free.visibility = View.GONE
         fl_before.visibility = View.GONE
@@ -113,7 +125,8 @@ class CustomJzvdStd : JzvdStd {
                 if (beforeAD!=null){
                     //未播放广告
                     if (!firstPlayAD){
-                        showBeforeAD()
+                        if (videoDetail?.isVip==false)
+                            showBeforeAD()
                         firstPlayAD = true
                         return
                     }
@@ -138,7 +151,7 @@ class CustomJzvdStd : JzvdStd {
                 if (videoDetail?.isVip==true){
                     vipTimer.stop()
                 }else{
-                    ToastUtil.showShort(context,"你还不是VIP会员")
+                    ToastUtil.showShort(context,"您还不是VIP会员")
 //                    if (UserInfo.isLogin()){
 //                        //提醒开通vip
 //                        ARouter.getInstance().build("/recharge/member").navigation()
@@ -167,6 +180,7 @@ class CustomJzvdStd : JzvdStd {
 
             }
 
+
         }
     }
 
@@ -174,7 +188,7 @@ class CustomJzvdStd : JzvdStd {
         super.onProgress(progress, position, duration)
 
         //收费视频
-        if((videoDetail?.videoInfo?.gold?:0.0)!=0.0){
+        if((videoDetail?.videoInfo?.gold?:0)!=0){
             //VIP 跟 已购买  跳过判断
             if (videoDetail?.isVip==true || videoDetail?.alreadyBuy==1){
 
@@ -201,13 +215,38 @@ class CustomJzvdStd : JzvdStd {
 
     }
 
-
+//恢复正常屏幕
     override fun setScreenNormal() {
+
+
+    var constraintSet =  ConstraintSet()
+    constraintSet.clone(cl)
+    constraintSet.constrainPercentWidth(R.id.img_ad_before,0.8f)
+    constraintSet.constrainPercentWidth(R.id.img_ad_pause,0.8f)
+    constraintSet.applyTo(cl)
         super.setScreenNormal()
         backButton.visibility = View.VISIBLE
 
+        activity?.let {
+            showNavigationBar(it)
+        }
+
     }
 
+    override fun setScreenFullscreen() {
+        var constraintSet =  ConstraintSet()
+        constraintSet.clone(cl)
+        constraintSet.constrainPercentWidth(R.id.img_ad_before,0.5f)
+        constraintSet.constrainPercentWidth(R.id.img_ad_pause,0.5f)
+        constraintSet.applyTo(cl)
+        super.setScreenFullscreen()
+
+        activity?.let {
+            hideNavigationBar(it)
+        }
+
+
+    }
 
     override fun onStatePause() {
         super.onStatePause()
@@ -281,6 +320,61 @@ class CustomJzvdStd : JzvdStd {
 
     }
 
+
+    /**
+     * 隐藏虚拟按键，并且全屏
+     */
+    fun hideNavigationBar(activity: Activity) {
+        val uiOptions = activity.window.decorView.systemUiVisibility
+        var newUiOptions = uiOptions
+
+        val isImmersiveModeEnabled = uiOptions or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY == uiOptions
+        //之前如果是IMMERSIVE状态，就不用再隐藏了
+        if (!isImmersiveModeEnabled) {
+
+            if (Build.VERSION.SDK_INT >= 14) {
+                newUiOptions = newUiOptions or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            }
+
+            if (Build.VERSION.SDK_INT >= 16) {
+                newUiOptions = newUiOptions or View.SYSTEM_UI_FLAG_FULLSCREEN
+            }
+            if (Build.VERSION.SDK_INT >= 18) {
+                newUiOptions = newUiOptions or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            }
+
+            activity.window.decorView.systemUiVisibility = newUiOptions
+        }
+    }
+
+    /**
+     * 显示虚拟按键
+     */
+    fun showNavigationBar(activity: Activity) {
+
+        val uiOptions = activity.window.decorView.systemUiVisibility
+        var newUiOptions = uiOptions
+        val isImmersiveModeEnabled = uiOptions or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY == uiOptions
+        //之前如果是IMMERSIVE状态，就显示NavigationBar
+        if (isImmersiveModeEnabled) {
+
+            //先取 非 后再 与， 把对应位置的1 置成0，原本为0的还是0
+
+            if (Build.VERSION.SDK_INT >= 14) {
+                newUiOptions = newUiOptions and View.SYSTEM_UI_FLAG_HIDE_NAVIGATION.inv()
+            }
+
+            if (Build.VERSION.SDK_INT >= 16) {
+                newUiOptions = newUiOptions and View.SYSTEM_UI_FLAG_FULLSCREEN.inv()
+            }
+
+            if (Build.VERSION.SDK_INT >= 18) {
+                newUiOptions = newUiOptions and View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY.inv()
+            }
+            activity.window.decorView.systemUiVisibility = newUiOptions
+
+        }
+    }
 
 
 }

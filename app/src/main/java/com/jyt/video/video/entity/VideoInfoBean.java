@@ -22,7 +22,7 @@ public class VideoInfoBean implements Serializable {
     private String thumbnail;
     private String info;
     private String short_info;
-    private double gold;
+    private int gold;
     private long click;
     private String play_time;
     @SerializedName("class")
@@ -76,11 +76,11 @@ public class VideoInfoBean implements Serializable {
         this.short_info = short_info;
     }
 
-    public double getGold() {
+    public int getGold() {
         return gold;
     }
 
-    public void setGold(double gold) {
+    public void setGold(int gold) {
         this.gold = gold;
     }
 

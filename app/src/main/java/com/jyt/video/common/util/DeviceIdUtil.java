@@ -36,7 +36,7 @@ public class DeviceIdUtil {
         //获得设备序列号（无需权限）
         String serial = getSERIAL();
         //获得硬件uuid（根据硬件相关属性，生成uuid）（无需权限）
-        String uuid = getDeviceUUID().replace("-", "");
+//        String uuid = getDeviceUUID().replace("-", "");
 
         //追加imei
         if (imei != null && imei.length() > 0) {
@@ -54,9 +54,9 @@ public class DeviceIdUtil {
             sbDeviceId.append("|");
         }
         //追加硬件uuid
-        if (uuid != null && uuid.length() > 0) {
-            sbDeviceId.append(uuid);
-        }
+//        if (uuid != null && uuid.length() > 0) {
+//            sbDeviceId.append(uuid);
+//        }
 
         //生成SHA1，统一DeviceId长度
         if (sbDeviceId.length() > 0) {

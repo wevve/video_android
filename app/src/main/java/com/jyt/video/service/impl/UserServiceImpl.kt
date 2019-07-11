@@ -19,6 +19,7 @@ import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.UserService
 import com.jyt.video.wallet.entity.WalletIndexInfo
 import com.jyt.video.welcome.entity.WelcomeResult
+import com.orhanobut.logger.Logger
 import io.reactivex.Observable
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -29,7 +30,14 @@ import java.net.URLEncoder
 class UserServiceImpl :UserService{
     override fun getVersion(callback: ServiceCallback<VersionBean>) {
 
-        RxHelper.simpleResult(ApiService.getInstance().api.getVersion(MainActivity.pid, DeviceIdUtil.getDeviceId(App.app)),callback)
+        var deviceId = DeviceIdUtil.getDeviceId(App.app)
+        Logger.d(deviceId)
+        var pid = if (MainActivity.pid.isNullOrBlank()){
+            "0"
+        }else{
+            MainActivity.pid
+        }
+        RxHelper.simpleResult(ApiService.getInstance().api.getVersion(pid,deviceId),callback)
     }
 
     override fun modifyPsd(oldPsd: String, newPsd: String, callback: ServiceCallback<Any>) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
                                              xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -12,7 +12,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></com.jyt.video.common.view.StatusBarHeightView>
+                android:layout_height="23dp"></com.jyt.video.common.view.StatusBarHeightView>
         <android.support.constraint.ConstraintLayout
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -73,17 +73,19 @@
                     android:id="@+id/img_crown"/>
 
             <TextView
-                    android:layout_marginLeft="89dp"
-                    android:layout_marginTop="39dp"
+                    app:layout_constraintBottom_toBottomOf="@id/img_avatar"
+                    android:layout_marginBottom="45dp"
                     android:includeFontPadding="false"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
                     android:text=" "
                     android:textColor="#ffffffff"
                     android:textSize="16dp"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tv_name"/>
+                    android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tv_name"
+                    app:layout_constraintLeft_toRightOf="@+id/img_avatar" android:layout_marginLeft="15dp"/>
+
 
             <TextView
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="11dp"
                     android:id="@+id/tv_is_vip"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
@@ -93,22 +95,22 @@
                     android:textColor="#ffffffff"
                     android:textSize="12dp"
                     android:layout_marginLeft="89dp"
-                    android:layout_marginTop="68dp"
                     android:includeFontPadding="false"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/img_avatar"
                     android:background="@drawable/shape_vip" android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" app:layout_constraintBottom_toBottomOf="@+id/img_avatar"/>
             <TextView
+                    android:includeFontPadding="false"
+                    android:layout_marginBottom="1dp"
                     android:id="@+id/tv_vip_end_date"
-                    android:text="到期时间 2019-03-11"
+                    android:text="到期时间 ---------"
                     android:textColor="#ffffffff"
                     android:textSize="12dp"
-                    android:layout_marginTop="73dp"
-                    android:layout_marginLeft="153dp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.8"/>
+                    android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.8"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_is_vip"
+                    app:layout_constraintStart_toEndOf="@+id/tv_is_vip" android:layout_marginStart="3dp"/>
 
             <!--<TextView-->
                     <!--android:visibility="gone"-->
@@ -130,26 +132,33 @@
 <!--            android:layout_marginLeft="11dp"
 -->
             <TextView
-            android:layout_marginBottom="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintLeft_toLeftOf="@id/tv_name"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_is_vip"
+                    android:id="@+id/tv_coin"
+                    android:text="金币：---"
+                    android:textColor="#ffffffff"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"/>
+            
+            <ImageView
+                    android:padding="13dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp" android:id="@+id/img_arrow" android:layout_marginTop="31dp" android:layout_marginBottom="8dp" app:layout_constraintTop_toTopOf="@id/img_avatar" app:layout_constraintBottom_toBottomOf="@id/img_avatar" app:layout_constraintRight_toRightOf="parent" android:src="@mipmap/arrow_right_white" android:layout_width="37dp" android:layout_height="wrap_content"/>
+            
+            <android.support.constraint.Group
+                    app:constraint_referenced_ids="btn_to_register,btn_to_login"
+                    android:id="@+id/group_no_login"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:visibility="invisible">
 
-                app:layout_constraintLeft_toLeftOf="@id/tv_name"
-                app:layout_constraintTop_toBottomOf="@+id/img_avatar"
-                                android:id="@+id/tv_coin"
-                                android:text="金币：999"
-                                android:textColor="#ffffffff"
-                                android:textSize="16dp"
-                                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-                        <android.support.constraint.Group
-                                app:constraint_referenced_ids="btn_to_register,btn_to_login"
-                                android:id="@+id/group_no_login"
-                                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:visibility="invisible">
-
-                        </android.support.constraint.Group>
+            </android.support.constraint.Group>
 
                         <!--tv_money-->
             <android.support.constraint.Group
-                    app:constraint_referenced_ids="tv_coin,tv_name,img_avatar"
+                    app:constraint_referenced_ids="tv_coin,tv_name,img_avatar,img_arrow,tv_is_vip"
                     android:id="@+id/group_login" android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -157,7 +166,7 @@
 
             <android.support.constraint.Group
                     android:id="@+id/group_vip"
-                    app:constraint_referenced_ids="tv_vip_end_date,tv_is_vip"
+                    app:constraint_referenced_ids="tv_vip_end_date"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"/>
         </android.support.constraint.ConstraintLayout>
 

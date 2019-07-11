@@ -42,8 +42,10 @@ class AdvertisingVH(parent: View) : BaseVH<Any>(LayoutInflater.from(parent.conte
 
         data as Advertising
 
-
-        Glide.with(itemView).load(data.img).apply(RequestOptions().centerCrop()).into(img_advertising)
+        var options = RequestOptions().centerCrop()
+        options.placeholder(R.mipmap.ad_holder)
+        options.error(R.mipmap.ad_holder)
+        Glide.with(itemView).load(data.img).apply(options).into(img_advertising)
 
 
     }

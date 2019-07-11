@@ -42,7 +42,10 @@ class VideoCaptureAdapter : BaseRcvAdapter<String>() {
         override fun bindData(data: String?) {
             super.bindData(data)
 
-            Glide.with(itemView).load(data).apply(RequestOptions().centerCrop()).into(image)
+            var options = RequestOptions().centerCrop()
+            options.placeholder(R.mipmap.capture_holder)
+            options.error(R.mipmap.capture_holder)
+            Glide.with(itemView).load(data).apply(options).into(image)
         }
     }
 }

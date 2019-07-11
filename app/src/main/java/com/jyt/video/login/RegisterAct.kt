@@ -24,6 +24,7 @@ import com.fm.openinstall.model.AppData
 import com.fm.openinstall.listener.AppWakeUpAdapter
 import android.content.Intent
 import com.jyt.video.main.MainActivity
+import com.orhanobut.logger.Logger
 
 
 @Route(path = "/register/index")
@@ -43,9 +44,9 @@ class RegisterAct:BaseAct(), View.OnClickListener {
 
                 RxPermissions(this).request(Manifest.permission.READ_PHONE_STATE).subscribe {
                     if (it){
-
+                        var deviceId = DeviceIdUtil.getDeviceId(this)
                         userService.register(account,psd1,psd2,
-                            MainActivity.pid ,DeviceIdUtil.getDeviceId(this),ServiceCallback { code, data ->
+                            MainActivity.pid ,deviceId,ServiceCallback { code, data ->
                             if (code==BaseJson.CODE_SUCCESS){
 
                                 OpenInstall.reportRegister();

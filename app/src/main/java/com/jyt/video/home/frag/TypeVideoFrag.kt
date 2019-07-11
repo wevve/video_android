@@ -174,7 +174,7 @@ class TypeVideoFrag:BaseFrag(), View.OnClickListener {
                 if (data!=null ){
                     if (page==1L){
                         adapter?.data?.clear()
-                        if (ad!=null){
+                        if (ad!=null && ad.img?.isEmpty()==false){
                             adapter.data.add(ad)
                         }
                     }

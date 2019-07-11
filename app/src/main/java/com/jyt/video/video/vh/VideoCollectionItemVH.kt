@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import com.binbook.binbook.common.util.GlideHelper
 import com.bumptech.glide.Glide
 import com.jyt.video.R
 import com.jyt.video.common.base.BaseVH
@@ -59,7 +60,9 @@ class VideoCollectionItemVH(parent: View) : BaseVH<Any>(
         var data = data as CollectionVideo
         cb_sel.isChecked = data.isSel
 
-        Glide.with(itemView).load(data.videoImgUrl).into(img_cover)
+        var options = GlideHelper.centerCrop()
+        options.placeholder(R.mipmap.video_holder)
+        Glide.with(itemView).load(data.videoImgUrl).apply(options).into(img_cover)
         tv_name.text = data.videoTitle
         tv_date.text = simpleDateFormat.format(data.videoSendDate*1000)
         tv_type.text = data.videoKind

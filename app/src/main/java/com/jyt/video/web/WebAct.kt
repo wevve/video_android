@@ -18,8 +18,8 @@ class WebAct :BaseAct(){
     override fun initView() {
         url = intent.getStringExtra("url")
         if(url?.isEmpty()==true){
-//            finish()
-//            return
+            finish()
+            return
         }
         title = intent.getStringExtra("title")
         if (title?.isNotEmpty()==true){
@@ -39,8 +39,6 @@ class WebAct :BaseAct(){
 
         })
         initWebView()
-
-
         web_view.loadUrl(url)
     }
 

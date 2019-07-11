@@ -3,8 +3,8 @@
                                          <!---->
                                              <!--android:layout_width="match_parent"-->
                                              <!--android:layout_height="match_parent">-->
-    <WebView
+    <com.jyt.video.web.MyWebView
         xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/web_view"
-            android:layout_width="match_parent" android:layout_height="match_parent"></WebView>
+            android:layout_width="match_parent" android:layout_height="match_parent"></com.jyt.video.web.MyWebView>
 <!--</me.dkzwm.widget.srl.SmoothRefreshLayout>-->

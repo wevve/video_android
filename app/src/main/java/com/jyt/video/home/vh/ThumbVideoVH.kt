@@ -31,8 +31,9 @@ class ThumbVideoVH(parent: View) : BaseVH<ThumbVideo>(LayoutInflater.from(parent
 
     override fun bindData(data: ThumbVideo?) {
         super.bindData(data)
-
-        Glide.with(itemView.context).load(data?.thumbnail).apply(GlideHelper.centerCrop()).into(img_cover)
+        var options = GlideHelper.centerCrop()
+        options.placeholder(R.mipmap.video_holder)
+        Glide.with(itemView.context).load(data?.thumbnail).apply(options).into(img_cover)
         tv_duration.text = data?.play_time
         tv_title.text = data?.title
         tv_price.text = data?.gold.toString()

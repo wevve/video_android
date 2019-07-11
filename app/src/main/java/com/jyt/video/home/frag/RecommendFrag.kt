@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.jyt.video.home.adapter.BaseVideoListAdapter
 import com.jyt.video.home.entity.Banner
+import com.jyt.video.home.entity.HomeVideoList
 import com.jyt.video.home.entity.VideoGroupTitle
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.VideoService
@@ -36,12 +37,34 @@ class RecommendFrag:BaseVideoListFrag(){
 
                     adapter?.data?.clear()
                     if (data != null) {
+                        var newList = ArrayList<HomeVideoList>()
+
+                        //后台不排 前端排序
+                        data.videos.forEach {
+                            if ("最新视频".equals(it.title)){
+                                newList.add(it)
+                            }
+                        }
+                        data.videos.forEach {
+                            if ("热门视频".equals(it.title)){
+                                newList.add(it)
+                            }
+                        }
+                        data.videos.forEach {
+                            if ("推荐视频".equals(it.title)){
+                                newList.add(it)
+                            }
+                        }
+                        data.videos = newList
+
+
+
                         var list = adapter?.data
                         var banner = Banner()
                         banner.data = data.banner
                         list?.add(banner)
 
-                        if (adData!=null)
+                        if (adData!=null && adData.img?.isEmpty()==false)
                             list?.add(adData)
                         if (data.videos!=null) {
                             for (i in 0 until data.videos.size){

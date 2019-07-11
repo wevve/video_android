@@ -34,7 +34,8 @@
                 android:background="#EEEEEE"
                 android:layout_width="match_parent" android:layout_height="1dp"/>
 
-        <FrameLayout android:layout_width="match_parent" android:layout_height="50dp" android:id="@+id/fl_edit_name">
+        <FrameLayout android:layout_width="match_parent" android:layout_height="50dp" android:id="@+id/fl_edit_name"
+                     android:visibility="gone">
 
             <TextView
                     android:layout_gravity="center_vertical|left"
@@ -64,7 +65,7 @@
         <View
                 android:layout_marginLeft="17dp"
                 android:background="#EEEEEE"
-                android:layout_width="match_parent" android:layout_height="1dp"/>
+                android:layout_width="match_parent" android:layout_height="1dp" android:visibility="gone"/>
 
         <FrameLayout android:layout_width="match_parent" android:layout_height="50dp"
                      android:id="@+id/fl_to_cs_account" android:visibility="gone">

@@ -21,6 +21,9 @@ class WebFrag : BaseFrag() {
 
         initWebView()
 
+        if (!url.isNullOrBlank() &&  web_view.url.isNullOrBlank()){
+            web_view.loadUrl(url)
+        }
 
     }
 
@@ -28,9 +31,9 @@ class WebFrag : BaseFrag() {
         super.onResume()
 
 
-        if (!url.isNullOrBlank() &&  web_view.url.isNullOrBlank()){
-            web_view.loadUrl(url)
-        }
+//        if (!url.isNullOrBlank() &&  web_view.url.isNullOrBlank()){
+//            web_view.loadUrl(url)
+//        }
 
     }
 
@@ -52,6 +55,13 @@ class WebFrag : BaseFrag() {
                 return true
             }
         }
+    }
+
+
+    public fun loadUrl(url:String){
+        this.url = url
+        web_view?.loadUrl(url)
+
     }
 
 }
