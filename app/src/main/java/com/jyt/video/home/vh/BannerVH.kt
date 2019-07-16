@@ -31,7 +31,12 @@ class BannerVH(parent: View) : BaseVH<Any>(com.youth.banner.Banner(parent.contex
 
         })
         itemView.setOnBannerListener {
-                ARouter.getInstance().build("/web/index").withString("url",(data as Banner).data[it].url).navigation()
+            var url = (data as Banner).data[it].url
+            if (url.isNullOrBlank() || url=="#"){
+
+            }else{
+                ARouter.getInstance().build("/web/index").withString("url",url).navigation()
+            }
         }
 
     }

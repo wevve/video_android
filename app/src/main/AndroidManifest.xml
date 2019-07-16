@@ -21,6 +21,9 @@
         <meta-data
                 android:name="com.openinstall.APP_KEY"
                 android:value="x98kap"/>
+        <!--<meta-data-->
+                <!--android:name="com.openinstall.APP_KEY"-->
+                <!--android:value="uze4x4"/>-->
         <meta-data
                 android:name="design_width_in_dp"
                 android:value="375"/>
@@ -40,6 +43,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="x98kap"/>
+                <!--<data android:scheme="uze4x4"/>-->
 
             </intent-filter>
 

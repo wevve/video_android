@@ -10,6 +10,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.jyt.video.R
 import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.helper.UserInfo
+import com.jyt.video.common.util.AppUtils
 import com.jyt.video.common.util.RxBus
 import com.jyt.video.event.RefreshEvent
 import com.jyt.video.service.ServiceCallback
@@ -24,7 +25,9 @@ class LoginAct:BaseAct(), View.OnClickListener {
     override fun initView() {
         userService = UserServiceImpl()
 
-        Glide.with(this).load(R.mipmap.houzi).apply(RequestOptions().circleCrop()).into(logo)
+//        Glide.with(this).load(R.mipmap.logo).into(logo)
+
+        logo.setImageBitmap(AppUtils.getBitmap(this))
 
 
 
