@@ -403,7 +403,7 @@ class MainActivity : BaseAct(), View.OnClickListener {
         var dialog = AlertDialog.Builder(this@MainActivity)
             .setTitle("检测到新版本")
             .setMessage(data.apk_update)
-            .setPositiveButton("去下载") { dialog, which ->
+            .setPositiveButton("下载并安装") { dialog, which ->
                 dialog.dismiss()
 
 //                            val uri = Uri.parse(data.android)

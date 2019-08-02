@@ -144,15 +144,19 @@ class UserServiceImpl :UserService{
 
     private fun validate(account:String?,psd1:String?,psd2:String?):Boolean{
         if (account.isNullOrBlank()){
-            ToastUtil.showShort(App.app,"请输入账号")
+            ToastUtil.showShort(App.app,"请输入登录账号")
             return false
         }
-        if (psd1.isNullOrBlank()||psd2.isNullOrBlank()){
-            ToastUtil.showShort(App.app,"请输入密码")
+        if (psd1.isNullOrBlank()){
+            ToastUtil.showShort(App.app,"请输入登录密码")
+            return false
+        }
+        if (psd2.isNullOrBlank()){
+            ToastUtil.showShort(App.app,"请再次输入密码")
             return false
         }
         if (psd1!=psd2){
-            ToastUtil.showShort(App.app,"两次密码不一致")
+            ToastUtil.showShort(App.app,"两次输入的密码不一致")
             return false
         }
 

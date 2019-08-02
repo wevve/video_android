@@ -117,7 +117,7 @@ class WelcomeAct : BaseAct(){
                                     }
 
                                 })
-                                .setPositiveButton("去设置",object : DialogInterface.OnClickListener{
+                                .setPositiveButton("设置",object : DialogInterface.OnClickListener{
                                     override fun onClick(dialog: DialogInterface?, which: Int) {
 
                                         val intent = Intent()

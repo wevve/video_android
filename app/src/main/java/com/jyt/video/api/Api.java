@@ -1,6 +1,5 @@
 package com.jyt.video.api;
 
-
 import com.jyt.video.api.entity.FilterVideoListResult;
 import com.jyt.video.api.entity.PersonHomeResult;
 import com.jyt.video.api.entity.VersionBean;
@@ -108,7 +107,6 @@ public interface Api {
     @POST("/appapi/register.html")
     @FormUrlEncoded
     public Observable<BaseJson> register(@FieldMap Map<String,String> data);
-
 
     //登录
     @POST("/appapi/login.html")

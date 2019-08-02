@@ -6,6 +6,8 @@ class RechargeItem{
     var price:Double? = 0.0
     var inputCoin:Double? = 0.0
     var coinRate:Double = 1.0
+    // 自定义初始金额
+    var customs:Long? = 0
 
     var cornId:Long? = null
     var title:String? = null

@@ -77,7 +77,7 @@ class IntroduceHeaderVH(viewGroup: ViewGroup) :BaseVH<Any>(LayoutInflater.from(v
               }else{
                   when(v){
                       img_download->{
-                          if ((data as VideoDetail)?.videoInfo?.url?.endsWith(".m3u8")==true){
+                          if ((data as VideoDetail)?.videoInfo?.url?.contains(".m3u8")==true){
                               ToastUtil.showShort(itemView.context,"暂不支持此格式")
                               return
                           }

@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <application
             android:allowBackup="true"
-            android:icon="@mipmap/logo"
+            android:icon="@mipmap/logo1"
             android:label="@string/app_name"
             android:supportsRtl="true"
             android:name=".App"
@@ -20,10 +20,10 @@
         <meta-data android:name="android.max_aspect"  android:value="2.1"/>
         <meta-data
                 android:name="com.openinstall.APP_KEY"
-                android:value="x98kap"/>
-        <!--<meta-data-->
+                android:value="xfs6ew"/>
+                <!--<meta-data-->
                 <!--android:name="com.openinstall.APP_KEY"-->
-                <!--android:value="uze4x4"/>-->
+                <!--android:value="x98kap"/>-->
         <meta-data
                 android:name="design_width_in_dp"
                 android:value="375"/>
@@ -43,23 +43,23 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="x98kap"/>
-                <!--<data android:scheme="uze4x4"/>-->
+<!--                <data android:scheme="xfs6ew"/>-->
 
             </intent-filter>
 
         </activity>
-        <activity android:name=".login.LoginAct" android:label="登录">
+        <activity android:name=".login.LoginAct" android:label="用户登录">
 
         </activity>
         <!--注册-->
-        <activity android:name=".login.RegisterAct" android:label="注册并登录">
+        <activity android:name=".login.RegisterAct" android:label="注册帐号">
 
         </activity>
 
         <activity android:name=".setting.SettingAct" android:label="设置"/>
-        <activity android:name=".setting.account.AccountInfoAct" android:label="账户资料"/>
+        <activity android:name=".setting.account.AccountInfoAct" android:label="我的资料"/>
         
-        <activity android:name=".setting.account.CSAccountAct" android:label="收款账号"/>
+        <activity android:name=".setting.account.CSAccountAct" android:label ="收款账号"/>
         <activity android:name=".setting.account.ALiPayAccountListAct" android:label="支付宝"/>
         <activity android:name=".setting.account.BankCardListAct" android:label="银行卡"/>
         <activity android:name=".setting.account.AddBankCardAccountAct" android:label="添加银行卡"/>
@@ -73,7 +73,7 @@
         <activity android:name=".web.WebAct">
 
         </activity>
-        <activity android:name=".recharge.RechargeAct" android:label="充值" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".recharge.RechargeAct" android:label="会员充值" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".recharge.RechargeCardAct" android:label="卡密充值" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".video.MoreVideoAct" android:label="更多视频"/>
         <activity android:name=".video.SearchAct" android:label="搜索"/>

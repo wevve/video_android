@@ -3,17 +3,34 @@
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
                                              xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+            android:background="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="180dp">
+        <ImageView
+                android:src="@mipmap/register"
+                android:id="@+id/logo"
+                android:layout_gravity="center"
+                android:layout_width="380dp"
+                android:layout_height="70dp"/>
+    </FrameLayout>
+
     <View
+            android:layout_marginTop="180dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@color/white"
-            android:layout_width="match_parent" android:layout_height="184dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="500dp"/>
 
 
     <ImageView
             android:src="@mipmap/yonghuzhuzhanghaoguanli"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="220dp"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="21dp"
             android:layout_width="16dp" android:layout_height="16dp"/>
@@ -22,38 +39,38 @@
     <ImageView
             android:src="@mipmap/mima"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="75dp"
+            android:layout_marginTop="275dp"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="21dp"
             android:layout_width="16dp" android:layout_height="16dp"/>
     <ImageView
-            android:src="@mipmap/mima"
+            android:src="@mipmap/mima1"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="129dp"
+            android:layout_marginTop="329dp"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="21dp"
             android:layout_width="16dp" android:layout_height="16dp"/>
 
     <View
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="245dp"
             android:layout_marginLeft="53dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:background="#7F000000"
+            android:background="#e2e2e2"
             android:layout_width="290dp" android:layout_height="1dp"/>
     <View
-            android:layout_marginTop="99dp"
+            android:layout_marginTop="299dp"
             android:layout_marginLeft="53dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:background="#7F000000"
+            android:background="#e2e2e2"
             android:layout_width="290dp" android:layout_height="1dp"/>
     <View
-            android:layout_marginTop="153dp"
+            android:layout_marginTop="353dp"
             android:layout_marginLeft="53dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:background="#7F000000"
+            android:background="#e2e2e2"
             android:layout_width="290dp" android:layout_height="1dp"/>
 
     <EditText
@@ -62,8 +79,8 @@
             android:background="@null"
             android:imeOptions="actionNext"
             android:singleLine="true"
-            android:hint="请输入账号"
-            android:layout_marginTop="18dp"
+            android:hint="请输入登录账号"
+            android:layout_marginTop="223dp"
             android:layout_marginLeft="50dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -77,8 +94,8 @@
             android:background="@null"
             android:imeOptions="actionNext"
             android:singleLine="true"
-            android:hint="请输入密码"
-            android:layout_marginTop="72dp"
+            android:hint="请输入登录密码"
+            android:layout_marginTop="276dp"
             android:layout_marginLeft="50dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -94,7 +111,7 @@
             android:imeOptions="actionDone"
             android:singleLine="true"
             android:hint="请再次输入密码"
-            android:layout_marginTop="126dp"
+            android:layout_marginTop="330dp"
             android:layout_marginLeft="50dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -109,11 +126,14 @@
             android:text="完成注册并登录"
             android:textColor="#ffffffff"
             android:textSize="12dp"
-            android:layout_marginTop="220dp"
+            android:layout_marginTop="390dp"
+            android:layout_marginLeft="20dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_width="158dp" android:layout_height="33dp" android:id="@+id/btn_register"/>
+            android:layout_width="292dp"
+            android:layout_height="40dp"
+            android:id="@+id/btn_register"/>
 
 
     <TextView

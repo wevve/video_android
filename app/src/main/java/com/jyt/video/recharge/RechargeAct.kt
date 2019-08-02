@@ -55,14 +55,14 @@ class RechargeAct:BaseAct(){
                 var vip = RechargeMemberFrag()
                 vip.items = data.vip
                 vip.walletService = walletService
-                adapter?.addFragment(vip,"会员充值")
+                adapter?.addFragment(vip,"购买会员")
 
                 var coin =  RechargeCoinFrag()
                 coin.items = data.corn
                 coin.walletService = walletService
                 coinRate = data.cornCal.toDouble()
                 coin.coinMoneyRate = data.cornCal.toDouble()
-                adapter?.addFragment(coin,"金币充值")
+                adapter?.addFragment(coin,"购买金币")
 
                 adapter?.notifyDataSetChanged()
 

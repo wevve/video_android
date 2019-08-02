@@ -16,14 +16,15 @@
 
             <TextView
                     android:layout_marginTop="10dp"
-                    android:text="卡号："
+                    android:text="充值卡卡号："
                     android:textColor="#ff505050"
                     android:textSize="16dp"
                     android:includeFontPadding="false"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"/>
             <EditText
-                    android:paddingLeft="2dp"
+                    android:paddingLeft="10dp"
                     android:paddingRight="2dp"
+                    android:hint="请输入充值卡号"
                     android:background="@drawable/shape_stroke_ea"
                     android:layout_marginTop="7dp"
                     android:layout_width="match_parent" android:layout_height="39dp" android:id="@+id/input_card_num"/>
@@ -38,10 +39,12 @@
             
             <LinearLayout
                     android:layout_marginTop="7dp"
-                    android:layout_width="match_parent" android:layout_height="39dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="39dp">
                 <EditText
-                        android:paddingLeft="2dp"
+                        android:paddingLeft="10dp"
                         android:paddingRight="2dp"
+                        android:hint="验证码"
                         android:background="@drawable/shape_stroke_ea"
                         android:layout_weight="1" android:layout_width="0dp" android:layout_height="match_parent"
                         android:id="@+id/input_captcha"/>
@@ -52,7 +55,7 @@
 
             <Button
                     android:layout_marginTop="13dp"
-                    android:text="查询"
+                    android:text="第一步 查询"
                     android:textColor="#ffffffff"
                     android:textSize="16dp"
                     android:background="@drawable/shape_primary_dark_btn"
@@ -94,7 +97,7 @@
                         android:id="@+id/tv_type_label"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:text="卡类型"
+                        android:text="卡密类型"
                         android:textColor="#ff505050"
                         android:textSize="16dp"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
@@ -133,7 +136,7 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_end_date_label"
                         android:id="@+id/tv_state_label"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:text="卡状态"
+                        android:text="卡密状态"
                         android:textColor="#ff505050"
                         android:textSize="16dp"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
@@ -198,7 +201,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="8dp"
             android:layout_gravity="center"
-            android:text="充值"
+            android:text="第二步 充值"
             android:textColor="#ffffffff"
             android:textSize="16dp"
             android:background="@drawable/shape_primary_dark_btn"

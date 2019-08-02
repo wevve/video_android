@@ -21,7 +21,14 @@ import java.util.logging.Handler
 import cn.jzvd.JZUtils.getWindow
 import android.os.Build
 import android.app.Activity
+import android.graphics.Canvas
 import android.support.constraint.ConstraintSet
+import android.widget.SeekBar
+import com.jyt.video.common.util.NetSpeed
+import com.jyt.video.common.util.NetSpeedTimer
+import com.orhanobut.logger.Logger
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 
 class CustomJzvdStd : JzvdStd {
@@ -43,12 +50,57 @@ class CustomJzvdStd : JzvdStd {
 
     var activity:Activity?=null
 
+    var mNetSpeedTimer: NetSpeedTimer? = null
+
     constructor(context: Context?) : this(context,null)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+
+    var netSpeedHandler =  object :android.os.Handler(){
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            val speed = msg?.obj as String
+            //打印你所需要的网速值，单位默认为kb/s
+            var value = ""
+            if (speed.toDouble()>1024){
+                value = BigDecimal(speed.toDouble()/1024).setScale(1,RoundingMode.HALF_UP).toString()
+                value = value + "M/S"
+            }else{
+                value = speed + "KB/S"
+            }
+            tv_speed.text = value
+        }
+    }
 
     init {
         setListener()
         initVIPTimer()
+        initNetSpeed()
+    }
+
+
+    fun initNetSpeed(){
+        //创建NetSpeedTimer实例
+        mNetSpeedTimer =  NetSpeedTimer(context,  NetSpeed(), netSpeedHandler).setDelayTime(0).setPeriodTime(500);
+        //在想要开始执行的地方调用该段代码
+        mNetSpeedTimer?.startSpeedTimer();
+
+    }
+
+
+    override fun setAllControlsVisiblity(
+        topCon: Int,
+        bottomCon: Int,
+        startBtn: Int,
+        loadingPro: Int,
+        thumbImg: Int,
+        bottomPro: Int,
+        retryLayout: Int
+    ) {
+        super.setAllControlsVisiblity(topCon, bottomCon, startBtn, loadingPro, thumbImg, bottomPro, retryLayout)
+
+//        if (loadingProgressBar.visibility==View.VISIBLE){
+        loading_group.visibility = loadingProgressBar.visibility
+//        }
     }
 
 
@@ -57,7 +109,7 @@ class CustomJzvdStd : JzvdStd {
 //        Glide.with(this).load(data.ad?.before?.img).into(img_ad_before)
 //        Glide.with(this).load(image).into(img_ad_before)
 //        Glide.with(this).load(image).into(img_ad_pause)
-         firstPlayAD = false
+        firstPlayAD = false
 
         isEndFreedTime = false
 
@@ -125,7 +177,7 @@ class CustomJzvdStd : JzvdStd {
                 if (beforeAD!=null){
                     //未播放广告
                     if (!firstPlayAD){
-                        if (videoDetail?.isVip==false)
+//                        if (videoDetail?.isVip==false)
                             showBeforeAD()
                         firstPlayAD = true
                         return
@@ -173,10 +225,16 @@ class CustomJzvdStd : JzvdStd {
                 playerStateListener?.onStateEventChange(EVENT_BUY_VIDEO)
             }
             img_ad_before->{
-                ARouter.getInstance().build("/web/index").withString("url",videoDetail?.ad?.before?.url).navigation()
+                if (videoDetail?.ad?.before?.url?.isNotEmpty()==true) {
+                    ARouter.getInstance().build("/web/index")
+                        .withString("url", videoDetail?.ad?.before?.url).navigation()
+                }
             }
             img_ad_pause->{
-                ARouter.getInstance().build("/web/index").withString("url",videoDetail?.ad?.pause?.url).navigation()
+                if (videoDetail?.ad?.pause?.url?.isNotEmpty()==true) {
+                    ARouter.getInstance().build("/web/index")
+                        .withString("url", videoDetail?.ad?.pause?.url).navigation()
+                }
 
             }
 
@@ -215,15 +273,15 @@ class CustomJzvdStd : JzvdStd {
 
     }
 
-//恢复正常屏幕
+    //恢复正常屏幕
     override fun setScreenNormal() {
 
 
-    var constraintSet =  ConstraintSet()
-    constraintSet.clone(cl)
-    constraintSet.constrainPercentWidth(R.id.img_ad_before,0.8f)
-    constraintSet.constrainPercentWidth(R.id.img_ad_pause,0.8f)
-    constraintSet.applyTo(cl)
+        var constraintSet =  ConstraintSet()
+        constraintSet.clone(cl)
+        constraintSet.constrainPercentWidth(R.id.img_ad_before,0.8f)
+        constraintSet.constrainPercentWidth(R.id.img_ad_pause,0.8f)
+        constraintSet.applyTo(cl)
         super.setScreenNormal()
         backButton.visibility = View.VISIBLE
 
@@ -260,6 +318,18 @@ class CustomJzvdStd : JzvdStd {
         playerStateListener?.onStateEventChange(EVENT_PAUSE)
     }
 
+    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+        super.onStopTrackingTouch(seekBar)
+        setAllControlsVisiblity(
+            View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+            View.VISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE
+        )
+    }
+
+    override fun onStatePreparing() {
+        super.onStatePreparing()
+
+    }
     override fun getLayoutId(): Int {
 
 
@@ -293,9 +363,12 @@ class CustomJzvdStd : JzvdStd {
 
 
     private fun showBeforeAD(){
-        fl_before.visibility = View.VISIBLE
-        img_ad_before.visibility = View.VISIBLE
-        vipTimer.start()
+        if(videoDetail?.ad?.before?.img?.isNotEmpty()==true) {
+            fl_before.visibility = View.VISIBLE
+            img_ad_before.visibility = View.VISIBLE
+            vipTimer.start()
+        }
+
     }
 
     private fun hideBeforeAD(){
@@ -305,7 +378,9 @@ class CustomJzvdStd : JzvdStd {
     }
 
     private fun showPauseAD(){
-        img_ad_pause.visibility = View.VISIBLE
+        if(videoDetail?.ad?.pause?.img?.isNotEmpty()==true){
+            img_ad_pause.visibility = View.VISIBLE
+        }
     }
     private fun hidePauseAD(){
         img_ad_pause.visibility = View.GONE

@@ -21,7 +21,7 @@
             android:layout_marginLeft="68dp"
             android:text="小kiss"
             android:textColor="#ff333333"
-            android:textSize="16dp"
+            android:textSize="15dp"
             android:includeFontPadding="false"
             android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
@@ -57,7 +57,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:text="SEE = Seeking Experience &amp; Engineering，意为探索用户体验与工程实践，由蚂蚁金服集团每年举办 1-2 次，包括专业分享、产品Workshop 等内容。"
             android:textColor="#ff333333"
-            android:textSize="14dp"
+            android:textSize="13dp"
             android:layout_width="0dp" android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/tv_name"/>
     

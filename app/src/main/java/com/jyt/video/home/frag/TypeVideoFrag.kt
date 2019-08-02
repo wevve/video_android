@@ -102,7 +102,10 @@ class TypeVideoFrag:BaseFrag(), View.OnClickListener {
 
     }
     var  addToMap = {
-            typeName:String,typeId:Int?, subTypeId:Int? ->
+            typeName:String,type:VideoType.Type?, subType:VideoType.Type? ->
+
+        var typeId = type?.id
+        var subTypeId = subType?.id
         when(typeName){
             "分类"->{
                 filterMap["cid"] = typeId.toString()
@@ -137,15 +140,18 @@ class TypeVideoFrag:BaseFrag(), View.OnClickListener {
     }
     private fun initFileTab(){
         var  typeClickListener ={
-                typeName:String,typeId:Int?, subTypeId:Int? ->
-            addToMap.invoke(typeName,typeId,subTypeId)
+                typeName:String,type:VideoType.Type?, subType:VideoType.Type? ->
 
-            getData(1)
-
+//            if (type?.name=="全部"){
+//                parentFrag?.childFragmentManager?.popBackStack()
+//            }else{
+                addToMap.invoke(typeName,type,subType)
+                getData(1)
+//            }
         }
 
         HomeFrag.videoType?.forEach {
-            tg->
+                tg->
 
 
 
@@ -154,10 +160,19 @@ class TypeVideoFrag:BaseFrag(), View.OnClickListener {
             tfv.tab = tab
             ll_video_type.addView(tfv)
             tfv.setData(tg)
-
-            addToMap.invoke(tg.name,tg.items?.firstOrNull()?.id,tg.items?.firstOrNull()?.subItem?.firstOrNull()?.id)
+            if (tg.name=="分类" && tab!=null) {
+                tg.items.forEach {
+                    if (it.id.toLong()==tab.tabId){
+                        addToMap.invoke(tg.name,it,it.subItem?.firstOrNull())
+                    }
+                }
+            }else{
+                addToMap.invoke(tg.name,tg.items?.firstOrNull(),tg.items?.firstOrNull()?.subItem?.firstOrNull())
+            }
 
         }
+
+
     }
 
 
@@ -166,7 +181,7 @@ class TypeVideoFrag:BaseFrag(), View.OnClickListener {
 
 
         videoService.getVideoAfterFilter(filterMap,page, ServiceCallback{
-            code, data ->
+                code, data ->
             videoService.videoHorAd(2,ServiceCallback {
                     _, ad ->
 

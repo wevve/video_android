@@ -35,9 +35,12 @@ task clean(type: Delete) {
 
 ext{
     minSdkVersion = 21
-    targetSdkVersion = 23
+    // 必须>=26，不然无法上传应用市场
+    targetSdkVersion = 26
     compileSdkVersion = 28
+    // 版本，升级用，更新一次加1
     versionCode = 1
+    // 版本号，对比后台设置
     versionName = "1.0"
     supportVersion = "28.0.0"
     buildToolsVersion = "28.0.3"

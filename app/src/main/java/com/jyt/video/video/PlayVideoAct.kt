@@ -212,9 +212,9 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
     private fun getData(){
         videoService.getVideoDetail(videoId, ServiceCallback{
-         code, data ->
+                code, data ->
             videoService.videoHorAd(3,ServiceCallback{
-                _,ad->
+                    _,ad->
                 this@PlayVideoAct.ad = ad
                 if (data!=null){
                     data.videoId = videoId
@@ -260,11 +260,15 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
         refreshVideo = false
 //        var url = "http://jzvd.nathen.cn/c494b340ff704015bb6682ffde3cd302/64929c369124497593205a4190d7d128-5287d2089db37e62345123a1be272f8b.mp4"
 
+
 //        data?.videoInfo?.url = "https://v3.mjshcn.com:987/20190429/5hgQbFzH/index.m3u8"
         var url = data?.videoInfo?.url
+
+        //竖屏地址
+//        url = "http://flv.bn.netease.com/ee82c1205e5c4606be9f9e17f8a470dab6419091502a9a31d71edd012f07a9c15ec05354a2952c502b841a688b9d75393c212a3aee7ee72fb4cfc85c3f27a96beeda2897808f266940f5678bc81efbdefcf43d15cbc5bf67a7996e7856bdb6efcea3f511c4e62f5e0a1f75701db4bbb232b0db70d51343a6.mp4"
         RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE).subscribe {
             if (it){
-                if ((data as VideoDetail)?.videoInfo?.url?.endsWith(".m3u8")==true){
+                if ((data as VideoDetail)?.videoInfo?.url?.contains(".m3u8")==true){
 //                    ToastUtil.showShort(itemView.context,"暂不支持此格式")
 
                 }else{
@@ -336,10 +340,16 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 //        })
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        videoplayer.mNetSpeedTimer?.stopSpeedTimer()
+    }
+
     private fun getCommentData(lastId:Long?){
 
         commentService.getCommentList(videoId,lastId,ServiceCallback{
-            code, data ->
+                code, data ->
             if (data!=null && data.list?.isNotEmpty()==true){
                 if (lastId==null){
 
@@ -347,15 +357,15 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 //                    introduceAdapter.data.clear()
                     var iterator = introduceAdapter.data.iterator()
                     while (iterator.hasNext()){
-                         var item  = iterator.next()
+                        var item  = iterator.next()
                         if (item is VideoGroupTitle){
                             if (item.text == "网友评论"){
                                 iterator.remove()
                             }
                         }else
-                        if (item is CommentItem){
-                            iterator.remove()
-                        }
+                            if (item is CommentItem){
+                                iterator.remove()
+                            }
                     }
 
                     introduceAdapter.data.add(VideoGroupTitle("网友评论"))
@@ -390,7 +400,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
         }
 
         commentService.addComment(comment,videoId,ServiceCallback{
-            code, data ->
+                code, data ->
             if (code==BaseJson.CODE_SUCCESS){
                 input_comment.setText("")
 
@@ -445,7 +455,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
         dialog.rightBtnText = "取消"
         dialog.leftBtnText = "确定"
         dialog.onClickListener={
-            dialogFragment, s ->
+                dialogFragment, s ->
             if (s=="确定"){
                 videoService.buyVideo(videoDetail?.videoId!!,ServiceCallback{
                         code, data ->
@@ -460,7 +470,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
                         dialog.message = "购买成功"
                         dialog.leftBtnText = "确定"
                         dialog.onClickListener = {
-                            dialogFragment, _ ->
+                                dialogFragment, _ ->
                             dialogFragment.dismissAllowingStateLoss()
                         }
                         dialog.show(supportFragmentManager,"")
@@ -481,7 +491,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
     private fun getGiftList(){
         walletService.getGiftList(ServiceCallback{
-            code, data ->
+                code, data ->
             giftList = data
         })
     }

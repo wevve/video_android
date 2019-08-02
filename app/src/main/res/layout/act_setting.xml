@@ -14,7 +14,7 @@
             <TextView
                     android:layout_marginLeft="15dp"
                     android:layout_gravity="center_vertical"
-                    android:text="账号资料"
+                    android:text="帐号资料"
                     android:textColor="#ff000000"
                     android:textSize="16dp"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"/>
@@ -59,7 +59,7 @@
             <TextView
                     android:layout_marginLeft="15dp"
                     android:layout_gravity="center_vertical"
-                    android:text="检查更新"
+                    android:text="检测更新"
                     android:textColor="#ff000000"
                     android:textSize="16dp"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"/>
@@ -84,7 +84,7 @@
                 android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginLeft="17dp"/>
 
 
-        <FrameLayout android:layout_width="match_parent" android:layout_height="48dp">
+        <FrameLayout android:layout_width="match_parent" android:layout_height="5dp">
 
         </FrameLayout>
     </LinearLayout>

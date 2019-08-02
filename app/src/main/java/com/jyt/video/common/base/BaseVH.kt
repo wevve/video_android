@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.jyt.video.common.adapter.BaseRcvAdapter
 import kotlinx.android.extensions.LayoutContainer
+import me.jessyan.autosize.AutoSize
 
 open class BaseVH<T>(parent: View) : RecyclerView.ViewHolder(parent), LayoutContainer, View.OnClickListener {
 
@@ -48,6 +49,10 @@ open class BaseVH<T>(parent: View) : RecyclerView.ViewHolder(parent), LayoutCont
 
     open fun bindData(data: T?) {
         this.data = data
+
+        activity?.let {
+            AutoSize.autoConvertDensityOfGlobal(it)
+        }
     }
 
     fun setOnTriggerListener(onTriggerListener: BaseRcvAdapter.OnViewHolderTriggerListener<BaseVH<*>>) {

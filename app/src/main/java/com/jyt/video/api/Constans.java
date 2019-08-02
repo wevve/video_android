@@ -1,9 +1,7 @@
 package com.jyt.video.api;
 
 public class Constans {
-//    public static String BaseUrl="http://mp-test.pureh2b.com";
-//    public static String BaseUrl="http://192.168.206.201:6650/";
+    // 设置接口域名，必须带http:// 或 https://
     public static String BaseUrl="http://v.msvodx.com";
 //    public static String BaseUrl="http://v.vodav.cn";
-
 }

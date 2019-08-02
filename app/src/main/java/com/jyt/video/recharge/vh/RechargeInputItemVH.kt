@@ -92,12 +92,8 @@ class RechargeInputItemVH(viewGroup: ViewGroup) :BaseRechargeItemVH(LayoutInflat
             SoftInputUtil.hideSoftKeyboard(itemView.context,input_price)
             itemView.resources.getDrawable(R.drawable.shape_recharge_item_nor)
         }
-
-        input_price.setText(data?.inputCoin.toString())
-
-
-
-
+        // 设置自定义初始金额
+        input_price.setText(data?.customs.toString())
 
     }
 }

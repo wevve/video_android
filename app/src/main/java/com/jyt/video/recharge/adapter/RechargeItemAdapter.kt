@@ -10,7 +10,7 @@ import com.jyt.video.recharge.vh.RechargeItemVH
 class RechargeItemAdapter:BaseRcvAdapter<RechargeItem>(){
 
     companion object{
-        val TYPE_INPUT=1
+        val TYPE_INPUT = 1
         val TYPE_LABEL = 2
     }
 

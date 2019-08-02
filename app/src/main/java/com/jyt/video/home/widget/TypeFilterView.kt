@@ -30,7 +30,7 @@ class TypeFilterView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     var type:VideoType.Type?=null
     var subType:VideoType.Type?=null
-    var typeClickListener:((typeName:String,typeId:Int?,subTypeId:Int?)->Unit)? =null
+    var typeClickListener:((typeName:String,type:VideoType.Type?,subType:VideoType.Type?)->Unit?)? =null
 
     init {
 
@@ -49,7 +49,7 @@ class TypeFilterView @JvmOverloads constructor(context: Context, attrs: Attribut
                     type = data
                     setupSubType(data!!)
 
-                    typeClickListener?.invoke(typeGroup?.name?:"",type?.id,subType?.id)
+                    typeClickListener?.invoke(typeGroup?.name?:"",type,subType)
                 }
             }
         })
@@ -66,7 +66,7 @@ class TypeFilterView @JvmOverloads constructor(context: Context, attrs: Attribut
                     val data = holder.data as VideoType.Type?
                     subType = data
 
-                    typeClickListener?.invoke(typeGroup?.name?:"",type?.id,subType?.id)
+                    typeClickListener?.invoke(typeGroup?.name?:"",type,subType)
 
                 }
             }
@@ -100,6 +100,7 @@ class TypeFilterView @JvmOverloads constructor(context: Context, attrs: Attribut
                 if (type.id==tab.tabId?.toInt()){
                     groupAdapter.curSel = type
                     rcv_type.scrollToPosition(index)
+                    typeClickListener?.invoke(typeGroup?.name?:"",type,subType)
                 }
             }
 

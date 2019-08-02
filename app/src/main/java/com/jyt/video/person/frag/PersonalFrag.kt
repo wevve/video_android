@@ -154,12 +154,14 @@ class PersonalFrag:BaseFrag(), View.OnClickListener {
 
             if (data.vipEndDate==0L){
                 tv_vip_end_date.text = ""
+                tv_is_vip.text = "永久VIP"
             }else {
-                var dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm-ss")
+                tv_is_vip.text = "VIP会员"
+                var dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
                 tv_vip_end_date.text = "到期时间 ${dateFormat.format(Date((data.vipEndDate ?: 0) * 1000))}"
             }
 
-            tv_is_vip.text = "VIP会员"
+
 //            var cs = ConstraintSet()
 //            cs.clone(cl)
 //            cs.connect(R.id.tv_coin,ConstraintSet.TOP,R.id.img_avatar,ConstraintSet.BOTTOM,0)
