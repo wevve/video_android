@@ -17,7 +17,12 @@ import com.orhanobut.logger.Logger
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Context.ACTIVITY_SERVICE
+import com.arialyy.annotations.Download
+import com.arialyy.aria.core.Aria
+import com.arialyy.aria.core.download.DownloadTask
 import com.fm.openinstall.OpenInstall
+import com.jyt.video.video.util.DownLoadHelper
+import com.jyt.video.video.util.DownLoadHelperJ
 
 
 class App : Application(){
@@ -43,6 +48,8 @@ class App : Application(){
 
             OpenInstall.init(this);
 
+            Aria.init(this)
+            DownLoadHelper.getInstance().register = this
         }
 
     }
@@ -86,6 +93,12 @@ class App : Application(){
 
         public var id: Long = 0
         lateinit var app:App
+
+
+        var wxloginKey = ""
+        var wxloginAppSecret = ""
+        var wxpayAppid = ""
+
 
         private var mAppDatabase: AppDatabase? = null
 
@@ -131,5 +144,7 @@ class App : Application(){
         }
         return false
     }
+
+
 
 }

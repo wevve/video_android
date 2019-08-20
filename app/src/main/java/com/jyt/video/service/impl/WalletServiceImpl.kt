@@ -1,6 +1,8 @@
 package com.jyt.video.service.impl
 
 import com.jyt.video.api.ApiService
+import com.jyt.video.api.entity.WxPayParamResult
+import com.jyt.video.api.entity.WxPayResult
 import com.jyt.video.common.helper.UserInfo
 import com.jyt.video.common.util.RxHelper
 import com.jyt.video.recharge.entity.CardInfo
@@ -13,6 +15,14 @@ import com.jyt.video.video.entity.Gift
 import com.jyt.video.wallet.entity.WalletIndexInfo
 
 class WalletServiceImpl : WalletService {
+    override fun aliPay(orderSn: String, callback: ServiceCallback<String>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.aliPayParam(orderSn),callback)
+    }
+
+    override fun wxPay(orderSn: String, callback: ServiceCallback<WxPayParamResult>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.wxPayParam(orderSn),callback)
+    }
+
     override fun createOrder(
         payCode: String,
         price: Double,

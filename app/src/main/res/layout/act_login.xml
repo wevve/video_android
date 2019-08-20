@@ -148,4 +148,23 @@
             android:textColor="#ff9c28b1"
             android:textSize="14sp"
             android:id="@+id/tv_to_protocol"/>
+
+    <LinearLayout android:id="@+id/thrid_login" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:layout_marginTop="8dp"
+                  android:gravity="center" android:orientation="vertical"
+                  app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintLeft_toLeftOf="parent"
+                  app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toBottomOf="@+id/btn_to_register">
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="center">
+            <View android:layout_width="91dp" android:layout_height="1dp" android:background="#000"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="11dp"
+                      android:layout_marginRight="11dp" android:text="第三方登录" android:textColor="#000"
+                      android:textSize="12dp"/>
+            <View android:layout_width="91dp" android:layout_height="1dp" android:background="#000"/>
+        </LinearLayout>
+
+        <ImageView android:id="@+id/wxlogin" android:layout_width="58dp" android:layout_height="58dp"
+                   android:layout_marginTop="41dp" android:src="@mipmap/weixin_login"/>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

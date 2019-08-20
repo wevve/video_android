@@ -11,6 +11,7 @@ import com.jyt.video.recharge.frag.RechargeCoinFrag
 import com.jyt.video.recharge.frag.RechargeMemberFrag
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.WalletService
+import com.jyt.video.service.impl.UserServiceImpl
 import com.jyt.video.service.impl.WalletServiceImpl
 import kotlinx.android.synthetic.main.act_recharge.*
 
@@ -20,7 +21,7 @@ class RechargeAct:BaseAct(){
     var adapter:FragmentViewPagerAdapter? = null
 
     lateinit var walletService: WalletService
-
+    var userService = UserServiceImpl()
     companion object{
         var payway:ArrayList<PayWay>? = null
         var coinRate = 1.0
@@ -55,10 +56,12 @@ class RechargeAct:BaseAct(){
                 var vip = RechargeMemberFrag()
                 vip.items = data.vip
                 vip.walletService = walletService
+                vip.userService = userService
                 adapter?.addFragment(vip,"购买会员")
 
                 var coin =  RechargeCoinFrag()
                 coin.items = data.corn
+                coin.userService = userService
                 coin.walletService = walletService
                 coinRate = data.cornCal.toDouble()
                 coin.coinMoneyRate = data.cornCal.toDouble()

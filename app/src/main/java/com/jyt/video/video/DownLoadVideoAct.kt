@@ -1,53 +1,34 @@
 package com.jyt.video.video
 
-import android.os.Bundle
-import android.os.Environment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.arialyy.annotations.Download
+import com.arialyy.aria.core.Aria
+import com.arialyy.aria.core.download.DownloadTask
 import com.jyt.video.App
-import com.jyt.video.Mock
 import com.jyt.video.R
 import com.jyt.video.common.Constant
 import com.jyt.video.common.adapter.BaseRcvAdapter
 import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.base.BaseVH
 import com.jyt.video.common.db.bean.Video
-import com.jyt.video.video.adapter.CacheVideoAdapter
+import com.jyt.video.video.adapter.DownLoadVideoAdapter
+import com.jyt.video.video.entity.VideoDetail
+import com.jyt.video.video.util.DownLoadHelper
+import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.act_cache.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
-import me.dkzwm.widget.srl.SmoothRefreshLayout
-import com.jyt.video.common.dialog.AlertDialog
-import com.jyt.video.common.util.ToastUtil
-import com.jyt.video.video.entity.CollectionVideo
-import com.jyt.video.video.entity.VideoDetail
-import com.liulishuo.filedownloader.BaseDownloadTask
-import com.liulishuo.filedownloader.FileDownloadListener
-import com.liulishuo.filedownloader.FileDownloader
-import com.orhanobut.logger.Logger
-import kotlinx.android.synthetic.main.act_cache.bottom_view
-import kotlinx.android.synthetic.main.act_cache.cb_sel_all
-import kotlinx.android.synthetic.main.act_cache.ll_select_all
-import kotlinx.android.synthetic.main.act_cache.recycler_view
-import kotlinx.android.synthetic.main.act_cache.refresh_layout
-import kotlinx.android.synthetic.main.act_cache.tv_delete
-import kotlinx.android.synthetic.main.act_collection_video.*
-import kotlinx.android.synthetic.main.layout_refresh_recyclerview.*
 import kotlinx.android.synthetic.main.layout_video_list_empty.*
+import me.dkzwm.widget.srl.SmoothRefreshLayout
+@Route(path = "/video/cache")
+class DownLoadVideoAct : BaseAct(),View.OnClickListener {
 
+    lateinit var videoAdapter: DownLoadVideoAdapter
 
-//@Route(path = "/video/cache")
-class CacheVideoAct: BaseAct(), View.OnClickListener {
-
-
-
-    lateinit var videoAdapter: CacheVideoAdapter
-
-    var curPage = 1
-
-    var selItem:ArrayList<Any> = ArrayList()
+    var selItem:ArrayList<Video> = ArrayList()
 
 
 
@@ -67,23 +48,25 @@ class CacheVideoAct: BaseAct(), View.OnClickListener {
 
                 }
             }
-           tv_delete->{
-                var alertDialog = AlertDialog()
+            tv_delete->{
+                var alertDialog = com.jyt.video.common.dialog.AlertDialog()
                 alertDialog.message = "是否删除视频"
                 alertDialog.onClickListener = {
-                    dialogFragment, s ->
+                        dialogFragment, s ->
                     if(s=="确定") {
-                        var videoIdList = ArrayList<Video>()
-                        videoAdapter?.data?.forEach {
-                            var data = (it as Video)
-                            if (data.isSel) {
-                                videoIdList.add(data)
-                            }
-                        }
-                        if (videoIdList.isNotEmpty()) {
-                            videoAdapter.deleteVideo(*(videoIdList.toTypedArray()))
-                            videoAdapter?.notifyDataSetChanged()
-                        }
+//                        var videoIdList = ArrayList<Video>()
+//                        videoAdapter?.data?.forEach {
+//                            var data = (it as Video)
+//                            if (data.isSel) {
+//                                videoIdList.add(data)
+//                            }
+//                        }
+//                        if (videoIdList.isNotEmpty()) {
+////                            videoAdapter.deleteVideo(*(videoIdList.toTypedArray()))
+//                            videoAdapter?.notifyDataSetChanged()
+//                        }
+                        DownLoadHelper.getInstance().delMission(*selItem.toTypedArray())
+                        refresh_layout?.autoRefresh()
                         tv_right_function.callOnClick()
                     }
                     dialogFragment.dismiss()
@@ -106,28 +89,44 @@ class CacheVideoAct: BaseAct(), View.OnClickListener {
 
 
     override fun initView() {
-        videoAdapter = CacheVideoAdapter()
-        videoAdapter.onTriggerListener = object :BaseRcvAdapter.OnViewHolderTriggerListener<BaseVH<*>>{
+        DownLoadHelper.getInstance().triggerUpdate = {
+            task,position->
+            if(videoAdapter.data.isEmpty() || position>videoAdapter.data.size ){
+
+            }else{
+                videoAdapter.data.get(position).ext = task.entity
+
+                videoAdapter.notifyDataSetChanged()
+            }
+
+        }
+        videoAdapter = DownLoadVideoAdapter()
+        videoAdapter.onTriggerListener = object : BaseRcvAdapter.OnViewHolderTriggerListener<BaseVH<*>>{
             override fun <T : BaseVH<*>> onTrigger(holder: T, event: String) {
+                var video = (holder as DownLoadVideoAdapter.Holder).data !!
                 when(event){
                     "del"->{
-                        selItem.remove(holder.data!!)
-                        updateDelText()
-                        cb_sel_all.isChecked = false
+                        selItem.remove(video)
 
+                        cb_sel_all.isChecked = false
+                        updateDelText()
+                        refresh_layout?.autoRefresh()
+                        if (tv_right_function.text=="取消") {
+                            tv_right_function.callOnClick()
+                        }
                     }
                     "click"->{
-                        ARouter.getInstance().build("/video/play").withLong("videoId",(holder.data as Video).id).navigation()
+                        ARouter.getInstance().build("/video/play").withLong("videoId",video.id).navigation()
                     }
                     "sel"->{
-                        selItem.add(holder.data!!)
+                        selItem.add(video)
                         updateDelText()
                         if (selItem?.size==videoAdapter?.data?.size){
                             cb_sel_all.isChecked = true
                         }
                     }
                     "disSel"->{
-                        selItem.remove(holder.data!!)
+                        selItem.remove(video)
                         updateDelText()
                         cb_sel_all.isChecked = false
                     }
@@ -146,7 +145,7 @@ class CacheVideoAct: BaseAct(), View.OnClickListener {
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
 
-        refresh_layout.setOnRefreshListener(object :SmoothRefreshLayout.OnRefreshListener{
+        refresh_layout.setOnRefreshListener(object : SmoothRefreshLayout.OnRefreshListener{
             override fun onLoadingMore() {
 //                getData(curPage +1)
                 refresh_layout.refreshComplete()
@@ -164,9 +163,14 @@ class CacheVideoAct: BaseAct(), View.OnClickListener {
         tv_right_function.text = "编辑"
         tv_right_function.setOnClickListener(this)
 
-        CacheVideoAdapter.taskMap.forEach {
-            it.value.setListener(videoAdapter.fileDownloadListener)
-        }
+
+        Aria.download(this).register()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Aria.download(this).unRegister()
+
     }
 
     override fun getLayoutId(): Int {
@@ -175,46 +179,34 @@ class CacheVideoAct: BaseAct(), View.OnClickListener {
 
     private fun getData(page:Int){
 
-        var all = App.getAppDataBase().videoDao().loadAllVideos()
-        all.forEach {
-            video->
-            var task = CacheVideoAdapter.taskMap.get(video.id)
-            if (task==null){
-                video.status = 2//默认为暂停状态
-                var task = FileDownloader.getImpl().create(video?.url).setTag(video?.id).setPath(video.path)
+        var data = DownLoadHelper.getInstance().getVideoList()
 
-                CacheVideoAdapter.taskMap.put(video.id,task)
-            }else{
-
-
-            }
-        }
+        Logger.d(data.size)
         selItem.clear()
-        videoAdapter.clearData()
-        videoAdapter.setData(all)
 
-        videoAdapter?.notifyDataSetChanged()
+        videoAdapter.data.clear()
+        videoAdapter.data.addAll(data)
+        videoAdapter.notifyDataSetChanged()
 
-        if (all.isEmpty()){
+        refresh_layout?.refreshComplete()
+
+        if (videoAdapter.data.isEmpty()){
             ll_empty.visibility = View.VISIBLE
         }else{
             ll_empty.visibility = View.GONE
+
         }
-
-        refresh_layout.refreshComplete()
+        updateDelText()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
 
-    }
 
     companion object{
-         fun startNew(videoDetail: VideoDetail){
+        fun startNew(videoDetail: VideoDetail){
             var cacheVideo = Video()
-             cacheVideo.status = 1
-             cacheVideo.play_time = videoDetail.videoInfo?.play_time
+            cacheVideo.status = 1
+            cacheVideo.play_time = videoDetail.videoInfo?.play_time
             cacheVideo.id = videoDetail.videoId!!
             cacheVideo.title = videoDetail.videoInfo?.title
             var url = videoDetail.videoInfo?.url?:""
@@ -225,36 +217,8 @@ class CacheVideoAct: BaseAct(), View.OnClickListener {
 
 
 
-             Logger.d(cacheVideo)
-            App.getAppDataBase().videoDao().insertVideos(cacheVideo)
 
-             var task = FileDownloader.getImpl().create(cacheVideo?.url).setTag(cacheVideo?.id)
-                 .setListener(object :FileDownloadListener(){
-                     override fun warn(task: BaseDownloadTask?) {
-
-                     }
-
-                     override fun completed(task: BaseDownloadTask?) {
-                     }
-
-                     override fun pending(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-                     }
-
-                     override fun error(task: BaseDownloadTask?, e: Throwable?) {
-                     }
-
-                     override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-                     }
-
-                     override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-                     }
-
-                 })
-                 .setPath(cacheVideo?.path)
-
-             task.start()
-
-             CacheVideoAdapter.taskMap.put(cacheVideo?.id!!,task)
+//            CacheVideoAdapter.taskMap.put(cacheVideo?.id!!,task)
 
 //            videoAdapter.addData(cacheVideo,0)
 //            videoAdapter.notifyDataSetChanged()
@@ -278,5 +242,73 @@ class CacheVideoAct: BaseAct(), View.OnClickListener {
         }else{
             tv_delete.text = "删除"
         }
+    }
+
+
+    @Download.onWait
+    fun onWait(task: DownloadTask) {
+        Logger.d(task)
+        DownLoadHelper.getInstance().trigger(task)
+
+    }
+
+    @Download.onPre
+    fun onPre(task: DownloadTask) {
+        Logger.d(task)
+        DownLoadHelper.getInstance().trigger(task)
+
+    }
+
+    @Download.onTaskStart
+    fun taskStart(task: DownloadTask) {
+        Logger.d(task.convertFileSize)
+
+        DownLoadHelper.getInstance().trigger(task)
+
+    }
+
+    @Download.onTaskRunning
+    fun running(task: DownloadTask) {
+        Logger.d(task)
+        Logger.d(task.percent)
+        DownLoadHelper.getInstance().trigger(task)
+    }
+
+    @Download.onTaskResume
+    fun taskResume(task: DownloadTask) {
+        Logger.d(task)
+
+        DownLoadHelper.getInstance().trigger(task)
+
+
+    }
+
+    @Download.onTaskStop
+    fun taskStop(task: DownloadTask) {
+        Logger.d(task)
+        DownLoadHelper.getInstance().trigger(task)
+
+    }
+
+    @Download.onTaskCancel
+    fun taskCancel(task: DownloadTask) {
+        Logger.d(task)
+        DownLoadHelper.getInstance().trigger(task)
+
+
+    }
+
+    @Download.onTaskFail
+    fun taskFail(task: DownloadTask, e: Exception) {
+        Logger.d(task)
+        DownLoadHelper.getInstance().trigger(task)
+
+    }
+
+    @Download.onTaskComplete
+    fun taskComplete(task: DownloadTask) {
+        Logger.d(task)
+        DownLoadHelper.getInstance().trigger(task)
+
     }
 }

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Surface;
 import cn.jzvd.JZMediaInterface;
 import cn.jzvd.Jzvd;
+import cn.jzvd.JzvdStd;
 import com.google.android.exoplayer2.*;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -20,6 +21,7 @@ import com.google.android.exoplayer2.upstream.*;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoListener;
 import com.jyt.video.R;
+import com.jyt.video.video.widget.CustomJzvdStd;
 
 /**
  * Created by MinhDV on 5/3/18.
@@ -198,13 +200,24 @@ public class JZMediaExo extends JZMediaInterface implements Player.EventListener
                 }
                 break;
                 case Player.STATE_BUFFERING: {
+
+                    if (playWhenReady){
+                        ((CustomJzvdStd) jzvd).showLoading(true);
+                    }else {
+                        ((CustomJzvdStd) jzvd).showLoading(false);
+
+                    }
                     handler.post(callback);
                 }
                 break;
                 case Player.STATE_READY: {
+
                     if (playWhenReady) {
                         jzvd.onPrepared();
+                        ((CustomJzvdStd) jzvd).showLoading(false);
+
                     } else {
+                        ((CustomJzvdStd) jzvd).showLoading(true);
                     }
                 }
                 break;

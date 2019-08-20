@@ -6,24 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import com.alibaba.android.arouter.launcher.ARouter
 import com.jyt.video.R
-import com.jyt.video.common.base.BaseAct
+import com.jyt.video.common.Constant
 import com.jyt.video.common.base.BaseVH
+import com.jyt.video.common.db.bean.Video
 import com.jyt.video.common.dialog.AlertDialog
 import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.common.helper.UserInfo
-import com.jyt.video.common.itemDecoration.SpaceItemDecoration
-import com.jyt.video.common.util.DensityUtil
 import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.VideoService
 import com.jyt.video.service.WalletService
 import com.jyt.video.service.impl.VideoServiceImpl
 import com.jyt.video.service.impl.WalletServiceImpl
-import com.jyt.video.video.CacheVideoAct
 import com.jyt.video.video.adapter.VideoCaptureAdapter
 import com.jyt.video.video.dialog.AwardDialog
 import com.jyt.video.video.entity.Gift
 import com.jyt.video.video.entity.VideoDetail
+import com.jyt.video.video.util.DownLoadHelper
 import kotlinx.android.synthetic.main.vh_introduce_header.*
 
 class IntroduceHeaderVH(viewGroup: ViewGroup) :BaseVH<Any>(LayoutInflater.from(viewGroup.context).inflate(R.layout.vh_introduce_header,viewGroup,false)){
@@ -77,14 +76,29 @@ class IntroduceHeaderVH(viewGroup: ViewGroup) :BaseVH<Any>(LayoutInflater.from(v
               }else{
                   when(v){
                       img_download->{
-                          if ((data as VideoDetail)?.videoInfo?.url?.contains(".m3u8")==true){
-                              ToastUtil.showShort(itemView.context,"暂不支持此格式")
-                              return
-                          }
+//                          if ((data as VideoDetail)?.videoInfo?.url?.contains(".m3u8")==true){
+//                              ToastUtil.showShort(itemView.context,"暂不支持此格式")
+//                              return
+//                          }
 
                           if ((data as VideoDetail).isVip){
+//                          if (true){
 
-                              CacheVideoAct.startNew(data as VideoDetail)
+                              var videoDetail = data as VideoDetail
+                              var cacheVideo = Video()
+                              cacheVideo.status = 1
+                              cacheVideo.play_time = videoDetail.videoInfo?.play_time
+                              cacheVideo.id = videoDetail.videoId!!
+                              cacheVideo.title = videoDetail.videoInfo?.title
+                              var url = videoDetail.videoInfo?.url?:""
+                              var fileName = url.substring(url.lastIndexOf("/")+1,url.length)
+                              cacheVideo.path = Constant.getAppCacheFile().absolutePath+"/"+fileName
+                              cacheVideo.url = url
+                              cacheVideo.cover = videoDetail.videoInfo?.thumbnail
+
+
+                              DownLoadHelper.getInstance().startMission(cacheVideo)
+//                              CacheVideoAct.startNew(data as VideoDetail)
                               var dialog = AlertDialog()
                               dialog.message = "已加入缓存"
                               dialog.leftBtnText = "确定"

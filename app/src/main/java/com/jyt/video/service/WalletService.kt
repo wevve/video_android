@@ -1,5 +1,7 @@
 package com.jyt.video.service
 
+import com.jyt.video.api.entity.WxPayParamResult
+import com.jyt.video.api.entity.WxPayResult
 import com.jyt.video.recharge.entity.CardInfo
 import com.jyt.video.recharge.entity.CreateOrderResult
 import com.jyt.video.recharge.entity.PayWay
@@ -8,6 +10,11 @@ import com.jyt.video.video.entity.Gift
 import com.jyt.video.wallet.entity.WalletIndexInfo
 
 interface WalletService{
+
+    fun aliPay(orderSn:String,callback: ServiceCallback<String>)
+
+    fun wxPay(orderSn:String,callback: ServiceCallback<WxPayParamResult>)
+
     fun getMyWalletIndexInfo(callback: ServiceCallback<WalletIndexInfo>)
 
     fun withdraw(accountId:Long,money:String,callback: ServiceCallback<Any>)

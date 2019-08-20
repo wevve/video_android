@@ -98,9 +98,11 @@ class CustomJzvdStd : JzvdStd {
     ) {
         super.setAllControlsVisiblity(topCon, bottomCon, startBtn, loadingPro, thumbImg, bottomPro, retryLayout)
 
-//        if (loadingProgressBar.visibility==View.VISIBLE){
-        loading_group.visibility = loadingProgressBar.visibility
-//        }
+        if (loadingProgressBar.visibility==View.VISIBLE){
+            showLoading(true)
+        }else{
+            showLoading(false)
+        }
     }
 
 
@@ -447,6 +449,28 @@ class CustomJzvdStd : JzvdStd {
                 newUiOptions = newUiOptions and View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY.inv()
             }
             activity.window.decorView.systemUiVisibility = newUiOptions
+
+        }
+    }
+
+
+
+    override fun onPrepared() {
+        super.onPrepared()
+    }
+
+    public fun showLoading(show:Boolean){
+        if (show){
+
+            loading_group.visibility = View.VISIBLE
+            loading.visibility = View.VISIBLE
+            tv_speed.visibility = View.VISIBLE
+        }else{
+            loading_group.visibility = View.INVISIBLE
+            loading.visibility = View.INVISIBLE
+            tv_speed.visibility = View.INVISIBLE
+
+
 
         }
     }

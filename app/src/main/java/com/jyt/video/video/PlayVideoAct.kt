@@ -45,6 +45,7 @@ import com.jyt.video.video.entity.CommentItem
 import com.jyt.video.video.entity.Gift
 import com.jyt.video.video.entity.ThumbVideo
 import com.jyt.video.video.entity.VideoDetail
+import com.jyt.video.video.util.DownLoadHelper
 import com.jyt.video.video.util.JZMediaExo
 import com.jyt.video.video.widget.CustomJzvdStd
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -77,6 +78,8 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
     var refreshVideo = true
 
     var videoCommentLastId:Long? = 0
+    //本地地址
+    var localPath:String? = null
     override fun initView() {
         videoId = intent.getLongExtra("videoId",0)
         if (videoId==0L){
@@ -94,7 +97,6 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
 
         hideToolbar()
         initRcv()
-        initTab()
         setListener()
         getData()
         getGiftList()
@@ -270,11 +272,20 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
             if (it){
                 if ((data as VideoDetail)?.videoInfo?.url?.contains(".m3u8")==true){
 //                    ToastUtil.showShort(itemView.context,"暂不支持此格式")
+                    var localPath = DownLoadHelper.getInstance().getDownLoadFinishVideoLocalPath(url?:"")
+
+                    if (localPath?.isNotEmpty()==true) {
+                        url  = localPath
+                    }
 
                 }else{
+                    var localPath = DownLoadHelper.getInstance().getDownLoadFinishVideoLocalPath(url?:"")
+                    if (localPath?.isNotEmpty()==true) {
+                        url  = localPath
+                    }
                     if (data.isVip){
                         //创建本地缓存 边下边播
-                        url = App.getProxy().getProxyUrl(url)
+//                        url = App.getProxy().getProxyUrl(url)
                     }else{
 
                     }
@@ -314,31 +325,6 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
     }
 
 
-
-    private fun initTab(){
-//        tv_empty_text.text = "暂无数据"
-
-//        tab_layout.setTabData(
-//            arrayListOf(CommonTab("简介"),
-//            CommonTab("评论")) as ArrayList<CustomTabEntity>)
-//
-//        tab_layout.setOnTabSelectListener(object :OnTabSelectListener{
-//            override fun onTabSelect(position: Int) {
-//                if (position==0){
-//                    group_comment.visibility = View.GONE
-//                    refresh_layout_detail.visibility = View.VISIBLE
-//                }else{
-//                    group_comment.visibility = View.VISIBLE
-//                    refresh_layout_detail.visibility = View.GONE
-//                }
-//            }
-//
-//            override fun onTabReselect(position: Int) {
-//
-//            }
-//
-//        })
-    }
 
     override fun onDestroy() {
         super.onDestroy()

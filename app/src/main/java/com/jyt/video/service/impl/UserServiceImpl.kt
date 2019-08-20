@@ -11,6 +11,7 @@ import com.jyt.video.common.util.DeviceIdUtil
 import com.jyt.video.common.util.RxHelper
 import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.login.entity.LoginResult
+import com.jyt.video.login.entity.WxLoginParamResult
 import com.jyt.video.main.MainActivity
 import com.jyt.video.main.entity.HomeDialogResult
 import com.jyt.video.promotion.entity.PromotionBean
@@ -19,6 +20,7 @@ import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.UserService
 import com.jyt.video.wallet.entity.WalletIndexInfo
 import com.jyt.video.welcome.entity.WelcomeResult
+import com.jyt.video.wxapi.WeChartHelper
 import com.orhanobut.logger.Logger
 import io.reactivex.Observable
 import okhttp3.MediaType
@@ -28,6 +30,23 @@ import java.io.File
 import java.net.URLEncoder
 
 class UserServiceImpl :UserService{
+    override fun wxLogin(user: WeChartHelper.WxUser, callback: ServiceCallback<LoginResult>) {
+
+
+        var map = mapOf(Pair("nickname",user.nickname)
+            ,Pair("sex",user.sex)
+            ,Pair("openid",user.openid)
+        ,Pair("headimgurl",user.headimgurl)
+        ,Pair("unionid",user.unionid))
+
+        RxHelper.simpleResult(ApiService.getInstance().api.wxLogin(map),callback)
+
+    }
+
+    override fun getWxloginParam(callback: ServiceCallback<WxLoginParamResult>) {
+        RxHelper.simpleResult(ApiService.getInstance().api.wxThirdLoginParam(),callback)
+    }
+
     override fun getVersion(callback: ServiceCallback<VersionBean>) {
 
         var deviceId = DeviceIdUtil.getDeviceId(App.app)

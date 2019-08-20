@@ -3,6 +3,7 @@ package com.jyt.video.api;
 import com.jyt.video.api.entity.FilterVideoListResult;
 import com.jyt.video.api.entity.PersonHomeResult;
 import com.jyt.video.api.entity.VersionBean;
+import com.jyt.video.api.entity.WxPayParamResult;
 import com.jyt.video.common.entity.BaseJson;
 import com.jyt.video.deal.entity.Record;
 import com.jyt.video.home.entity.Advertising;
@@ -10,6 +11,7 @@ import com.jyt.video.home.entity.HomeResult;
 import com.jyt.video.home.entity.HomeTabResult;
 import com.jyt.video.home.entity.VideoType;
 import com.jyt.video.login.entity.LoginResult;
+import com.jyt.video.login.entity.WxLoginParamResult;
 import com.jyt.video.main.entity.HomeDialogResult;
 import com.jyt.video.promotion.entity.PromotionBean;
 import com.jyt.video.promotion.entity.PromotionUserListResult;
@@ -34,6 +36,22 @@ import java.util.List;
 import java.util.Map;
 
 public interface Api {
+
+//    @POST("/appapi/apppay")
+    @POST("appapi/apppay")
+    @FormUrlEncoded
+    Observable<BaseJson<String>> aliPayParam(@Field("orderSn")String orderSn);
+
+    @POST("appapi/wxAppPay")
+    @FormUrlEncoded
+    Observable<BaseJson<WxPayParamResult>> wxPayParam(@Field("orderSn")String orderSn);
+
+    @POST("appapi/wechatlogin")
+    @FormUrlEncoded
+    Observable<BaseJson<LoginResult>> wxLogin(@FieldMap Map<String,Object> map);
+
+    @GET("appapi/thirdPartyLogin ")
+    Observable<BaseJson<WxLoginParamResult>> wxThirdLoginParam();
 
     @GET("/appapi/getAd/id/{type}")
     Observable<BaseJson<Advertising>> videoHorAd(@Path("type")int type);

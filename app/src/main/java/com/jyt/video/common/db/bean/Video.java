@@ -32,6 +32,17 @@ public class Video {
     private boolean isSel;
 
     @Ignore
+    private Object ext;
+
+    public Object getExt() {
+        return ext;
+    }
+
+    public void setExt(Object ext) {
+        this.ext = ext;
+    }
+
+    @Ignore
     transient private CacheVideoAdapter.VideoCacheItemVH holder;
 
     public int getStatus() {

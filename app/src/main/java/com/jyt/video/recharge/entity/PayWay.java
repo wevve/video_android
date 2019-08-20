@@ -11,6 +11,15 @@ public class PayWay {
     private String payName;
     private String payCode;
     private String payIcon;
+    private String nativePay;
+
+    public String getNativePay() {
+        return nativePay;
+    }
+
+    public void setNativePay(String nativePay) {
+        this.nativePay = nativePay;
+    }
 
     public String getPayName() {
         return payName;
