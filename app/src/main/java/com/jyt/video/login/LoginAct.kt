@@ -1,5 +1,6 @@
 package com.jyt.video.login
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.view.View
@@ -12,13 +13,16 @@ import com.jyt.video.R
 import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.helper.UserInfo
 import com.jyt.video.common.util.AppUtils
+import com.jyt.video.common.util.DeviceIdUtil
 import com.jyt.video.common.util.RxBus
 import com.jyt.video.event.RefreshEvent
 import com.jyt.video.login.entity.WxParam
+import com.jyt.video.main.MainActivity
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.impl.UserServiceImpl
-import com.jyt.video.wxapi.WeChartHelper
+import com.ysj.video.wxapi.WeChartHelper
 import com.orhanobut.logger.Logger
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.act_login.*
 
 @Route(path = "/login/index")
@@ -66,7 +70,8 @@ class LoginAct:BaseAct(), View.OnClickListener {
                                 wxhelper.registerToWx()
                                 wxhelper.setReceiveUserInfoListener {
                                     Logger.d(it)
-                                    userService.wxLogin(it, ServiceCallback { code, data ->
+                                    var deviceId = DeviceIdUtil.getDeviceId(this)
+                                    userService.wxLogin(it,MainActivity.pid,deviceId, ServiceCallback { code, data ->
                                         if (data != null) {
                                             UserInfo.setUserId(data.member_id)
                                             getUserHomeInfo()
@@ -100,7 +105,11 @@ class LoginAct:BaseAct(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v){
             wxlogin -> {
-                wxhelper.login()
+                RxPermissions(this).request(Manifest.permission.READ_PHONE_STATE).subscribe {
+
+                    wxhelper.login()
+
+                }
             }
             btn_login->{
                 var account = input_account.text.toString()

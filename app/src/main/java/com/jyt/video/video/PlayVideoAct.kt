@@ -1,21 +1,22 @@
 package com.jyt.video.video
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
+import android.os.Handler
+import android.os.Message
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import cn.jzvd.JZDataSource
-import cn.jzvd.JZUtils
 import cn.jzvd.Jzvd
 import cn.jzvd.JzvdStd
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.binbook.binbook.common.util.GlideHelper
+import com.alipay.sdk.app.PayTask
 import com.bumptech.glide.Glide
-import com.flyco.tablayout.listener.CustomTabEntity
-import com.flyco.tablayout.listener.OnTabSelectListener
 import com.jyt.video.App
 import com.jyt.video.R
 import com.jyt.video.common.adapter.BaseRcvAdapter
@@ -23,16 +24,15 @@ import com.jyt.video.common.base.BaseAct
 import com.jyt.video.common.base.BaseVH
 import com.jyt.video.common.dialog.AlertDialog
 import com.jyt.video.common.entity.BaseJson
-import com.jyt.video.common.entity.CommonTab
 import com.jyt.video.common.helper.UserInfo
 import com.jyt.video.common.util.NetWorkUtil
 import com.jyt.video.common.util.StatusBarUtil
-import com.jyt.video.common.util.TimeHelper
 import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.home.entity.Advertising
 import com.jyt.video.home.entity.Banner
 import com.jyt.video.home.entity.VideoGroupTitle
 import com.jyt.video.home.entity.VideoType
+import com.jyt.video.recharge.entity.PayResult
 import com.jyt.video.service.CommentService
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.VideoService
@@ -41,23 +41,25 @@ import com.jyt.video.service.impl.CommentServiceImpl
 import com.jyt.video.service.impl.VideoServiceImpl
 import com.jyt.video.service.impl.WalletServiceImpl
 import com.jyt.video.video.adapter.VideoDetailAdapter
+import com.jyt.video.video.dialog.PayDialog
 import com.jyt.video.video.entity.CommentItem
 import com.jyt.video.video.entity.Gift
-import com.jyt.video.video.entity.ThumbVideo
 import com.jyt.video.video.entity.VideoDetail
 import com.jyt.video.video.util.DownLoadHelper
 import com.jyt.video.video.util.JZMediaExo
 import com.jyt.video.video.widget.CustomJzvdStd
+import com.orhanobut.logger.Logger
+import com.ysj.video.wxapi.WeChartHelper
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.act_play_video.*
-import kotlinx.android.synthetic.main.layout_video_list_empty.*
-import kotlinx.android.synthetic.main.vh_cache_video_item.view.*
-import kotlinx.android.synthetic.main.vh_introduce_header.*
 import me.dkzwm.widget.srl.SmoothRefreshLayout
 import java.util.ArrayList
 
 @Route(path = "/video/play")
 class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateListener {
+
+    val REQUEST_CODE_LOGIN = 123
+    val REQUEST_CODE_RECHARGE = 111
     companion object{
         var giftList:ArrayList<Gift>? = null
     }
@@ -66,7 +68,12 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
     lateinit var walletService: WalletService
     lateinit var commentService: CommentService
     lateinit var introduceAdapter: VideoDetailAdapter
-//    lateinit var commentAdapter: VideoDetailAdapter
+
+    //微信支付
+    lateinit var wxHelper: WeChartHelper
+
+    var orderInfo:String? = null
+
 
     var videoDetail:VideoDetail? = null
 
@@ -78,6 +85,10 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
     var refreshVideo = true
 
     var videoCommentLastId:Long? = 0
+
+    var canUseWxPay = false
+    var canUseALiPay = false
+
     //本地地址
     var localPath:String? = null
     override fun initView() {
@@ -101,6 +112,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
         getData()
         getGiftList()
         getCommentData(null)
+        getPayType()
     }
 
 
@@ -311,6 +323,8 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
             var isConnectWifi = NetWorkUtil.isWifiConnect(this)
             if (isConnectWifi){
                 videoplayer.startButton.callOnClick()
+            }else{
+                videoplayer.thumbImageView.callOnClick()
             }
         }
     }
@@ -321,6 +335,25 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
                 videoplayer.setScreenNormal()
                 buyVideo()
             }
+            CustomJzvdStd.EVENT_BUY_VIP->{
+                ARouter.getInstance().build("/recharge/member").navigation(this,REQUEST_CODE_RECHARGE)
+
+            }
+            CustomJzvdStd.EVENT_TO_LOGIN->{
+                ARouter.getInstance().build("/login/index").navigation(this,REQUEST_CODE_LOGIN)
+
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode==REQUEST_CODE_RECHARGE && resultCode == Activity.RESULT_OK){
+            refreshVideo = true
+            refresh_layout_detail?.autoRefresh()
+        }else if (requestCode == REQUEST_CODE_LOGIN && resultCode == Activity.RESULT_OK){
+            refreshVideo = true
+            refresh_layout_detail?.autoRefresh()
         }
     }
 
@@ -376,7 +409,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
     private fun addComment(comment:String){
         if (!UserInfo.isLogin()){
             ToastUtil.showShort(this,"请先登录")
-            ARouter.getInstance().build("/login/index").navigation()
+            ARouter.getInstance().build("/login/index").navigation(this,REQUEST_CODE_LOGIN)
             return
         }
 
@@ -419,7 +452,7 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
     private fun buyVideo(){
         if (!UserInfo.isLogin()){
             ToastUtil.showShort(this,"请先登录")
-            ARouter.getInstance().build("/login/index").navigation()
+            ARouter.getInstance().build("/login/index").navigation(this,REQUEST_CODE_LOGIN)
             return
         }
         if (videoDetail?.isVip==true){
@@ -432,47 +465,69 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
         }
         if (videoDetail?.alreadyBuy==1){
 //            ToastUtil.showShort(this,"您已购买视频")
-            ToastUtil.showShort(this,"您已购买视频24小时内无需购买")
+            ToastUtil.showShort(this,"您已购买视频"+videoDetail?.buyTimeExists+"小时内无需购买")
             return
         }
+//
+//        var dialog  = AlertDialog()
+//        dialog.message = "是否购买视频"
+//        dialog.rightBtnText = "取消"
+//        dialog.leftBtnText = "确定"
+//        dialog.onClickListener={
+//                dialogFragment, s ->
+//            if (s=="确定"){
+//                dialogFragment.dismissAllowingStateLoss()
 
-        var dialog  = AlertDialog()
-        dialog.message = "是否购买视频"
-        dialog.rightBtnText = "取消"
-        dialog.leftBtnText = "确定"
-        dialog.onClickListener={
-                dialogFragment, s ->
-            if (s=="确定"){
-                videoService.buyVideo(videoDetail?.videoId!!,ServiceCallback{
-                        code, data ->
-                    if (code==BaseJson.CODE_SUCCESS){
-                        videoDetail?.alreadyBuy = 1
+                var payDialog = PayDialog()
 
-                        refreshVideo = true
-                        setupView(videoDetail!!,ad)
-
-
-                        var dialog = AlertDialog()
-                        dialog.message = "购买成功"
-                        dialog.leftBtnText = "确定"
-                        dialog.onClickListener = {
-                                dialogFragment, _ ->
-                            dialogFragment.dismissAllowingStateLoss()
+                payDialog.detail = videoDetail
+                payDialog.canUseALiPay = canUseALiPay
+                payDialog.canUseWxPay = canUseWxPay
+                payDialog.payTypeCallback = {
+                    type->
+                    when(type){
+                        0->{
+                            buyVideoByCoin()
                         }
-                        dialog.show(supportFragmentManager,"")
-
+                        1->{
+                            buyVideoByWX()
+                        }
+                        2->{
+                            buyVideoByALi()
+                        }
                     }
+                }
+                payDialog.show(supportFragmentManager,"")
+//                videoService.buyVideo(videoDetail?.videoId!!,ServiceCallback{
+//                        code, data ->
+//                    if (code==BaseJson.CODE_SUCCESS){
+//                        videoDetail?.alreadyBuy = 1
+//
+//                        refreshVideo = true
+//                        setupView(videoDetail!!,ad)
+//
+//
+//                        var dialog = AlertDialog()
+//                        dialog.message = "购买成功"
+//                        dialog.leftBtnText = "确定"
+//                        dialog.onClickListener = {
+//                                dialogFragment, _ ->
+//                            dialogFragment.dismissAllowingStateLoss()
+//                        }
+//                        dialog.show(supportFragmentManager,"")
+//
+//                    }
+//
+//                    dialogFragment.dismissAllowingStateLoss()
+//
+//                })
+//            }else{
+//                dialogFragment.dismissAllowingStateLoss()
+//            }
 
-                    dialogFragment.dismissAllowingStateLoss()
-
-                })
-            }else{
-                dialogFragment.dismissAllowingStateLoss()
-            }
-
-        }
-
-        dialog.show(supportFragmentManager,"")
+//        }
+//
+//        dialog.show(supportFragmentManager,"")
     }
 
     private fun getGiftList(){
@@ -481,4 +536,194 @@ class PlayVideoAct:BaseAct(), View.OnClickListener, CustomJzvdStd.PlayerStateLis
             giftList = data
         })
     }
+
+    private fun getPayType(){
+        walletService.getPayWayList(ServiceCallback{
+            code, data ->
+            data?.forEach {
+                payWay->
+                if (payWay.payCode == "nativePay|wxAppPay") {
+                    canUseWxPay = true
+//                    walletService.wxPay(data.order_sn, ServiceCallback { code, data ->
+//
+//                        if (data != null) {
+//                            wxHelper = WeChartHelper()
+//                            App.wxpayAppid = data.appid
+//                            wxHelper.init(context, App.wxpayAppid)
+//                            wxHelper.registerToWx()
+//                            wxHelper.setReceivePayResultListener { payResult, ext ->
+//                                if (ext == "coin") {
+//                                    if (payResult) {
+//                                        ToastUtil.showShort(context, "交易成功")
+//                                        activity?.finish()
+//                                    } else {
+//                                        ToastUtil.showShort(context, "交易失败")
+//
+//                                    }
+//                                }
+//                            }
+//                            wxHelper.pay(
+//                                data.partnerid,
+//                                data.prepayid,
+//                                data.timestamp,
+//                                data.noncestr,
+//                                data.sign,
+//                                "coin"
+//                            )
+//                        }
+//                    })
+                } else if (payWay.payCode == "nativePay|aliAppPay") {
+                        canUseALiPay = true
+//                    walletService.aliPay(data.order_sn, ServiceCallback { code, data ->
+//                        if (data != null) {
+//                            orderInfo = data
+//                            zhiFuBaoPay()
+//                        }
+//                    })
+                }
+            }
+        })
+    }
+
+    public fun buyVideoByCoin(){
+        videoService.buyVideo(videoDetail?.videoId!!,ServiceCallback { code, data ->
+            if (code == BaseJson.CODE_SUCCESS) {
+                buyVideoSuccess()
+            }
+        })
+    }
+    public fun buyVideoByWX(){
+        walletService.createOrder("nativePay|wxAppPay",(videoDetail?.price?:"0").toDouble(),1,null,(videoDetail?.videoInfo?.gold?:0).toDouble(),videoId.toString(),
+            ServiceCallback{
+            code, data ->
+                if (data!=null){
+                    walletService.wxPay(data.order_sn, ServiceCallback { code, data ->
+
+                        if (data != null) {
+                            wxHelper = WeChartHelper()
+                            App.wxpayAppid = data.appid
+                            wxHelper.init(this, App.wxpayAppid)
+                            wxHelper.registerToWx()
+                            wxHelper.setReceivePayResultListener { payResult, ext ->
+                                if (ext == "video") {
+                                    if (payResult) {
+                                        ToastUtil.showShort(this, "交易成功")
+                                        buyVideoSuccess()
+                                    } else {
+                                        ToastUtil.showShort(this, "交易失败")
+
+
+                                    }
+                                }
+                            }
+                            wxHelper.pay(
+                                data.partnerid,
+                                data.prepayid,
+                                data.timestamp,
+                                data.noncestr,
+                                data.sign,
+                                "video"
+                            )
+                        }
+                    })
+                }
+
+        })
+    }
+    public fun buyVideoByALi(){
+        walletService.createOrder("nativePay|aliAppPay",(videoDetail?.price?:"0").toDouble(),1,null,(videoDetail?.videoInfo?.gold?:0).toDouble(),videoId.toString(),
+            ServiceCallback{
+                    code, data ->
+                if (data!=null) {
+                    walletService.aliPay(data.order_sn, ServiceCallback { code, data ->
+                        if (data != null) {
+                            orderInfo = data
+                            zhiFuBaoPay()
+                        }
+                    })
+                }
+            })
+
+    }
+
+    private fun buyVideoSuccess(){
+        refreshVideo = true
+        refresh_layout_detail?.autoRefresh()
+
+
+        var dialog = AlertDialog()
+        dialog.message = "购买成功"
+        dialog.leftBtnText = "确定"
+        dialog.onClickListener = { dialogFragment, _ ->
+            dialogFragment.dismissAllowingStateLoss()
+        }
+        dialog.show(supportFragmentManager, "")
+    }
+
+
+    private fun zhiFuBaoPay() {
+
+        val payRunnable = Runnable {
+            val alipay = PayTask(this)
+            val result = alipay.payV2(orderInfo, true)
+
+            val msg = Message()
+            msg.what = SDK_PAY_FLAG
+            msg.obj = result
+            handler.sendMessage(msg)
+        }
+
+        val payThread = Thread(payRunnable)
+        payThread.start()
+    }
+
+    private val SDK_PAY_FLAG = 1
+
+    internal var handler: Handler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            when (msg.what) {
+                SDK_PAY_FLAG -> {
+                    val payResult = PayResult(msg.obj as Map<String, String>)
+                    /**
+                     * 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    val resultInfo = payResult.getResult()// 同步返回需要验证的信息
+                    val resultStatus = payResult.getResultStatus()
+                    val intent = Intent()
+
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        ToastUtil.showShort(this@PlayVideoAct, "支付成功")
+                        buyVideoSuccess()
+
+                    } else {
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        ToastUtil.showShort(this@PlayVideoAct, "支付失败")
+
+
+                    }
+
+                }
+
+                else -> {
+                }
+            }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        var videoId = intent?.getLongExtra("videoId",0)?:0L
+        if (videoId!=0L){
+            this@PlayVideoAct.videoId = videoId
+            refreshVideo = true
+            getData()
+        }
+
+
+
+//        Logger.d("onNewIntent"+videoId)
+    }
+
 }

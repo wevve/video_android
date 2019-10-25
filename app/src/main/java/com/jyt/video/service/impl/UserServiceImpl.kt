@@ -1,7 +1,6 @@
 package com.jyt.video.service.impl
 
 import com.jyt.video.App
-import com.jyt.video.api.Api
 import com.jyt.video.api.ApiService
 import com.jyt.video.api.entity.PersonHomeResult
 import com.jyt.video.api.entity.VersionBean
@@ -18,11 +17,9 @@ import com.jyt.video.promotion.entity.PromotionBean
 import com.jyt.video.promotion.entity.PromotionUserListResult
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.UserService
-import com.jyt.video.wallet.entity.WalletIndexInfo
 import com.jyt.video.welcome.entity.WelcomeResult
-import com.jyt.video.wxapi.WeChartHelper
+import com.ysj.video.wxapi.WeChartHelper
 import com.orhanobut.logger.Logger
-import io.reactivex.Observable
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -30,14 +27,17 @@ import java.io.File
 import java.net.URLEncoder
 
 class UserServiceImpl :UserService{
-    override fun wxLogin(user: WeChartHelper.WxUser, callback: ServiceCallback<LoginResult>) {
+    override fun wxLogin(user: WeChartHelper.WxUser, pid:String, did:String, callback: ServiceCallback<LoginResult>) {
 
 
         var map = mapOf(Pair("nickname",user.nickname)
             ,Pair("sex",user.sex)
             ,Pair("openid",user.openid)
         ,Pair("headimgurl",user.headimgurl)
-        ,Pair("unionid",user.unionid))
+        ,Pair("unionid",user.unionid)
+        ,Pair("pid",pid)
+        ,Pair("did",did)
+        )
 
         RxHelper.simpleResult(ApiService.getInstance().api.wxLogin(map),callback)
 

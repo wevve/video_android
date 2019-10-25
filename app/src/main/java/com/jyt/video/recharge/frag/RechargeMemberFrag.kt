@@ -1,5 +1,6 @@
 package com.jyt.video.recharge.frag
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import com.jyt.video.common.dialog.ActionSheetDialog
@@ -16,11 +17,10 @@ import android.util.Log
 import com.alipay.sdk.app.PayTask
 import com.jyt.video.App
 import com.jyt.video.api.Constans
-import com.jyt.video.common.Constant
 import com.jyt.video.common.util.ToastUtil
 import com.jyt.video.recharge.entity.PayResult
 import com.jyt.video.service.UserService
-import com.jyt.video.wxapi.WeChartHelper
+import com.ysj.video.wxapi.WeChartHelper
 
 
 class RechargeMemberFrag:BaseRechargeFrag(){
@@ -29,7 +29,7 @@ class RechargeMemberFrag:BaseRechargeFrag(){
 
     lateinit var walletService: WalletService
     lateinit var userService: UserService
-    lateinit var wxHelper :WeChartHelper
+    lateinit var wxHelper : WeChartHelper
 
     var orderInfo=""
 
@@ -44,7 +44,7 @@ class RechargeMemberFrag:BaseRechargeFrag(){
 
         var payWay = item.extra as PayWay
 
-        walletService?.createOrder(payWay.payCode,price,2,rechargeItem.vipId!!.toInt(),null, ServiceCallback{
+        walletService?.createOrder(payWay.payCode,price,2,rechargeItem.vipId!!.toInt(),null, null, ServiceCallback{
             code, data ->
             if (data!=null){
                 if (payWay.payCode == "nativePay|wxAppPay") {
@@ -61,6 +61,7 @@ class RechargeMemberFrag:BaseRechargeFrag(){
                                 if(ext=="member"){
                                     if (payResult){
                                         ToastUtil.showShort(context,"交易成功")
+                                        activity?.setResult(Activity.RESULT_OK)
                                         activity?.finish()
                                     }else{
                                         ToastUtil.showShort(context,"交易失败")
@@ -131,6 +132,8 @@ class RechargeMemberFrag:BaseRechargeFrag(){
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         ToastUtil.showShort(context, "支付成功")
+
+                        activity?.setResult(Activity.RESULT_OK)
                         activity?.finish()
 
                     } else {

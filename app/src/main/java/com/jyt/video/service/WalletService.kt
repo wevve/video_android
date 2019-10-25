@@ -1,7 +1,6 @@
 package com.jyt.video.service
 
 import com.jyt.video.api.entity.WxPayParamResult
-import com.jyt.video.api.entity.WxPayResult
 import com.jyt.video.recharge.entity.CardInfo
 import com.jyt.video.recharge.entity.CreateOrderResult
 import com.jyt.video.recharge.entity.PayWay
@@ -37,6 +36,14 @@ interface WalletService{
 
     fun getPayWayList(callback: ServiceCallback<ArrayList<PayWay>>)
 
-    fun createOrder(payCode:String,price:Double,buyType:Int,packageId:Int?,gold:Double?,callback: ServiceCallback<CreateOrderResult>)
+    fun createOrder(
+        payCode: String,
+        price: Double,
+        buyType: Int,
+        packageId: Int?,
+        gold: Double?,
+        videoId: String?,
+        callback: ServiceCallback<CreateOrderResult>
+    )
 
 }

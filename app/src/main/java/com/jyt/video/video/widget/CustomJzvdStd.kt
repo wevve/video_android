@@ -21,12 +21,17 @@ import java.util.logging.Handler
 import cn.jzvd.JZUtils.getWindow
 import android.os.Build
 import android.app.Activity
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.support.constraint.ConstraintSet
 import android.widget.SeekBar
+import com.commit451.nativestackblur.NativeStackBlur
 import com.jyt.video.common.util.NetSpeed
 import com.jyt.video.common.util.NetSpeedTimer
 import com.orhanobut.logger.Logger
+import com.wingjay.blurimageviewlib.FastBlurUtil
+import kotlinx.android.synthetic.main.act_width_draw.view.*
+import kotlinx.android.synthetic.main.include_end_free_watch.view.*
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -35,8 +40,10 @@ class CustomJzvdStd : JzvdStd {
 
     companion object{
         val EVENT_BUY_VIDEO = "EVENT_BUY_VIDEO"
+        val EVENT_BUY_VIP = "EVENT_BUY_VIP"
         val EVENT_PLAYING = "EVENT_PLAYING"
         val EVENT_PAUSE = "EVENT_PAUSE"
+        val EVENT_TO_LOGIN = "EVENT_TO_LOGIN"
     }
 
     var playerStateListener:PlayerStateListener? = null
@@ -72,6 +79,7 @@ class CustomJzvdStd : JzvdStd {
     }
 
     init {
+//        WIFI_TIP_DIALOG_SHOWED = true
         setListener()
         initVIPTimer()
         initNetSpeed()
@@ -117,8 +125,9 @@ class CustomJzvdStd : JzvdStd {
 
         vipTimer.setTime(videoDetail?.adTime?.toInt()?:0)
 
-        tv_free_play_hint.text = "试看${videoDetail?.feeLook}秒结束，若要继续观看请先购买"
-        btn_buy_video.text = "${videoDetail?.videoInfo?.gold}金币购买"
+        tv_free_play_hint.text = "试看${videoDetail?.feeLook}秒结束，观看完整版请开通vip"
+        btn_buy_video.text = "${videoDetail?.price}元原价购买单片"
+        tv_validity.text = "单点付费${videoDetail?.buyTimeExists}小时内有效"
 
         img_ad_before.setOnClickListener(this)
         img_ad_pause.setOnClickListener(this)
@@ -137,6 +146,7 @@ class CustomJzvdStd : JzvdStd {
     }
 
     private fun setListener(){
+        replay_group.setOnClickListener(this)
         ll_vip_jump_ad.setOnClickListener(this)
         img_video_play.setOnClickListener(this)
 
@@ -167,26 +177,32 @@ class CustomJzvdStd : JzvdStd {
     }
 
 
-
-
-
+    override fun startVideo() {
+        var beforeAD = videoDetail?.ad?.before
+        //有广告
+        if (beforeAD!=null){
+            //未播放广告
+            if (!firstPlayAD){
+//                        if (videoDetail?.isVip==false)
+                showBeforeAD()
+                firstPlayAD = true
+                return
+            }
+        }else{
+            firstPlayAD = true
+        }
+        super.startVideo()
+    }
 
     override fun onClick(v: View?) {
         when(v){
+            replay_group->{
+                hideBuyVip()
+                isEndFreedTime = false
+                startVideo()
+            }
             startButton->{
-                var beforeAD = videoDetail?.ad?.before
-                //有广告
-                if (beforeAD!=null){
-                    //未播放广告
-                    if (!firstPlayAD){
-//                        if (videoDetail?.isVip==false)
-                            showBeforeAD()
-                        firstPlayAD = true
-                        return
-                    }
-                }else{
-                    firstPlayAD = true
-                }
+
             }
         }
         super.onClick(v)
@@ -218,9 +234,11 @@ class CustomJzvdStd : JzvdStd {
             }
             btn_buy_mumber->{
                 if (UserInfo.isLogin()) {
-                    ARouter.getInstance().build("/recharge/member").navigation()
+                    playerStateListener?.onStateEventChange(EVENT_BUY_VIP)
+
                 }else{
-                    ARouter.getInstance().build("/login/index").navigation()
+                    playerStateListener?.onStateEventChange(EVENT_TO_LOGIN)
+//                    ARouter.getInstance().build("/login/index").navigation()
                 }
             }
             btn_buy_video->{
@@ -341,6 +359,7 @@ class CustomJzvdStd : JzvdStd {
 
     override fun updateStartImage() {
         super.updateStartImage()
+
         if (currentState == Jzvd.CURRENT_STATE_PLAYING) {
             img_video_play.visibility = View.VISIBLE
             img_video_play.setImageResource(R.mipmap.video_pause)
@@ -353,8 +372,12 @@ class CustomJzvdStd : JzvdStd {
             img_video_play.setImageResource(R.mipmap.video_replay)
             replayTextView.visibility = View.VISIBLE
         } else {
+
             img_video_play.setImageResource(R.mipmap.video_play)
             replayTextView.visibility = View.GONE
+
+
+            startButton.visibility = View.GONE
         }
     }
 
@@ -389,6 +412,17 @@ class CustomJzvdStd : JzvdStd {
     }
 
     public fun showBuyVip(){
+
+        if (fl_end_free.visibility==View.GONE) {
+            var bitmap = textureView.bitmap
+            var blurBitmap = FastBlurUtil.doBlur(bitmap, 80, true)
+//        var blurBitmap =  NativeStackBlur.process(bitmap, 80);
+            blurImage.setImageBitmap(blurBitmap)
+        }
+//        this.setDrawingCacheEnabled(true);
+//        var bitmap = Bitmap.createBitmap(this.getDrawingCache());
+//        //如果不调用这个方法，每次生成的bitmap相同
+//        this.setDrawingCacheEnabled(false);
         fl_end_free.visibility = View.VISIBLE
     }
 
@@ -475,5 +509,35 @@ class CustomJzvdStd : JzvdStd {
         }
     }
 
+
+    /**
+     * 通过canvas复制view的bitmap
+     *
+     * @param view
+     * @return
+     */
+    private fun copyByCanvas2( view:View) :Bitmap{
+        var width = view.getMeasuredWidth();
+        var height = view.getMeasuredHeight();
+        var bp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        var canvas =  Canvas(bp);
+        view.draw(canvas);
+        canvas.save();
+        return bp;
+    }
+
+    /**
+     * 通过drawingCache获取bitmap
+     *
+     * @param view
+     * @return
+     */
+    private fun convertViewToBitmap2( view:View):Bitmap {
+        view.setDrawingCacheEnabled(true);
+        var bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        //如果不调用这个方法，每次生成的bitmap相同
+        view.setDrawingCacheEnabled(false);
+        return bitmap;
+    }
 
 }

@@ -110,7 +110,17 @@ class TypeVideoFrag:BaseFrag(), View.OnClickListener {
             "分类"->{
                 filterMap["cid"] = typeId.toString()
                 if (subTypeId!=null){
-                    filterMap["sub_cid"] = subTypeId.toString()
+                    if (subType?.name=="全部") {
+                        filterMap["sub_cid"] = "0"
+
+                    }else{
+                        filterMap["sub_cid"] = subTypeId.toString()
+
+                    }
+                }else{
+                    if (filterMap.containsKey("sub_cid")) {
+                        filterMap.remove("sub_cid")
+                    }
                 }
             }
             "类型"->{

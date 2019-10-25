@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.jyt.video.R
 import kotlinx.android.synthetic.main.dialog_alert.*
+import android.support.v4.app.FragmentManager
+
 
 class AlertDialog : DialogFragment(), View.OnClickListener {
 
@@ -59,6 +61,25 @@ class AlertDialog : DialogFragment(), View.OnClickListener {
 
     }
 
+    override fun show(manager: FragmentManager?, tag: String?) {
+        try {
+            var c=Class.forName("android.support.v4.app.DialogFragment");
+            var con = c.getConstructor();
+            var obj = con.newInstance();
+            var dismissed = c.getDeclaredField(" mDismissed");
+            dismissed.setAccessible(true);
+            dismissed.set(obj,false);
+            var shownByMe = c.getDeclaredField("mShownByMe");
+            shownByMe.setAccessible(true);
+            shownByMe.set(obj,false);
+        } catch ( e:Exception) {
+            e.printStackTrace();
+        }
+        var ft = manager?.beginTransaction();
+        ft?.add(this, tag);
 
+        ft?.commitAllowingStateLoss();
+
+    }
 
 }

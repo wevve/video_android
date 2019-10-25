@@ -1,4 +1,4 @@
-package com.jyt.video.wxapi;
+package com.ysj.video.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;

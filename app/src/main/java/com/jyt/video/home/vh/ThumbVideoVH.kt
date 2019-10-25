@@ -1,5 +1,8 @@
 package com.jyt.video.home.vh
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +11,11 @@ import com.binbook.binbook.common.util.GlideHelper
 import com.bumptech.glide.Glide
 import com.jyt.video.R
 import com.jyt.video.common.base.BaseVH
+import com.jyt.video.video.PlayVideoAct
 import com.jyt.video.video.entity.ThumbVideo
+import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.vh_thumb_video.*
+import java.io.Serializable
 import java.util.*
 
 
@@ -20,8 +26,17 @@ class ThumbVideoVH(parent: View) : BaseVH<ThumbVideo>(LayoutInflater.from(parent
     override fun onClick(v: View?) {
         when(v){
             itemView->{
-                ARouter.getInstance().build("/video/play").withLong("videoId",data?.id?:0)
-                    .withSerializable("thumbVideo",data).navigation()
+                Logger.d("click")
+                var appCxt = itemView.context.applicationContext
+                var intent = Intent()
+//                intent.putExtra("thumbVideo",data as Serializable)
+                intent.putExtra("videoId",data?.id?:0)
+                intent.setClass(appCxt,PlayVideoAct::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                appCxt.startActivity(intent)
+////
+//                ARouter.getInstance().build("/video/play").withLong("videoId",data?.id?:0)
+//                   .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP ).navigation()
             }
             else->{
                 super.onClick(v)

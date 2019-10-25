@@ -149,7 +149,7 @@
             android:textSize="14sp"
             android:id="@+id/tv_to_protocol"/>
 
-    <LinearLayout android:id="@+id/thrid_login" android:layout_width="wrap_content"
+    <LinearLayout android:id="@+id/thrid_login" android:visibility="invisible" android:layout_width="wrap_content"
                   android:layout_height="wrap_content" android:layout_marginTop="8dp"
                   android:gravity="center" android:orientation="vertical"
                   app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintLeft_toLeftOf="parent"

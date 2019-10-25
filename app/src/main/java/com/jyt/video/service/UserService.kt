@@ -2,20 +2,18 @@ package com.jyt.video.service
 
 import com.jyt.video.api.entity.PersonHomeResult
 import com.jyt.video.api.entity.VersionBean
-import com.jyt.video.common.entity.BaseJson
 import com.jyt.video.login.entity.LoginResult
 import com.jyt.video.login.entity.WxLoginParamResult
 import com.jyt.video.main.entity.HomeDialogResult
 import com.jyt.video.promotion.entity.PromotionBean
 import com.jyt.video.promotion.entity.PromotionUserListResult
-import com.jyt.video.wallet.entity.WalletIndexInfo
 import com.jyt.video.welcome.entity.WelcomeResult
-import com.jyt.video.wxapi.WeChartHelper
+import com.ysj.video.wxapi.WeChartHelper
 import java.io.File
 
 interface UserService{
 
-    fun wxLogin(user:WeChartHelper.WxUser,callback: ServiceCallback<LoginResult>)
+    fun wxLogin(user: WeChartHelper.WxUser, pid: String, did: String, callback: ServiceCallback<LoginResult>)
 
     fun getWxloginParam(callback: ServiceCallback<WxLoginParamResult>)
 

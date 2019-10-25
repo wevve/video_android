@@ -19,7 +19,7 @@ import com.jyt.video.recharge.entity.RechargeItem
 import com.jyt.video.service.ServiceCallback
 import com.jyt.video.service.UserService
 import com.jyt.video.service.WalletService
-import com.jyt.video.wxapi.WeChartHelper
+import com.ysj.video.wxapi.WeChartHelper
 
 class RechargeCoinFrag:BaseRechargeFrag(){
     var items:ArrayList<RechargeItem>? = null
@@ -35,7 +35,7 @@ class RechargeCoinFrag:BaseRechargeFrag(){
 
     override fun pay(item:  ActionSheetDialog.Item,price:Double,rechargeItem: RechargeItem){
         var payWay = item.extra as PayWay
-        walletService?.createOrder(payWay.payCode,price,1,null,rechargeItem.corn?.toDouble(), ServiceCallback{
+        walletService?.createOrder(payWay.payCode,price,1,null,rechargeItem.corn?.toDouble(), null,ServiceCallback{
                 code, data ->
             if (data!=null){
                 if (payWay.payCode == "nativePay|wxAppPay") {

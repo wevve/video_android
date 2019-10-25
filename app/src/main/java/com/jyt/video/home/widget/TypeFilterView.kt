@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import com.google.gson.Gson
 import com.jyt.video.R
 import com.jyt.video.common.adapter.BaseRcvAdapter
 import com.jyt.video.common.base.BaseVH
@@ -28,6 +29,8 @@ class TypeFilterView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     lateinit var tab:TabEntity
 
+    var firstinit = true
+
     var type:VideoType.Type?=null
     var subType:VideoType.Type?=null
     var typeClickListener:((typeName:String,type:VideoType.Type?,subType:VideoType.Type?)->Unit?)? =null
@@ -45,11 +48,11 @@ class TypeFilterView @JvmOverloads constructor(context: Context, attrs: Attribut
         groupAdapter.setOnTriggerListener(object : BaseRcvAdapter.OnViewHolderTriggerListener<BaseVH<*>> {
             override fun <T : BaseVH<*>> onTrigger(holder: T, event: String) {
                 if ("itemClick" == event) {
-                    val data = holder.data as VideoType.Type?
-                    type = data
+                    var data = holder.data as VideoType.Type?
+                    type = Gson().fromJson(Gson().toJson(data),VideoType.Type::class.java)
                     setupSubType(data!!)
 
-                    typeClickListener?.invoke(typeGroup?.name?:"",type,subType)
+                    triggerListener()
                 }
             }
         })
@@ -63,11 +66,10 @@ class TypeFilterView @JvmOverloads constructor(context: Context, attrs: Attribut
         subAdapter.setOnTriggerListener(object :BaseRcvAdapter.OnViewHolderTriggerListener<BaseVH<*>>{
             override fun <T : BaseVH<*>> onTrigger(holder: T, event: String) {
                 if("itemClick" == event){
-                    val data = holder.data as VideoType.Type?
+                    var data = holder.data as VideoType.Type?
                     subType = data
 
-                    typeClickListener?.invoke(typeGroup?.name?:"",type,subType)
-
+                    triggerListener()
                 }
             }
 
@@ -83,6 +85,11 @@ class TypeFilterView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
 
+    private fun triggerListener(){
+        typeClickListener?.invoke(typeGroup?.name?:"",type,subType)
+
+    }
+
     private fun setupView(typeGroup: VideoType.TypeGroup) {
 
 
@@ -91,18 +98,25 @@ class TypeFilterView @JvmOverloads constructor(context: Context, attrs: Attribut
         tv_group_name.text = typeGroup.name
         groupAdapter.data.addAll(typeGroup.items)
         groupAdapter.curSel = typeGroup.items.get(0)
+
+
         groupAdapter.notifyDataSetChanged()
 
 
-        if (typeGroup.name=="分类"){
+        if (typeGroup.name=="分类" && firstinit){
 
             typeGroup.items.forEachIndexed { index, type ->
                 if (type.id==tab.tabId?.toInt()){
                     groupAdapter.curSel = type
+                    this@TypeFilterView.type = type
+                    setupSubType(type)
+
                     rcv_type.scrollToPosition(index)
+
                     typeClickListener?.invoke(typeGroup?.name?:"",type,subType)
                 }
             }
+            firstinit = false
 
         }
 
@@ -118,6 +132,7 @@ class TypeFilterView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     private fun setupSubType(type: VideoType.Type) {
         if (type.subItem?.isEmpty()==false) {
+            subType = type.subItem?.get(0)
             fl_sub_type.visibility = View.VISIBLE
 
             subAdapter.data.clear()
@@ -125,6 +140,7 @@ class TypeFilterView @JvmOverloads constructor(context: Context, attrs: Attribut
             subAdapter.curSel = type.subItem?.get(0)
             subAdapter.notifyDataSetChanged()
         } else {
+            subType = null
 
             fl_sub_type.visibility = View.GONE
         }

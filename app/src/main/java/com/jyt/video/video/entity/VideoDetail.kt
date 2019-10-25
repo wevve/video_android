@@ -23,6 +23,7 @@ class VideoDetail : Serializable {
      var adTime: String? = null
      var feeLook: String? = null
      var videoInfo: VideoInfoBean? = null
+     var price:String?=null
      var isShowComments: String? = null
      var isLike: Int = 0
      var isCollection: Int = 0
@@ -30,6 +31,8 @@ class VideoDetail : Serializable {
      var videoCut: List<String>? = null
      var guess: List<ThumbVideo>? = null
 
-    var videoId:Long? = null
+    var videoId: Long? = null
+
+ var buyTimeExists: String? = null
 
 }

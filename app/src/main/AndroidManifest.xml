@@ -45,8 +45,8 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="x98kap"/>
-<!--                <data android:scheme="xfs6ew"/>-->
+                <!--<data android:scheme="x98kap"/>-->
+                <data android:scheme="xfs6ew"/>
 
             </intent-filter>
 
@@ -92,8 +92,8 @@
         </activity>
         <activity android:name=".video.DownLoadVideoAct"/>
 
-        <activity android:name=".wxapi.WXEntryActivity" android:exported="true"/>
-        <activity android:name=".wxapi.WXPayEntryActivity" android:exported="true"/>
+        <activity android:name="com.ysj.video.wxapi.WXEntryActivity" android:exported="true"/>
+        <activity android:name="com.ysj.video.wxapi.WXPayEntryActivity" android:exported="true"/>
     </application>
 
 </manifest>

@@ -29,6 +29,7 @@ class WalletServiceImpl : WalletService {
         buyType: Int,
         packageId: Int?,
         gold: Double?,
+        videoId:String?,
         callback: ServiceCallback<CreateOrderResult>
     ) {
         var map = HashMap<String,Any>()
@@ -40,6 +41,9 @@ class WalletServiceImpl : WalletService {
             map.put("gold",gold!!)
         }else if(buyType==2){
             map.put("packageId",packageId!!)
+        }
+        if (!videoId.isNullOrBlank()){
+            map.put("videoId",videoId)
         }
         RxHelper.simpleResult(ApiService.getInstance().api.createOrder(map),callback)
 
