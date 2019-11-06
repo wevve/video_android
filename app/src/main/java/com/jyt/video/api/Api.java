@@ -27,6 +27,7 @@ import com.jyt.video.wallet.entity.WalletIndexInfo;
 import com.jyt.video.welcome.entity.WelcomeResult;
 import io.reactivex.MaybeObserver;
 import io.reactivex.Observable;
+import kotlinx.coroutines.Deferred;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.*;
@@ -49,6 +50,7 @@ public interface Api {
     @POST("appapi/wechatlogin")
     @FormUrlEncoded
     Observable<BaseJson<LoginResult>> wxLogin(@FieldMap Map<String,Object> map);
+
 
     @GET("appapi/thirdPartyLogin ")
     Observable<BaseJson<WxLoginParamResult>> wxThirdLoginParam();
@@ -130,6 +132,12 @@ public interface Api {
     @POST("/appapi/login.html")
     @FormUrlEncoded
     public Observable<BaseJson<LoginResult>> login(@Field("account")String account, @Field("pwd")String password);
+
+    //登录
+    @POST("/appapi/login.html")
+    @FormUrlEncoded
+    public Deferred<BaseJson<LoginResult>> loginCoroutine(@Field("account")String account, @Field("pwd")String password);
+
 
     //首页顶部分栏
     @GET("/appapi/homeTab")

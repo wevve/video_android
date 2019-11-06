@@ -1,16 +1,20 @@
 package com.jyt.video.common.base
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import com.jyt.video.R
+import com.jyt.video.common.util.KeyboardFix
 import com.jyt.video.common.util.StatusBarUtil
 import kotlinx.android.synthetic.main.act_base.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 abstract class BaseAct :AppCompatActivity(){
 
+    var keyboardFix:KeyboardFix? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,6 +43,7 @@ abstract class BaseAct :AppCompatActivity(){
         img_back?.setOnClickListener {
             onBackPressed()
         }
+//        keyboardFix = KeyboardFix(ll_base_content)
     }
 
     abstract fun initView()
@@ -51,4 +56,15 @@ abstract class BaseAct :AppCompatActivity(){
     }
 
     abstract fun getLayoutId():Int
+
+    override fun onPause() {
+        super.onPause()
+        keyboardFix?.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        keyboardFix?.onDestroy()
+    }
 }

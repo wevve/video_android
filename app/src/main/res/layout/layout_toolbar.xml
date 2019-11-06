@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:fitsSystemWindows="true"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:background="@drawable/shape_toolbar"
+        android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/rl_toolbar">
+
+    <com.jyt.video.common.view.StatusBarHeightView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     <RelativeLayout android:layout_width="match_parent" android:layout_height="44dp">
         <ImageView
                 android:layout_centerVertical="true"
@@ -40,4 +44,4 @@
     </RelativeLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

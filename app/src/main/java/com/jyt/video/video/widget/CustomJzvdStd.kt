@@ -25,6 +25,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.support.constraint.ConstraintSet
 import android.widget.SeekBar
+import cn.jzvd.JZUtils
 import com.commit451.nativestackblur.NativeStackBlur
 import com.jyt.video.common.util.NetSpeed
 import com.jyt.video.common.util.NetSpeedTimer
@@ -538,6 +539,26 @@ class CustomJzvdStd : JzvdStd {
         //如果不调用这个方法，每次生成的bitmap相同
         view.setDrawingCacheEnabled(false);
         return bitmap;
+    }
+
+    override fun showProgressDialog(
+        deltaX: Float,
+        seekTime: String?,
+        seekTimePosition: Long,
+        totalTime: String?,
+        totalTimeDuration: Long
+    ) {
+        var deltaX = (deltaX * 0.5).toFloat()
+        val totalTimeDuration = duration
+        mSeekTimePosition =
+            (mGestureDownPosition + deltaX * totalTimeDuration / mScreenWidth).toInt().toLong()
+        if (mSeekTimePosition > totalTimeDuration)
+            mSeekTimePosition = totalTimeDuration
+        val seekTime = JZUtils.stringForTime(mSeekTimePosition)
+        val totalTime = JZUtils.stringForTime(totalTimeDuration)
+
+        super.showProgressDialog(deltaX, seekTime, mSeekTimePosition, totalTime, totalTimeDuration)
+
     }
 
 }

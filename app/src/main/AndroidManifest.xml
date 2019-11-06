@@ -35,10 +35,7 @@
                 android:value="667"/>
         <activity android:name=".welcome.WelcomeAct"
             android:theme="@style/WelcomeStyle">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+
         </activity>
         <activity android:name="com.jyt.video.main.MainActivity" >
             <intent-filter>
@@ -49,9 +46,12 @@
                 <data android:scheme="xfs6ew"/>
 
             </intent-filter>
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
-        <activity android:name=".login.LoginAct" android:label="用户登录">
+        <activity android:name=".login.LoginAct" android:label="用户登录" android:windowSoftInputMode="adjustPan">
 
         </activity>
         <!--注册-->
